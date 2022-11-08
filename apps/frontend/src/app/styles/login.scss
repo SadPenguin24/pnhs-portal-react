@@ -1,0 +1,42 @@
+.textColor {
+  color: #086135;
+}
+
+.box {
+  background-color: #c1f7d5;
+  width: 70%;
+}
+
+.buttons {
+  color: #045933;
+}
+
+.borderColor {
+  border-color: #045933;
+}
+
+
+.wrap-center {
+  position: absolute;
+     top: 50%;
+     height: 400px;
+     margin-top: -200px; /* Half of the height */
+     left: 50%;
+     width:800px;
+     margin-left: -400px; /* Half of the width */
+     padding:10px;
+}
+
+.child-center {
+  position: relative;
+  top: 10%;
+  left: 25%;
+}
+
+.image {
+  position: relative;
+  max-width: 25%;
+  height: auto;
+}
+
+
