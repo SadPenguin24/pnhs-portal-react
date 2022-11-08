@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "pnhs-portal",
+  "npmScope": "pnhs-portal-react",
   "affected": {
     "defaultBase": "master"
   },

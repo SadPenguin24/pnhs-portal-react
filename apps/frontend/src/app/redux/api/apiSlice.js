@@ -2,9 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials, logOut } from '../slice/authSlice';
 import { getCookie } from 'cookies-next';
 
-const port = process.env.REACT_APP_NODE_ENV === "local" ?
+const port = process.env.NODE_ENV === "development" ?
   "http://112.201.131.247:3333"
-  : process.env.REACT_APP_BACKEND_URI;
+  : "https://pnhs-portal-api.onrender.com";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${port}/api/`,

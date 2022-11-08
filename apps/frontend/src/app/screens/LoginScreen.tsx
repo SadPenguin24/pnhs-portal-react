@@ -5,6 +5,7 @@ import { setCookie } from 'cookies-next';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { setCredentials } from '../redux/slice/authSlice';
 import { useLoginMutation } from '../redux/api/authApiSlice';
+import { environment } from '../../environments/environment';
 
 import '../styles/login.scss';
 
@@ -19,6 +20,7 @@ function LoginScreen() {
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    console.log('THIS IS ENV', process.env.NODE_ENV);
 
     try {
       const { user, access_token } = await login({ email, password }).unwrap();
