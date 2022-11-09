@@ -1,10 +1,10 @@
 import React from 'react';
-import { deleteCookie } from 'cookies-next';
 import { Col, Container, Image, Nav, Navbar, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import './header.scss';
 import { useNavigate } from 'react-router-dom';
+import { deleteCookie } from 'cookies-next';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function Header({ page, redirect }: any) {
@@ -13,6 +13,7 @@ function Header({ page, redirect }: any) {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
+    // dispatch(logOut({}));
     deleteCookie('access_token');
 
     navigate('/');

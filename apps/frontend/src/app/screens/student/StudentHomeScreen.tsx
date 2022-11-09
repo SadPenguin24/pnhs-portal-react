@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Col, Container, Image, Row } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Header from '../../components/header/Header';
 
@@ -12,26 +12,38 @@ function StudentHomeScreen() {
         <Row>
           <LinkContainer to="/student/enrollment">
             <Col xs="6" md="3" className="text-center mb-3 clickable">
-              <div className="admin-box"></div>
-              Enrollment / Registration
+              <Image
+                src="../assets/images/icons/student/enrollment-registration.png"
+                fluid
+              />
+              <div>Enrollment / Registration</div>
             </Col>
           </LinkContainer>
           <LinkContainer to="/student/profile">
             <Col xs="6" md="3" className="text-center mb-3 clickable">
-              <div className="admin-box"></div>
-              Student Profile
+              <Image
+                src="../assets/images/icons/student/student-profile.png"
+                fluid
+              />
+              <div>Student Profile</div>
             </Col>
           </LinkContainer>
           <LinkContainer to="/student/reportcard">
             <Col xs="6" md="3" className="text-center mb-3 clickable">
-              <div className="admin-box"></div>
-              Report Card
+              <Image
+                src="../assets/images/icons/student/report-card.png"
+                fluid
+              />
+              <div>Report Card</div>
             </Col>
           </LinkContainer>
           <LinkContainer to="/student/schedule">
             <Col xs="6" md="3" className="text-center mb-3 clickable">
-              <div className="admin-box"></div>
-              Schedule / Subjects
+              <Image
+                src="../assets/images/icons/student/schedule-subjects.png"
+                fluid
+              />
+              <div>Schedule / Subjects</div>
             </Col>
           </LinkContainer>
         </Row>

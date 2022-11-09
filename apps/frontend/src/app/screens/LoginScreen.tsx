@@ -5,7 +5,6 @@ import { setCookie } from 'cookies-next';
 import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
 import { setCredentials } from '../redux/slice/authSlice';
 import { useLoginMutation } from '../redux/api/authApiSlice';
-import { environment } from '../../environments/environment';
 
 import '../styles/login.scss';
 

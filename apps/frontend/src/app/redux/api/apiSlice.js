@@ -2,14 +2,15 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { setCredentials, logOut } from '../slice/authSlice';
 import { getCookie } from 'cookies-next';
 
-const port = process.env.NODE_ENV === "developments" ?
-  "http://112.201.131.247:3333"
-  : "https://pnhs-portal-api.onrender.com";
+const port =
+  process.env.NODE_ENV === 'developments'
+    ? 'http://localhost:3333'
+    : 'https://pnhs-portal-api.onrender.com';
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${port}/api/`,
   prepareHeaders: (headers, { getState }) => {
-    const token = getCookie("access_token");
+    const token = getCookie('access_token');
     if (token) {
       headers.set('authorization', `Bearer ${token}`);
     }

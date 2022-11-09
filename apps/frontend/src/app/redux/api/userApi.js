@@ -5,7 +5,10 @@ export const userApi = apiSlice.injectEndpoints({
     getProfile: builder.query({
       query: () => '/user/profile',
     }),
+    getAllProfile: builder.query({
+      query: () => '/user/',
+    }),
   }),
 });
 
-export const { useGetProfileQuery } = userApi;
+export const { useGetProfileQuery, useGetAllProfileQuery } = userApi;

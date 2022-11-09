@@ -10,10 +10,8 @@ function RequireAuth() {
   //rehydrate if there is a token
   //const user = useAppSelector(selectCurrentUser);
   const location = useLocation();
-
   //darkMode = false
   // darkMode ? theme="darkmode" : theme="lightMode"
-
   const content = token ? (
     <Outlet />
   ) : (
@@ -25,5 +23,4 @@ function RequireAuth() {
 
   return content;
 }
-
 export default RequireAuth;

@@ -1,15 +1,50 @@
-import React from 'react';
-import { Button, Container, FormControl, Table } from 'react-bootstrap';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useEffect } from 'react';
+import {
+  Button,
+  Container,
+  FormControl,
+  Spinner,
+  Table,
+} from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
+import { useGetEnrolleesQuery } from '../../redux/api/enrolleeApi';
+import { getEnrollees } from '../../redux/slice/enrolleeSlice';
+import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleesScreen() {
-  return (
-    <div>
-      <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/strand" />
-      <Container>
+  const navigate = useNavigate();
+
+  const dispatch = useAppDispatch();
+
+  const {
+    data: enrollees,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetEnrolleesQuery({});
+
+  useEffect(() => {
+    dispatch(getEnrollees({ enrollees }));
+  }, [dispatch, enrollees]);
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <div className="text-center">
+        <Spinner variant="primary" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  } else if (isSuccess) {
+    content = (
+      <>
         <div className="d-flex mb-3">
           <div className="w-50 me-3">
             <FormControl
@@ -23,27 +58,106 @@ function AdminEnrolleesScreen() {
           <thead style={{ backgroundColor: '#2a6fd6' }}>
             <tr className="text-center">
               <th>Name</th>
-              <th>Grade Level</th>
-              <th>Section</th>
-              <th>Adviser</th>
+              <th>LRN</th>
+              <th>Strand</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>sample</td>
-              <td>sample</td>
-              <td>sample</td>
-              <td>sample</td>
-            </tr>
+            {enrollees ? (
+              enrollees.map(
+                (enrollee: {
+                  _id: React.Key | null | undefined;
+                  first_name:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                  last_name:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                  lrn:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                  strand:
+                    | string
+                    | number
+                    | boolean
+                    | React.ReactElement<
+                        any,
+                        string | React.JSXElementConstructor<any>
+                      >
+                    | React.ReactFragment
+                    | React.ReactPortal
+                    | null
+                    | undefined;
+                }) => (
+                  <tr key={enrollee._id}>
+                    <td>
+                      {enrollee.first_name} {enrollee.last_name}
+                    </td>
+                    <td>{enrollee.lrn}</td>
+                    <td>{enrollee.strand}</td>
+                    <td>
+                      <Button>View Enrollee</Button>
+                    </td>
+                  </tr>
+                )
+              )
+            ) : (
+              <tr>
+                <td colSpan={4}>No Enrollees</td>
+              </tr>
+            )}
           </tbody>
         </Table>
         <div className="text-center">
           <LinkContainer to="/admin/subject">
             <Button className="me-3">View Subject</Button>
           </LinkContainer>
-          <Button variant="danger">Exit</Button>
+          <Button
+            onClick={() => {
+              navigate('/admin/createenrollee');
+            }}
+          >
+            Create Enrollee
+          </Button>
         </div>
-      </Container>
+      </>
+    );
+  } else if (isError) {
+    content = <p>{JSON.stringify(error)}</p>;
+  }
+  return (
+    <div>
+      <style>{'body { background-color: #dcf7b0; }'}</style>
+      <Header page="Strand/Enrollees/Subject" redirect="/admin/strand" />
+      <Container>{content}</Container>
     </div>
   );
 }
