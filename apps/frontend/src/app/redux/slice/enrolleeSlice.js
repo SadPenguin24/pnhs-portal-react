@@ -8,6 +8,10 @@ const enrolleeSlice = createSlice({
       const { enrollees } = action.payload;
       state.enrollees = enrollees;
     },
+    getEnrolleeById: (state, action) => {
+      const { enrollee } = action.payload;
+      state.enrollees = enrollee;
+    },
     createEnrollee: (state, action) => {
       const { enrollee } = action.payload;
       state.enrollee = enrollee;
@@ -15,6 +19,7 @@ const enrolleeSlice = createSlice({
   },
 });
 
-export const { getEnrollees, createEnrollee } = enrolleeSlice.actions;
+export const { getEnrollees, getEnrolleeById, createEnrollee } =
+  enrolleeSlice.actions;
 
 export default enrolleeSlice.reducer;

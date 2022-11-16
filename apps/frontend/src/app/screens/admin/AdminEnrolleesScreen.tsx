@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect } from 'react';
+import React, { Key, useEffect } from 'react';
 import {
   Button,
   Container,
@@ -67,7 +67,7 @@ function AdminEnrolleesScreen() {
             {enrollees ? (
               enrollees.map(
                 (enrollee: {
-                  _id: React.Key | null | undefined;
+                  _id: string | undefined;
                   first_name:
                     | string
                     | number
@@ -124,7 +124,13 @@ function AdminEnrolleesScreen() {
                     <td>{enrollee.lrn}</td>
                     <td>{enrollee.strand}</td>
                     <td>
-                      <Button>View Enrollee</Button>
+                      <Button
+                        onClick={() =>
+                          navigate(`/admin/enrollee/${enrollee._id}`)
+                        }
+                      >
+                        View Enrollee
+                      </Button>
                     </td>
                   </tr>
                 )
@@ -136,7 +142,7 @@ function AdminEnrolleesScreen() {
             )}
           </tbody>
         </Table>
-        <div className="text-center">
+        <div className="text-center mb-5">
           <LinkContainer to="/admin/subject">
             <Button className="me-3">View Subject</Button>
           </LinkContainer>
