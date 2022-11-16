@@ -13,7 +13,12 @@ function AdminSubjectScreen() {
       <Header page="Strand/Enrollees/Subject" redirect="/admin/enrollees" />
       <Container>
         <div className="text-end mb-3">
-          <Button className="me-3">Add Subject</Button>
+          <Button
+            className="me-3"
+            onClick={() => navigate('/admin/subject/create')}
+          >
+            Add Subject
+          </Button>
           <Button variant="danger">Delete All</Button>
         </div>
         <Table bordered className="tableColor">

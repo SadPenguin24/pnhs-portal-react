@@ -5,8 +5,8 @@ import Header from '../../components/header/Header';
 import { useCreateEnrolleeMutation } from '../../redux/api/enrolleeApi';
 
 function AdminCreateEnrolleeScreen() {
-  const [isSuccess] = useState(true);
-  const [isLoading] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   const [first_name, setFirstName] = useState('');
   const [middle_name, setMiddleName] = useState('');
@@ -30,6 +30,9 @@ function AdminCreateEnrolleeScreen() {
   const createEnrolleeHandler = async (e: { preventDefault: () => void }) => {
     e.preventDefault();
 
+    setIsSuccess(false);
+    setIsLoading(true);
+
     const { enrollee } = await createEnrollee({
       first_name,
       middle_name,
@@ -47,7 +50,8 @@ function AdminCreateEnrolleeScreen() {
       c_password,
     }).unwrap();
 
-    console.log(enrollee);
+    setIsLoading(false);
+    setIsSuccess(true);
 
     navigate('/admin/enrollees');
   };

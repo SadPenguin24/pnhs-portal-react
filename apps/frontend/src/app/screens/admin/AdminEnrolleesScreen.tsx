@@ -148,7 +148,7 @@ function AdminEnrolleesScreen() {
           </LinkContainer>
           <Button
             onClick={() => {
-              navigate('/admin/createenrollee');
+              navigate('/admin/enrollee/create');
             }}
           >
             Create Enrollee

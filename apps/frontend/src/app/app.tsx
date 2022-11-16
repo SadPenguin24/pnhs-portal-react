@@ -37,6 +37,7 @@ import AdminStudentEnrolledlist from './screens/admin/AdminStudentEnrolledlist';
 import AdminCreateEnrolleeScreen from './screens/admin/AdminCreateEnrolleeScreen';
 import AdminEnrolleeScreen from './screens/admin/AdminEnrolleeScreen';
 import AdminViewSubjectScreen from './screens/admin/AdminViewSubjectScreen';
+import AdminCreateSubjectScreen from './screens/admin/AdminCreateSubjectScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -78,13 +79,17 @@ export function App() {
               element={<AdminEnrolleeScreen />}
             />
             <Route
-              path="/admin/createenrollee"
+              path="/admin/enrollee/create"
               element={<AdminCreateEnrolleeScreen />}
             />
             <Route path="/admin/subject" element={<AdminSubjectScreen />} />
             <Route
               path="/admin/subject/:id"
               element={<AdminViewSubjectScreen />}
+            />
+            <Route
+              path="/admin/subject/create"
+              element={<AdminCreateSubjectScreen />}
             />
             <Route
               path="/admin/facultyschedule"
