@@ -8,7 +8,7 @@ import Header from '../../components/header/Header';
 
 function AdminHomeScreen() {
   return (
-    <>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Menu" />
       <Container>
@@ -87,7 +87,7 @@ function AdminHomeScreen() {
           </LinkContainer>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 

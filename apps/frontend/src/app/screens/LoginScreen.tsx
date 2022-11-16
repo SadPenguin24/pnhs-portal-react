@@ -45,7 +45,7 @@ function LoginScreen() {
   };
 
   return (
-    <div>
+    <div className="mb-5">
       {/* change background color to green */}
       <style>{'body { background-color: #25e223; }'}</style>
       <Container style={{ textAlign: 'center' }}>

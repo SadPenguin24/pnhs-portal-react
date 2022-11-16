@@ -14,7 +14,7 @@ import '../../components/tables/tables.scss';
 
 function FacultyAdvisoryClassScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Class List" redirect="/faculty/home" />
       <Container>

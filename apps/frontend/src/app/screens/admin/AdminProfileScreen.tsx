@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 
 function AdminProfileScreen() {
   return (
-    <>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Admin Profile" redirect="/admin/home" />
       <Container>
@@ -50,7 +50,7 @@ function AdminProfileScreen() {
           <Button>Save</Button>
         </div>
       </Container>
-    </>
+    </div>
   );
 }
 

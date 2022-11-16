@@ -5,7 +5,7 @@ import { MasterlistTable } from '../../components/tables/Tables';
 
 function AdminFacultyMasterlistScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Faculty Masterlist" redirect="/admin/home" />
       <Container>

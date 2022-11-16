@@ -142,7 +142,7 @@ function AdminEnrolleesScreen() {
             )}
           </tbody>
         </Table>
-        <div className="text-center mb-5">
+        <div className="text-center">
           <LinkContainer to="/admin/subject">
             <Button className="me-3">View Subject</Button>
           </LinkContainer>
@@ -160,7 +160,7 @@ function AdminEnrolleesScreen() {
     content = <p>{JSON.stringify(error)}</p>;
   }
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Strand/Enrollees/Subject" redirect="/admin/strand" />
       <Container>{content}</Container>

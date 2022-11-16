@@ -68,7 +68,7 @@ function AdminStudentMasterlist() {
     content = <p>{JSON.stringify(error)}</p>;
   }
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Student Masterlist" redirect="/admin/home" />
       <Container>{content}</Container>

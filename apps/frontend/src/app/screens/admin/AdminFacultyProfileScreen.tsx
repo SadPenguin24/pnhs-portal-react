@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 
 function AdminFacultyProfileScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header redirect="/admin/facultylist" />
       <Container>

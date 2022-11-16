@@ -12,7 +12,7 @@ import '../../components/tables/tables.scss';
 
 function AdminFacultyScheduleScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Faculty Schedule" redirect="/admin/home" />
       <Container>

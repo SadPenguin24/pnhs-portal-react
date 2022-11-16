@@ -5,7 +5,7 @@ import { ReportCardTable } from '../../components/tables/Tables';
 
 function StudentReportCardScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Report Card" redirect="/student/home" />
       <Container>

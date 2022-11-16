@@ -11,7 +11,7 @@ import Header from '../../components/header/Header';
 
 function AdminStudentScheduleScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <div>
         <style>{'body { background-color: #dcf7b0; }'}</style>
         <Header page="Student Schedule" redirect="/admin/home" />

@@ -7,7 +7,7 @@ import '../../components/tables/tables.scss';
 
 function AdminStudentRecordsScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Student Records" redirect="/admin/home" />
       <Container>
@@ -71,7 +71,7 @@ function AdminStudentRecordsScreen() {
             backgroundColor: '#fffefe',
             border: '1px solid',
           }}
-          className="p-3 mb-5"
+          className="p-3"
         >
           <Row className="mb-4 mx-md-5">
             <Col md="6">

@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 
 function FacultyProfileScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="My Profile" redirect="/faculty/home" />
       <Container>
@@ -17,7 +17,7 @@ function FacultyProfileScreen() {
         <div className="mb-2">Birthdate: sample</div>
         <div className="mb-2">Birthplace: sample</div>
         <div className="mb-2">Religion: sample</div>
-        <div className="mb-2">Contact Number: sample</div>
+        <div>Contact Number: sample</div>
       </Container>
     </div>
   );

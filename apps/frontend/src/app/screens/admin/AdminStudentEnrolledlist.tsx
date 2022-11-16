@@ -5,7 +5,7 @@ import '../../components/tables/tables.scss';
 
 function AdminStudentEnrolledlist() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Student Enrolled Masterlist" redirect="/admin/home" />
       <Container>

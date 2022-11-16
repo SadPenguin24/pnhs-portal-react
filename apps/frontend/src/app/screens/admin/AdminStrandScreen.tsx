@@ -5,7 +5,7 @@ import Header from '../../components/header/Header';
 
 function AdminStrandScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Strand/Enrollees/Subject" redirect="/admin/home" />
       <Container>

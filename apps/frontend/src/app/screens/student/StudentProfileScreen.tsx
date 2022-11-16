@@ -4,7 +4,7 @@ import Header from '../../components/header/Header';
 
 function StudentProfileScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Student Profile" redirect="/student/home" />
       <Container>

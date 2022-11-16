@@ -15,7 +15,7 @@ import '../../components/tables/tables.scss';
 
 function StudentEnrollmentScreen() {
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Enrollment / Registration" redirect="/student/home" />
       <Container>

@@ -5,7 +5,7 @@ import Header from '../../components/header/Header';
 
 function StudentHomeScreen() {
   return (
-    <>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Menu" />
       <Container>
@@ -48,7 +48,7 @@ function StudentHomeScreen() {
           </LinkContainer>
         </Row>
       </Container>
-    </>
+    </div>
   );
 }
 
