@@ -4,13 +4,15 @@ import { apiSlice } from './api/apiSlice';
 import authReducer from './slice/authSlice';
 import userReducer from './slice/userSlice'
 import enrolleeReducer from './slice/enrolleeSlice'
+import subjectReducer from './slice/subjectSlice'
 
 const store = configureStore({
   reducer: {
     [apiSlice.reducerPath]: apiSlice.reducer,
     auth: authReducer,
     user: userReducer,
-    enrollee: enrolleeReducer
+    enrollee: enrolleeReducer,
+    subject: subjectReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
