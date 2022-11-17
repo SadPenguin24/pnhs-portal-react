@@ -40,6 +40,7 @@ import AdminViewSubjectScreen from './screens/admin/AdminViewSubjectScreen';
 import AdminCreateSubjectScreen from './screens/admin/AdminCreateSubjectScreen';
 import AdminStudentSectionsScreen from './screens/admin/AdminStudentSectionsScreen';
 import AdminCreateSectionScreen from './screens/admin/AdminCreateSectionScreen';
+import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -108,6 +109,10 @@ export function App() {
             <Route
               path="/admin/section"
               element={<AdminStudentSectionsScreen />}
+            />
+            <Route
+              path="/admin/section/:id"
+              element={<AdminViewSectionScreen />}
             />
             <Route
               path="/admin/section/create"

@@ -8,10 +8,10 @@ const sectionSlice = createSlice({
       const { sections } = action.payload;
       state.sections = sections;
     },
-    // getSubject: (state, action) => {
-    //   const { subject } = action.payload;
-    //   state.subject = subject;
-    // },
+    getSection: (state, action) => {
+      const { section } = action.payload;
+      state.section = section;
+    },
     createSection: (state, action) => {
       const { section } = action.payload;
       state.section = section;
@@ -19,6 +19,6 @@ const sectionSlice = createSlice({
   },
 });
 
-export const { getSections, createSection } = sectionSlice.actions;
+export const { getSections, getSection, createSection } = sectionSlice.actions;
 
 export default sectionSlice.reducer;

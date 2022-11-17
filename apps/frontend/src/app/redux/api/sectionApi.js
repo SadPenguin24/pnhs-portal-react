@@ -6,9 +6,9 @@ export const sectionApi = apiSlice.injectEndpoints({
       query: () => '/section/',
       providesTags: ['Section'],
     }),
-    // getSubject: builder.query({
-    //   query: (id) => `/subject/${id}`,
-    // }),
+    getSection: builder.query({
+      query: (id) => `/section/${id}`,
+    }),
     createSection: builder.mutation({
       query: (credentials) => ({
         url: '/section/create',
@@ -20,4 +20,8 @@ export const sectionApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetSectionsQuery, useCreateSectionMutation } = sectionApi;
+export const {
+  useGetSectionsQuery,
+  useGetSectionQuery,
+  useCreateSectionMutation,
+} = sectionApi;
