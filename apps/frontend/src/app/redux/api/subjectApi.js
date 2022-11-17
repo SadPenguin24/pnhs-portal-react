@@ -2,6 +2,10 @@ import { apiSlice } from './apiSlice';
 
 export const subjectApi = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
+    getSubjects: builder.query({
+      query: () => '/subject/',
+      providesTags: ['Subject'],
+    }),
     getSubject: builder.query({
       query: (id) => `/subject/${id}`,
     }),
@@ -16,4 +20,8 @@ export const subjectApi = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useGetSubjectQuery, useCreateSubjectMutation } = subjectApi;
+export const {
+  useGetSubjectsQuery,
+  useGetSubjectQuery,
+  useCreateSubjectMutation,
+} = subjectApi;

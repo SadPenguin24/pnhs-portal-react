@@ -65,76 +65,24 @@ function AdminEnrolleesScreen() {
           </thead>
           <tbody>
             {enrollees ? (
-              enrollees.map(
-                (enrollee: {
-                  _id: string | undefined;
-                  first_name:
-                    | string
-                    | number
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                  last_name:
-                    | string
-                    | number
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                  lrn:
-                    | string
-                    | number
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                  strand:
-                    | string
-                    | number
-                    | boolean
-                    | React.ReactElement<
-                        any,
-                        string | React.JSXElementConstructor<any>
-                      >
-                    | React.ReactFragment
-                    | React.ReactPortal
-                    | null
-                    | undefined;
-                }) => (
-                  <tr key={enrollee._id}>
-                    <td>
-                      {enrollee.first_name} {enrollee.last_name}
-                    </td>
-                    <td>{enrollee.lrn}</td>
-                    <td>{enrollee.strand}</td>
-                    <td>
-                      <Button
-                        onClick={() =>
-                          navigate(`/admin/enrollee/${enrollee._id}`)
-                        }
-                      >
-                        View Enrollee
-                      </Button>
-                    </td>
-                  </tr>
-                )
-              )
+              enrollees.map((enrollee: any) => (
+                <tr key={enrollee._id}>
+                  <td>
+                    {enrollee.first_name} {enrollee.last_name}
+                  </td>
+                  <td>{enrollee.lrn}</td>
+                  <td>{enrollee.strand}</td>
+                  <td>
+                    <Button
+                      onClick={() =>
+                        navigate(`/admin/enrollee/${enrollee._id}`)
+                      }
+                    >
+                      View Enrollee
+                    </Button>
+                  </td>
+                </tr>
+              ))
             ) : (
               <tr>
                 <td colSpan={4}>No Enrollees</td>
