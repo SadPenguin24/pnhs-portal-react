@@ -19,8 +19,6 @@ function AdminStudentSectionsScreen() {
     error,
   } = useGetSectionsQuery({});
 
-  console.log(sections);
-
   useEffect(() => {
     dispatch(getSections({ sections }));
   }, [dispatch, sections]);
@@ -74,10 +72,17 @@ function AdminStudentSectionsScreen() {
     content = <p>{JSON.stringify(error)}</p>;
   }
   return (
-    <div>
+    <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Sections" redirect="/admin/home" />
-      <Container>{content}</Container>
+      <Container>
+        <div className="text-end mb-3">
+          <Button onClick={() => navigate('/admin/section/create')}>
+            Create Section
+          </Button>
+        </div>
+        {content}
+      </Container>
     </div>
   );
 }

@@ -9,15 +9,15 @@ export const sectionApi = apiSlice.injectEndpoints({
     // getSubject: builder.query({
     //   query: (id) => `/subject/${id}`,
     // }),
-    // createSubject: builder.mutation({
-    //   query: (credentials) => ({
-    //     url: '/subject/create',
-    //     method: 'POST',
-    //     body: { ...credentials },
-    //   }),
-    //   invalidatesTags: ['Subject'],
-    // }),
+    createSection: builder.mutation({
+      query: (credentials) => ({
+        url: '/section/create',
+        method: 'POST',
+        body: { ...credentials },
+      }),
+      invalidatesTags: ['Section'],
+    }),
   }),
 });
 
-export const { useGetSectionsQuery } = sectionApi;
+export const { useGetSectionsQuery, useCreateSectionMutation } = sectionApi;

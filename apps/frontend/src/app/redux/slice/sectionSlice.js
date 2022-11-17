@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const sectionSlice = createSlice({
   name: 'section',
-  initialState: { sections: null },
+  initialState: { sections: null, section: null },
   reducers: {
     getSections: (state, action) => {
       const { sections } = action.payload;
@@ -12,9 +12,13 @@ const sectionSlice = createSlice({
     //   const { subject } = action.payload;
     //   state.subject = subject;
     // },
+    createSection: (state, action) => {
+      const { section } = action.payload;
+      state.section = section;
+    },
   },
 });
 
-export const { getSections } = sectionSlice.actions;
+export const { getSections, createSection } = sectionSlice.actions;
 
 export default sectionSlice.reducer;
