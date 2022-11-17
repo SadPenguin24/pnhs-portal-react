@@ -3,7 +3,7 @@ import { setCredentials, logOut } from '../slice/authSlice';
 import { getCookie } from 'cookies-next';
 
 const port =
-  process.env.NODE_ENV === 'developments'
+  process.env.NODE_ENV === 'development'
     ? 'http://localhost:3333'
     : 'https://pnhs-portal-api.onrender.com';
 
@@ -43,6 +43,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Enrollee'],
+  tagTypes: ['Enrollee', 'Subject', 'Section'],
   endpoints: (builder) => ({}),
 });

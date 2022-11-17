@@ -2,27 +2,26 @@ import React, { useEffect } from 'react';
 import { Button, Container, Spinner, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import '../../components/tables/tables.scss';
-import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
-import { getSubjects } from '../../redux/slice/subjectSlice';
+import { useGetSectionsQuery } from '../../redux/api/sectionApi';
+import { getSections } from '../../redux/slice/sectionSlice';
 import { useAppDispatch } from '../../redux/store';
 
-function AdminSubjectScreen() {
+function AdminStudentSectionsScreen() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
   const {
-    data: subjects,
+    data: sections,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetSubjectsQuery({});
+  } = useGetSectionsQuery({});
 
   useEffect(() => {
-    dispatch(getSubjects({ subjects }));
-  }, [dispatch, subjects]);
+    dispatch(getSections({ sections }));
+  }, [dispatch, sections]);
 
   let content;
 
@@ -39,30 +38,31 @@ function AdminSubjectScreen() {
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
-            <th>Strand</th>
-            <th>Subject</th>
-            <th>Actions</th>
+            <th>Section</th>
+            <th>Faculty</th>
+            <th>School Year</th>
+            <td>Actions</td>
           </tr>
         </thead>
         <tbody>
-          {subjects ? (
-            subjects.map((subject: any) => (
-              <tr key={subject._id}>
-                <td>{subject.strand}</td>
-                <td>{subject.subject_name}</td>
+          {sections ? (
+            sections.map((section: any) => (
+              <tr key={section._id}>
+                <td>{section.section_name}</td>
+                <td>{section.teacher_id}</td>
+                <td>{section.school_year}</td>
                 <td>
                   <Button
-                    onClick={() => navigate(`/admin/subject/${subject._id}`)}
+                    onClick={() => navigate(`/admin/section/${section._id}`)}
                   >
                     View
                   </Button>
-                  <Button variant="danger">Delete</Button>
                 </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={3}>No Subjects</td>
+              <td colSpan={3}>No Section</td>
             </tr>
           )}
         </tbody>
@@ -71,20 +71,15 @@ function AdminSubjectScreen() {
   } else if (isError) {
     content = <p>{JSON.stringify(error)}</p>;
   }
-
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/enrollees" />
+      <Header page="Sections" redirect="/admin/home" />
       <Container>
         <div className="text-end mb-3">
-          <Button
-            className="me-3"
-            onClick={() => navigate('/admin/subject/create')}
-          >
-            Add Subject
+          <Button onClick={() => navigate('/admin/section/create')}>
+            Create Section
           </Button>
-          <Button variant="danger">Delete All</Button>
         </div>
         {content}
       </Container>
@@ -92,4 +87,4 @@ function AdminSubjectScreen() {
   );
 }
 
-export default AdminSubjectScreen;
+export default AdminStudentSectionsScreen;

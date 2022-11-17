@@ -68,84 +68,30 @@ export function MasterlistTable({ headerColor, studentRole, students }: any) {
       </thead>
       <tbody>
         {students ? (
-          students.map(
-            (student: {
-              _id: React.Key | null | undefined;
-              student: {
-                _id:
-                  | string
-                  | number
-                  | boolean
-                  | React.ReactElement<
-                      any,
-                      string | React.JSXElementConstructor<any>
-                    >
-                  | React.ReactFragment
-                  | React.ReactPortal
-                  | null
-                  | undefined;
-              };
-              last_name:
-                | string
-                | number
-                | boolean
-                | React.ReactElement<
-                    any,
-                    string | React.JSXElementConstructor<any>
-                  >
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined;
-              first_name:
-                | string
-                | number
-                | boolean
-                | React.ReactElement<
-                    any,
-                    string | React.JSXElementConstructor<any>
-                  >
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined;
-              middle_name:
-                | string
-                | number
-                | boolean
-                | React.ReactElement<
-                    any,
-                    string | React.JSXElementConstructor<any>
-                  >
-                | React.ReactFragment
-                | React.ReactPortal
-                | null
-                | undefined;
-            }) => (
-              <tr key={student._id}>
-                <td>
-                  {studentRole ? (
-                    <LinkContainer to="/admin/student">
-                      <Button>View Student</Button>
-                    </LinkContainer>
-                  ) : (
-                    <LinkContainer to="/admin/faculty">
-                      <Button>View Faculty</Button>
-                    </LinkContainer>
-                  )}
-                </td>
-                <td>{student.student._id}</td>
-                <td>{student.last_name}</td>
-                <td>{student.first_name}</td>
-                <td>{student.middle_name}</td>
-                <td>11</td>
-                <td>17</td>
-                <td>December 25, 2015</td>
-                <td>Pangasinan</td>
-                <td>09999999999</td>
-              </tr>
-            )
-          )
+          students.map((student: any) => (
+            <tr key={student._id}>
+              <td>
+                {studentRole ? (
+                  <LinkContainer to="/admin/student">
+                    <Button>View Student</Button>
+                  </LinkContainer>
+                ) : (
+                  <LinkContainer to="/admin/faculty">
+                    <Button>View Faculty</Button>
+                  </LinkContainer>
+                )}
+              </td>
+              <td>{student.student._id}</td>
+              <td>{student.last_name}</td>
+              <td>{student.first_name}</td>
+              <td>{student.middle_name}</td>
+              <td>11</td>
+              <td>17</td>
+              <td>December 25, 2015</td>
+              <td>Pangasinan</td>
+              <td>09999999999</td>
+            </tr>
+          ))
         ) : (
           <tr>
             <td colSpan={10}>No Students</td>

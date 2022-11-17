@@ -7,7 +7,7 @@ import { getEnrolleeById } from '../../redux/slice/enrolleeSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleeScreen() {
-  let { id } = useParams();
+  const { id } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -21,7 +21,7 @@ function AdminEnrolleeScreen() {
 
   useEffect(() => {
     dispatch(getEnrolleeById({ enrollee }));
-  });
+  }, [dispatch, enrollee]);
 
   let content;
 

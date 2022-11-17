@@ -36,6 +36,11 @@ import AdminStudentScheduleScreen from './screens/admin/AdminStudentScheduleScre
 import AdminStudentEnrolledlist from './screens/admin/AdminStudentEnrolledlist';
 import AdminCreateEnrolleeScreen from './screens/admin/AdminCreateEnrolleeScreen';
 import AdminEnrolleeScreen from './screens/admin/AdminEnrolleeScreen';
+import AdminViewSubjectScreen from './screens/admin/AdminViewSubjectScreen';
+import AdminCreateSubjectScreen from './screens/admin/AdminCreateSubjectScreen';
+import AdminStudentSectionsScreen from './screens/admin/AdminStudentSectionsScreen';
+import AdminCreateSectionScreen from './screens/admin/AdminCreateSectionScreen';
+import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -77,10 +82,18 @@ export function App() {
               element={<AdminEnrolleeScreen />}
             />
             <Route
-              path="/admin/createenrollee"
+              path="/admin/enrollee/create"
               element={<AdminCreateEnrolleeScreen />}
             />
             <Route path="/admin/subject" element={<AdminSubjectScreen />} />
+            <Route
+              path="/admin/subject/:id"
+              element={<AdminViewSubjectScreen />}
+            />
+            <Route
+              path="/admin/subject/create"
+              element={<AdminCreateSubjectScreen />}
+            />
             <Route
               path="/admin/facultyschedule"
               element={<AdminFacultyScheduleScreen />}
@@ -92,6 +105,18 @@ export function App() {
             <Route
               path="/admin/enrolledlist"
               element={<AdminStudentEnrolledlist />}
+            />
+            <Route
+              path="/admin/section"
+              element={<AdminStudentSectionsScreen />}
+            />
+            <Route
+              path="/admin/section/:id"
+              element={<AdminViewSectionScreen />}
+            />
+            <Route
+              path="/admin/section/create"
+              element={<AdminCreateSectionScreen />}
             />
 
             {/* Student Screens */}
