@@ -18,5 +18,3 @@ const subjectSlice = createSlice({
 export const { getSubjects, getSubject } = subjectSlice.actions;
 
 export default subjectSlice.reducer;
-
-export const selectCurrentUser = (state) => state.user.user;

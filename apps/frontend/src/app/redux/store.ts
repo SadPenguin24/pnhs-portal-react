@@ -5,6 +5,7 @@ import authReducer from './slice/authSlice';
 import userReducer from './slice/userSlice'
 import enrolleeReducer from './slice/enrolleeSlice'
 import subjectReducer from './slice/subjectSlice'
+import sectionReducer from './slice/sectionSlice'
 
 const store = configureStore({
   reducer: {
@@ -12,7 +13,8 @@ const store = configureStore({
     auth: authReducer,
     user: userReducer,
     enrollee: enrolleeReducer,
-    subject: subjectReducer
+    subject: subjectReducer,
+    section: sectionReducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
