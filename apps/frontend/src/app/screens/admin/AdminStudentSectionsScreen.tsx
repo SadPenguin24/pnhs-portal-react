@@ -74,7 +74,7 @@ function AdminStudentSectionsScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Sections" redirect="/admin/home" />
+      <Header page="Student Sections" redirect="/admin/home" />
       <Container>
         <div className="text-end mb-3">
           <Button onClick={() => navigate('/admin/section/create')}>

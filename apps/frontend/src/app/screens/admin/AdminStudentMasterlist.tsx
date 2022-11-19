@@ -1,12 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect } from 'react';
-import { Container, FormControl, Spinner } from 'react-bootstrap';
+import {
+  Button,
+  Container,
+  FormControl,
+  Spinner,
+  Table,
+} from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Header from '../../components/header/Header';
-import { MasterlistTable } from '../../components/tables/Tables';
 import { useGetAllProfileQuery } from '../../redux/api/userApi';
 import { setAllUsers } from '../../redux/slice/userSlice';
 import { useAppDispatch } from '../../redux/store';
+
+import '../../components/tables/tables.scss';
 
 function AdminStudentMasterlist() {
   const dispatch = useAppDispatch();
@@ -57,11 +65,49 @@ function AdminStudentMasterlist() {
             ></FormControl>
           </div>
         </div>
-        <MasterlistTable
-          headerColor="#2a6fd6"
-          studentRole={true}
-          students={students}
-        />
+
+        <Table bordered className="tableColor" responsive="lg">
+          <thead style={{ backgroundColor: '#2a6fd6' }}>
+            <tr className="text-center">
+              <th className="textWhite">Actions</th>
+              <th className="textWhite">Student No.</th>
+              <th className="textWhite">Last Name</th>
+              <th className="textWhite">First Name</th>
+              <th className="textWhite">Middle Name</th>
+              <th className="textWhite">Grade Level</th>
+              <th className="textWhite">Age</th>
+              <th className="textWhite">Birthdate</th>
+              <th className="textWhite">Birthplace</th>
+              <th className="textWhite">Contact #</th>
+            </tr>
+          </thead>
+          <tbody>
+            {students ? (
+              students.map((student: any) => (
+                <tr key={student._id}>
+                  <td>
+                    <LinkContainer to="/admin/student">
+                      <Button>View Student</Button>
+                    </LinkContainer>
+                  </td>
+                  <td>{student.student._id}</td>
+                  <td>{student.last_name}</td>
+                  <td>{student.first_name}</td>
+                  <td>{student.middle_name}</td>
+                  <td>11</td>
+                  <td>17</td>
+                  <td>December 25, 2015</td>
+                  <td>Pangasinan</td>
+                  <td>09999999999</td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={10}>No Students</td>
+              </tr>
+            )}
+          </tbody>
+        </Table>
       </>
     );
   } else if (isError) {

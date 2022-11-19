@@ -10,7 +10,7 @@ function AdminStrandScreen() {
       <Header page="Strand/Enrollees/Subject" redirect="/admin/home" />
       <Container>
         <Row>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/abm">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/strands/ABM.png"
@@ -20,13 +20,13 @@ function AdminStrandScreen() {
               <div>ABM</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/gas">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/strands/GAS.png" fluid />
               <div>GAS</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/humss">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/strands/HUMSS.png"
@@ -36,13 +36,13 @@ function AdminStrandScreen() {
               <div>HUMSS</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/sports">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/strands/SPORTS.png" fluid />
               <div>SPORTS</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/stem">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/strands/STEM.png"
@@ -52,7 +52,7 @@ function AdminStrandScreen() {
               <div>STEM</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/tvl-cookery">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/strands/TVL-COOKery.png"
@@ -61,7 +61,7 @@ function AdminStrandScreen() {
               <div>TVL-COOKERY</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/tvl-homeeconomics">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/strands/TVL-HE.png"
@@ -71,7 +71,7 @@ function AdminStrandScreen() {
               <div>TVL-HOME ECONOMICS</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrollees">
+          <LinkContainer to="/admin/enrollees/tvl-ict">
             <Col md="4" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/strands/TVL-ICT.png" fluid />
               <div>TVL-ICT</div>

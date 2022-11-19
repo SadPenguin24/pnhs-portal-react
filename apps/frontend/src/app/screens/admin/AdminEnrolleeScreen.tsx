@@ -7,7 +7,7 @@ import { getEnrolleeById } from '../../redux/slice/enrolleeSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleeScreen() {
-  const { id } = useParams();
+  const { strand, id } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -81,7 +81,10 @@ function AdminEnrolleeScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/enrollees" />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/enrollees/${strand}`}
+      />
       <Container>{content}</Container>
     </div>
   );

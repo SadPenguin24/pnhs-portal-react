@@ -8,7 +8,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetEnrolleesQuery } from '../../redux/api/enrolleeApi';
@@ -17,6 +17,7 @@ import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleesScreen() {
   const navigate = useNavigate();
+  const { strand } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -28,9 +29,22 @@ function AdminEnrolleesScreen() {
     error,
   } = useGetEnrolleesQuery({});
 
+  // eslint-disable-next-line prefer-const
+  let strandEnrollees: any[] = [];
+
+  const getStrandEnrollees = (item: any) => {
+    if (item.strand.split(' ').join('').toLowerCase() === strand) {
+      strandEnrollees.push(item);
+    }
+  };
+
+  if (enrollees) {
+    enrollees.forEach(getStrandEnrollees);
+  }
+
   useEffect(() => {
-    dispatch(getEnrollees({ enrollees }));
-  }, [dispatch, enrollees]);
+    dispatch(getEnrollees({ strandEnrollees }));
+  }, [dispatch, strandEnrollees]);
 
   let content;
 
@@ -64,8 +78,8 @@ function AdminEnrolleesScreen() {
             </tr>
           </thead>
           <tbody>
-            {enrollees ? (
-              enrollees.map((enrollee: any) => (
+            {strandEnrollees.length !== 0 ? (
+              strandEnrollees.map((enrollee: any) => (
                 <tr key={enrollee._id}>
                   <td>
                     {enrollee.first_name} {enrollee.last_name}
@@ -75,7 +89,7 @@ function AdminEnrolleesScreen() {
                   <td>
                     <Button
                       onClick={() =>
-                        navigate(`/admin/enrollee/${enrollee._id}`)
+                        navigate(`/admin/enrollee/${strand}/${enrollee._id}`)
                       }
                     >
                       View Enrollee
@@ -85,18 +99,20 @@ function AdminEnrolleesScreen() {
               ))
             ) : (
               <tr>
-                <td colSpan={4}>No Enrollees</td>
+                <td colSpan={4} className="text-center">
+                  No Enrollees
+                </td>
               </tr>
             )}
           </tbody>
         </Table>
         <div className="text-center">
-          <LinkContainer to="/admin/subject">
+          <LinkContainer to={`/admin/subject/${strand}`}>
             <Button className="me-3">View Subject</Button>
           </LinkContainer>
           <Button
             onClick={() => {
-              navigate('/admin/enrollee/create');
+              navigate(`/admin/enrollee/create?${strand}`);
             }}
           >
             Create Enrollee

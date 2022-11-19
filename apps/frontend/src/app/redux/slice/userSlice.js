@@ -2,8 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const userSlice = createSlice({
   name: 'users',
-  initialState: { users: null },
+  initialState: { user: null, users: null },
   reducers: {
+    getProfile: (state, action) => {
+      const { user } = action.payload;
+      state.user = user;
+    },
     setAllUsers: (state, action) => {
       const { users } = action.payload;
       state.users = users;

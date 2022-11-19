@@ -5,6 +5,8 @@ import Header from '../../components/header/Header';
 import { useCreateEnrolleeMutation } from '../../redux/api/enrolleeApi';
 
 function AdminCreateEnrolleeScreen() {
+  let redirect = location.search && location.search.split('?')[1];
+
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -19,7 +21,12 @@ function AdminCreateEnrolleeScreen() {
   const [grade_10_card, setGradeTenCard] = useState('');
   const [lrn, setLrn] = useState('');
   const [good_moral, setGoodMoral] = useState('');
-  const [strand, setStrand] = useState('');
+  const [strand, setStrand] = useState(() => {
+    if (redirect === 'tvl-homeeconomics') {
+      return 'TVL-HOME ECONOMICS';
+    }
+    return redirect ? redirect.toUpperCase() : '';
+  });
   const [password, setPassword] = useState('');
   const [c_password, setConfirmPassword] = useState('');
 
@@ -206,11 +213,17 @@ function AdminCreateEnrolleeScreen() {
             Strand:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={strand}
-              onChange={(e) => setStrand(e.target.value)}
-            />
+            {redirect ? (
+              <Form.Control type="text" readOnly value={strand} />
+            ) : (
+              <Form.Select
+                defaultValue="Choose strand"
+                value={strand}
+                onChange={(e) => setStrand(e.target.value)}
+              >
+                <option value="ABM">ABM</option>
+              </Form.Select>
+            )}
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -245,7 +258,10 @@ function AdminCreateEnrolleeScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/enrollees" />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/enrollees/${redirect}`}
+      />
       <Container>{content}</Container>
     </div>
   );
