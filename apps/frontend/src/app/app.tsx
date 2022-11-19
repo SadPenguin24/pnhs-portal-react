@@ -97,7 +97,7 @@ export function App() {
               element={<AdminViewSubjectScreen />}
             />
             <Route
-              path="/admin/subject/create"
+              path="/admin/subject/:subjectStrand/create"
               element={<AdminCreateSubjectScreen />}
             />
             <Route

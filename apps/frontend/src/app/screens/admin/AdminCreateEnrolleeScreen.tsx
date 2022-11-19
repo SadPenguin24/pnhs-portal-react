@@ -60,7 +60,7 @@ function AdminCreateEnrolleeScreen() {
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate('/admin/enrollees');
+    navigate(`/admin/enrollees/${redirect}`);
   };
 
   let content;
@@ -222,6 +222,13 @@ function AdminCreateEnrolleeScreen() {
                 onChange={(e) => setStrand(e.target.value)}
               >
                 <option value="ABM">ABM</option>
+                <option value="GAS">GAS</option>
+                <option value="HUMSS">HUMSS</option>
+                <option value="SPORTS">SPORTS</option>
+                <option value="STEM">STEM</option>
+                <option value="TVL-COOKERY">TVL-COOKERY</option>
+                <option value="TVL-HOME ECONOMICS">TVL-HOME ECONOMICS</option>
+                <option value="TVL-ICT">TVL-ICT</option>
               </Form.Select>
             )}
           </Col>

@@ -21,9 +21,22 @@ function AdminSubjectScreen() {
     error,
   } = useGetSubjectsQuery({});
 
+  // eslint-disable-next-line prefer-const
+  let strandSubjects: any[] = [];
+
+  const getStrandSubjects = (item: any) => {
+    if (item.strand.split(' ').join('').toLowerCase() === strand) {
+      strandSubjects.push(item);
+    }
+  };
+
+  if (subjects) {
+    subjects.forEach(getStrandSubjects);
+  }
+
   useEffect(() => {
-    dispatch(getSubjects({ subjects }));
-  }, [dispatch, subjects]);
+    dispatch(getSubjects({ strandSubjects }));
+  }, [dispatch, strandSubjects]);
 
   let content;
 
@@ -46,8 +59,8 @@ function AdminSubjectScreen() {
           </tr>
         </thead>
         <tbody>
-          {subjects ? (
-            subjects.map((subject: any) => (
+          {strandSubjects.length !== 0 ? (
+            strandSubjects.map((subject: any) => (
               <tr key={subject._id}>
                 <td>{subject.strand}</td>
                 <td>{subject.subject_name}</td>
@@ -65,7 +78,9 @@ function AdminSubjectScreen() {
             ))
           ) : (
             <tr>
-              <td colSpan={3}>No Subjects</td>
+              <td colSpan={3} className="text-center">
+                No Subjects
+              </td>
             </tr>
           )}
         </tbody>
@@ -86,7 +101,7 @@ function AdminSubjectScreen() {
         <div className="text-end mb-3">
           <Button
             className="me-3"
-            onClick={() => navigate('/admin/subject/create')}
+            onClick={() => navigate(`/admin/subject/${strand}/create`)}
           >
             Add Subject
           </Button>
