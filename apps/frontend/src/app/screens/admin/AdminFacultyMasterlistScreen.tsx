@@ -1,7 +1,8 @@
 import React from 'react';
-import { Container, FormControl } from 'react-bootstrap';
+import { Button, Container, FormControl, Table } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import Header from '../../components/header/Header';
-import { MasterlistTable } from '../../components/tables/Tables';
+import '../../components/tables/tables.scss';
 
 function AdminFacultyMasterlistScreen() {
   return (
@@ -17,7 +18,38 @@ function AdminFacultyMasterlistScreen() {
             ></FormControl>
           </div>
         </div>
-        <MasterlistTable headerColor="#2a6fd6" student={false} />
+        <Table bordered className="tableColor" responsive="lg">
+          <thead style={{ backgroundColor: '#2a6fd6' }}>
+            <tr className="text-center">
+              <th className="textWhite">Actions</th>
+              <th className="textWhite">Last Name</th>
+              <th className="textWhite">First Name</th>
+              <th className="textWhite">Middle Name</th>
+              <th className="textWhite">Age</th>
+              <th className="textWhite">Address</th>
+              <th className="textWhite">Birthdate</th>
+              <th className="textWhite">Birthplace</th>
+              <th className="textWhite">Contact #</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>
+                <LinkContainer to="/admin/faculty">
+                  <Button>View Faculty</Button>
+                </LinkContainer>
+              </td>
+              <td>sample</td>
+              <td>sample</td>
+              <td>sample</td>
+              <td>11</td>
+              <td>17</td>
+              <td>December 25, 2015</td>
+              <td>Pangasinan</td>
+              <td>09999999999</td>
+            </tr>
+          </tbody>
+        </Table>
       </Container>
     </div>
   );

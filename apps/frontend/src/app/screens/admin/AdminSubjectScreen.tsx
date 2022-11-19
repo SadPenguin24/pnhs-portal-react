@@ -50,7 +50,7 @@ function AdminSubjectScreen() {
               <tr key={subject._id}>
                 <td>{subject.strand}</td>
                 <td>{subject.subject_name}</td>
-                <td>
+                <td className="d-flex justify-content-around">
                   <Button
                     onClick={() => navigate(`/admin/subject/${subject._id}`)}
                   >
