@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Container, Spinner, Table } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
@@ -9,6 +9,7 @@ import { useAppDispatch } from '../../redux/store';
 
 function AdminSubjectScreen() {
   const navigate = useNavigate();
+  const { strand } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -52,7 +53,9 @@ function AdminSubjectScreen() {
                 <td>{subject.subject_name}</td>
                 <td className="d-flex justify-content-around">
                   <Button
-                    onClick={() => navigate(`/admin/subject/${subject._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/subject/${strand}/${subject._id}`)
+                    }
                   >
                     View
                   </Button>
@@ -75,7 +78,10 @@ function AdminSubjectScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/enrollees" />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/enrollees/${strand}`}
+      />
       <Container>
         <div className="text-end mb-3">
           <Button

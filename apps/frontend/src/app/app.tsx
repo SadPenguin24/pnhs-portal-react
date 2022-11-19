@@ -76,18 +76,24 @@ export function App() {
               element={<AdminFacultyProfileScreen />}
             />
             <Route path="/admin/strand" element={<AdminStrandScreen />} />
-            <Route path="/admin/enrollees" element={<AdminEnrolleesScreen />} />
             <Route
-              path="/admin/enrollee/:id"
+              path="/admin/enrollees/:strand"
+              element={<AdminEnrolleesScreen />}
+            />
+            <Route
+              path="/admin/enrollee/:strand/:id"
               element={<AdminEnrolleeScreen />}
             />
             <Route
               path="/admin/enrollee/create"
               element={<AdminCreateEnrolleeScreen />}
             />
-            <Route path="/admin/subject" element={<AdminSubjectScreen />} />
             <Route
-              path="/admin/subject/:id"
+              path="/admin/subject/:strand"
+              element={<AdminSubjectScreen />}
+            />
+            <Route
+              path="/admin/subject/:strand/:id"
               element={<AdminViewSubjectScreen />}
             />
             <Route

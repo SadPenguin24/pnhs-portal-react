@@ -7,7 +7,7 @@ import { getSubject } from '../../redux/slice/subjectSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminViewSubjectScreen() {
-  const { id } = useParams();
+  const { strand, id } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -51,7 +51,10 @@ function AdminViewSubjectScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/subject" />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/subject/${strand}`}
+      />
       <Container>{content}</Container>
     </div>
   );
