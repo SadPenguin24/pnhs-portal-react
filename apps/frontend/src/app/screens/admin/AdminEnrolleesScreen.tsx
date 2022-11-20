@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { Key, useEffect } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import {
   Button,
   Container,
+  Form,
   FormControl,
   Spinner,
   Table,
@@ -12,12 +13,15 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetEnrolleesQuery } from '../../redux/api/enrolleeApi';
+import { useConvertEtosMutation } from '../../redux/api/userApi';
 import { getEnrollees } from '../../redux/slice/enrolleeSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleesScreen() {
   const navigate = useNavigate();
   const { strand } = useParams();
+
+  const [etos, setEtos] = useState('');
 
   const dispatch = useAppDispatch();
 
@@ -46,6 +50,27 @@ function AdminEnrolleesScreen() {
     dispatch(getEnrollees({ strandEnrollees }));
   }, [dispatch, strandEnrollees]);
 
+  const acceptEnrollees: any = [];
+
+  const acceptHandler = (e: any) => {
+    const index = acceptEnrollees.indexOf(e.target.value);
+    if (index > -1) {
+      acceptEnrollees.splice(index, 1);
+    } else {
+      acceptEnrollees.push(e.target.value);
+    }
+  };
+
+  const [convertEtos] = useConvertEtosMutation();
+
+  const submitHandler = async (e: any) => {
+    e.preventDefault();
+
+    acceptEnrollees.forEach((item: any) => {
+      convertEtos(item);
+    });
+  };
+
   let content;
 
   if (isLoading) {
@@ -68,44 +93,57 @@ function AdminEnrolleesScreen() {
           </div>
           <Button>Search</Button>
         </div>
-        <Table bordered className="tableColor mb-3">
-          <thead style={{ backgroundColor: '#2a6fd6' }}>
-            <tr className="text-center">
-              <th>Name</th>
-              <th>LRN</th>
-              <th>Strand</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {strandEnrollees.length !== 0 ? (
-              strandEnrollees.map((enrollee: any) => (
-                <tr key={enrollee._id}>
-                  <td>
-                    {enrollee.first_name} {enrollee.last_name}
-                  </td>
-                  <td>{enrollee.lrn}</td>
-                  <td>{enrollee.strand}</td>
-                  <td>
-                    <Button
-                      onClick={() =>
-                        navigate(`/admin/enrollee/${strand}/${enrollee._id}`)
-                      }
-                    >
-                      View Enrollee
-                    </Button>
+        <Form onSubmit={submitHandler}>
+          <Table bordered className="tableColor mb-3">
+            <thead style={{ backgroundColor: '#2a6fd6' }}>
+              <tr className="text-center">
+                <th>Name</th>
+                <th>LRN</th>
+                <th>Strand</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {strandEnrollees.length !== 0 ? (
+                strandEnrollees.map((enrollee: any) => (
+                  <tr key={enrollee._id}>
+                    <td>
+                      {enrollee.first_name} {enrollee.last_name}
+                    </td>
+                    <td>{enrollee.lrn}</td>
+                    <td>{enrollee.strand}</td>
+                    <td className="d-flex justify-content-around">
+                      <Button
+                        onClick={() =>
+                          navigate(`/admin/enrollee/${strand}/${enrollee._id}`)
+                        }
+                      >
+                        View Enrollee
+                      </Button>
+                      <Form.Check
+                        inline
+                        name="enrollee"
+                        label="Accept Enrollee"
+                        type="checkbox"
+                        value={enrollee._id}
+                        onClick={acceptHandler}
+                      />
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="text-center">
+                    No Enrollees
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan={4} className="text-center">
-                  No Enrollees
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </Table>
+              )}
+            </tbody>
+          </Table>
+          <div className="text-end">
+            <Button type="submit">Accept Enrollees</Button>
+          </div>
+        </Form>
         <div className="text-center">
           <LinkContainer to={`/admin/subject/${strand}`}>
             <Button className="me-3">View Subject</Button>

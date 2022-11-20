@@ -83,6 +83,7 @@ function AdminCreateEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               value={first_name}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -95,6 +96,7 @@ function AdminCreateEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               value={middle_name}
               onChange={(e) => setMiddleName(e.target.value)}
             />
@@ -107,6 +109,7 @@ function AdminCreateEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               value={last_name}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -119,6 +122,7 @@ function AdminCreateEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="email"
+              required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />

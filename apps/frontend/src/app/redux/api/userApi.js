@@ -11,6 +11,13 @@ export const userApi = apiSlice.injectEndpoints({
     getUserById: builder.query({
       query: (id) => `/user/${id}`,
     }),
+    convertEtos: builder.mutation({
+      query: (id) => ({
+        url: `/user/etos/${id}`,
+        method: 'POST',
+      }),
+      invalidatesTags: ['Enrollee'],
+    }),
   }),
 });
 
@@ -18,4 +25,5 @@ export const {
   useGetProfileQuery,
   useGetAllProfileQuery,
   useGetUserByIdQuery,
+  useConvertEtosMutation,
 } = userApi;
