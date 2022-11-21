@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Col,
@@ -46,7 +46,7 @@ function AdminStudentScheduleScreen() {
             <Button variant="danger">Delete</Button>
           </div>
           <Table bordered className="tableColor">
-            <thead>
+            <thead style={{ backgroundColor: '#2a6fd6' }}>
               <tr className="text-center">
                 <th>Subject</th>
                 <th>Time</th>
