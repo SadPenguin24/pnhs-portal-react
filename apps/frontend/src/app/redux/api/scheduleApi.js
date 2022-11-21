@@ -10,10 +10,10 @@ export const scheduleApi = apiSlice.injectEndpoints({
       query: (id) => `/schedule/${id}`,
     }),
     createSchedule: builder.mutation({
-      query: (credentials) => ({
+      query: (body) => ({
         url: '/schedule/create',
         method: 'POST',
-        body: { ...credentials },
+        body: { ...body },
       }),
       invalidatesTags: ['Schedule'],
     }),

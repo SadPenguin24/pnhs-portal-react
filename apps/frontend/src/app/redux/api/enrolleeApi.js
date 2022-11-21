@@ -10,10 +10,10 @@ export const enrolleeApi = apiSlice.injectEndpoints({
       query: (id) => `/enrollee/${id}`,
     }),
     createEnrollee: builder.mutation({
-      query: (credentials) => ({
+      query: (body) => ({
         url: '/enrollee/create',
         method: 'POST',
-        body: { ...credentials },
+        body: { ...body },
       }),
       invalidatesTags: ['Enrollee'],
     }),

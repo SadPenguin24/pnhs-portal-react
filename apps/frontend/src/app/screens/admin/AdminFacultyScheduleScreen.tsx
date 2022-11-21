@@ -8,6 +8,7 @@ import {
   Spinner,
   Table,
 } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetSchedulesQuery } from '../../redux/api/scheduleApi';
@@ -15,6 +16,8 @@ import { getSchedules } from '../../redux/slice/scheduleSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminFacultyScheduleScreen() {
+  const navigate = useNavigate();
+
   const dispatch = useAppDispatch();
 
   const {
@@ -41,10 +44,11 @@ function AdminFacultyScheduleScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Table bordered className="tableColor">
+      <Table bordered className="tableColor" responsive="md">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
             <th>Subject</th>
+            <th>Days</th>
             <th>Time</th>
             <th>Teacher</th>
           </tr>
@@ -54,6 +58,15 @@ function AdminFacultyScheduleScreen() {
             schedules.map((schedule: any) => (
               <tr key={schedule._id}>
                 <td>{schedule.subject_id}</td>
+                <td>
+                  {schedule.days.map((day: any, index: any, array: any) => {
+                    array = array.length - 1;
+                    if (array === index) {
+                      return day;
+                    }
+                    return day + '/';
+                  })}
+                </td>
                 <td>
                   {schedule.time_in} - {schedule.time_out}
                 </td>
@@ -97,7 +110,12 @@ function AdminFacultyScheduleScreen() {
           </Col>
         </Row>
         <div className="text-end my-3">
-          <Button className="me-5">Add</Button>
+          <Button
+            className="me-5"
+            onClick={() => navigate('/admin/facultyschedule/create')}
+          >
+            Add
+          </Button>
           <Button className="me-5">Edit</Button>
           <Button className="me-5">Save</Button>
           <Button variant="danger">Delete</Button>

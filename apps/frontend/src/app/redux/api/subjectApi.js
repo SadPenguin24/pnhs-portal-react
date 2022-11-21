@@ -10,10 +10,10 @@ export const subjectApi = apiSlice.injectEndpoints({
       query: (id) => `/subject/${id}`,
     }),
     createSubject: builder.mutation({
-      query: (credentials) => ({
+      query: (body) => ({
         url: '/subject/create',
         method: 'POST',
-        body: { ...credentials },
+        body: { ...body },
       }),
       invalidatesTags: ['Subject'],
     }),

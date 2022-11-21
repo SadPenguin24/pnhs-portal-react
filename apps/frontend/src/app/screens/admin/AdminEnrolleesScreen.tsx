@@ -19,6 +19,7 @@ import { useAppDispatch } from '../../redux/store';
 
 function AdminEnrolleesScreen() {
   const navigate = useNavigate();
+
   const { strand } = useParams();
 
   const [etos, setEtos] = useState('');

@@ -10,10 +10,10 @@ export const sectionApi = apiSlice.injectEndpoints({
       query: (id) => `/section/${id}`,
     }),
     createSection: builder.mutation({
-      query: (credentials) => ({
+      query: (body) => ({
         url: '/section/create',
         method: 'POST',
-        body: { ...credentials },
+        body: { ...body },
       }),
       invalidatesTags: ['Section'],
     }),

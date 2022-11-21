@@ -41,6 +41,7 @@ import AdminCreateSubjectScreen from './screens/admin/AdminCreateSubjectScreen';
 import AdminStudentSectionsScreen from './screens/admin/AdminStudentSectionsScreen';
 import AdminCreateSectionScreen from './screens/admin/AdminCreateSectionScreen';
 import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
+import AdminCreateScheduleScreen from './screens/admin/AdminCreateScheduleScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -103,6 +104,10 @@ export function App() {
             <Route
               path="/admin/facultyschedule"
               element={<AdminFacultyScheduleScreen />}
+            />
+            <Route
+              path="/admin/facultyschedule/create"
+              element={<AdminCreateScheduleScreen />}
             />
             <Route
               path="/admin/studentschedule"
