@@ -1,8 +1,8 @@
-import { useLocation, Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { useLocation, Navigate, Outlet } from 'react-router-dom';
 import { getCookie } from 'cookies-next';
-import { useAppSelector } from '../store';
-import { selectCurrentUser } from '../slice/authSlice';
-import { useState } from 'react';
+// import { useAppSelector } from '../store';
+// import { selectCurrentUser } from '../slice/authSlice';
+// import { useState } from 'react';
 // import NavBar from '../../components/navbar/NavBar';
 // import Sidebar from '../../components/sidebar/Sidebar';
 
@@ -11,7 +11,6 @@ function RequireAuth() {
 
   const user = JSON.parse(localStorage.getItem('userInfo')!);
   const location = useLocation();
-  const navigate = useNavigate();
   let userValidator = true;
 
   const userRole = user?.role[0];
@@ -26,7 +25,9 @@ function RequireAuth() {
       </>
     ) : (
       <>
-        {navigate(`/${userRole}/home`)} <Outlet />
+        <Navigate to={`/${userRole}/home`} state={{ from: location }} replace />
+        ;
+        <Outlet />
       </>
     )
   ) : (
