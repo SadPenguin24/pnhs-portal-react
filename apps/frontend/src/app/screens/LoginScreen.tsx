@@ -2,7 +2,15 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../redux/store';
 import { setCookie } from 'cookies-next';
-import { Button, Col, Container, Form, Image, Row } from 'react-bootstrap';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Image,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import { setCredentials } from '../redux/slice/authSlice';
 import { useLoginMutation } from '../redux/api/authApiSlice';
 
@@ -11,6 +19,8 @@ import '../styles/login.scss';
 function LoginScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [disable, setDisable] = useState(false);
 
   const [login] = useLoginMutation();
   const dispatch = useAppDispatch();
@@ -19,6 +29,9 @@ function LoginScreen() {
 
   const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+
+    setLoading(true);
+
     console.log('THIS IS ENV', process.env.NODE_ENV);
 
     try {
@@ -32,6 +45,8 @@ function LoginScreen() {
       setEmail('');
       setPassword('');
 
+      setLoading(false);
+
       if (user.role[0] === 'admin') {
         navigate('/admin/home');
       } else if (user.role[0] === 'faculty') {
@@ -39,8 +54,11 @@ function LoginScreen() {
       } else if (user.role[0] === 'student') {
         navigate('/student/home');
       }
-    } catch (error) {
-      console.log(error);
+    } catch (error: any) {
+      if (error.data.message === 'Unauthorized') {
+        setLoading(false);
+        alert('Enter valid email and password');
+      }
     }
   };
 
@@ -52,14 +70,14 @@ function LoginScreen() {
         <Image
           src="../../assets/images/pnhs-logo.png"
           alt="pnhs-logo"
-          width={'20%'}
+          // width={'20%'}
           roundedCircle
-          className="my-4"
+          className="my-4 logo-width"
         />
         <h1 className="mb-4">
           <strong className="textColor">WELCOME TO YOUR PORTAL</strong>
         </h1>
-        <div className="p-4 mx-auto box">
+        <div className="p-5 mx-auto box">
           <Form onSubmit={onSubmitHandler}>
             <Row style={{ textAlign: 'start' }}>
               <Form.Group className="mb-3">
@@ -74,6 +92,7 @@ function LoginScreen() {
                       value={email}
                       name="email"
                       className="borderColor"
+                      required
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Col>
@@ -91,20 +110,24 @@ function LoginScreen() {
                       value={password}
                       name="password"
                       className="borderColor"
+                      required
                       onChange={(e) => setPassword(e.target.value)}
                     />
                   </Col>
                 </Row>
               </Form.Group>
               <div className="text-center mb-3">
-                <Button
-                  variant="outline-primary"
-                  size="lg"
-                  type="submit"
-                  className="textColor"
-                >
-                  Login
-                </Button>
+                {loading ? (
+                  <Button size="lg">
+                    <Spinner animation="border" role="status">
+                      <span className="visually-hidden">Loading...</span>
+                    </Spinner>
+                  </Button>
+                ) : (
+                  <Button size="lg" type="submit" className="textColor">
+                    Login
+                  </Button>
+                )}
               </div>
               <div className="text-center">
                 <Link style={{ color: '#045933' }} to="#">
