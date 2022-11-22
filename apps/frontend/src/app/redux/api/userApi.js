@@ -8,6 +8,9 @@ export const userApi = apiSlice.injectEndpoints({
     getAllProfile: builder.query({
       query: () => '/user/',
     }),
+    getRole: builder.query({
+      query: (role_name) => `/user/role/${role_name}`
+    }),
     getUserById: builder.query({
       query: (id) => `/user/${id}`,
     }),
@@ -24,6 +27,7 @@ export const userApi = apiSlice.injectEndpoints({
 export const {
   useGetProfileQuery,
   useGetAllProfileQuery,
+  useGetRoleQuery,
   useGetUserByIdQuery,
   useConvertEtosMutation,
 } = userApi;

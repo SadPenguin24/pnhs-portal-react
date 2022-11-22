@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Container,
@@ -10,8 +10,8 @@ import {
 } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 import Header from '../../components/header/Header';
-import { useGetAllProfileQuery } from '../../redux/api/userApi';
-import { setAllUsers } from '../../redux/slice/userSlice';
+import { useGetRoleQuery } from '../../redux/api/userApi';
+import { setStudents } from '../../redux/slice/userSlice';
 import { useAppDispatch } from '../../redux/store';
 
 import '../../components/tables/tables.scss';
@@ -19,30 +19,19 @@ import '../../components/tables/tables.scss';
 function AdminStudentMasterlist() {
   const dispatch = useAppDispatch();
 
+  const [role_name] = useState('student');
+
   const {
-    data: users,
+    data: students,
     isLoading,
     isSuccess,
     isError,
     error,
-  } = useGetAllProfileQuery({});
-
-  // eslint-disable-next-line prefer-const
-  let students: any[] = [];
-
-  const getStudents = (item: any) => {
-    if (item.role[0] === 'student') {
-      students.push(item);
-    }
-  };
-
-  if (users) {
-    users.forEach(getStudents);
-  }
+  } = useGetRoleQuery(role_name);
 
   useEffect(() => {
-    dispatch(setAllUsers({ users }));
-  }, [dispatch, users]);
+    dispatch(setStudents({ students }));
+  }, [dispatch, students]);
 
   let content;
   if (isLoading) {
