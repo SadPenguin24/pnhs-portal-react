@@ -65,7 +65,7 @@ export function App() {
               element={<AdminStudentMasterlist />}
             />
             <Route
-              path="/admin/student"
+              path="/admin/student/:id"
               element={<AdminStudentProfileScreen />}
             />
             <Route
@@ -73,7 +73,7 @@ export function App() {
               element={<AdminFacultyMasterlistScreen />}
             />
             <Route
-              path="/admin/faculty"
+              path="/admin/faculty/:id"
               element={<AdminFacultyProfileScreen />}
             />
             <Route path="/admin/strand" element={<AdminStrandScreen />} />

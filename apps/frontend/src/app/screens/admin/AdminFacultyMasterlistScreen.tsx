@@ -52,7 +52,7 @@ function AdminFacultyMasterlistScreen() {
             faculties.map((faculty: any) => (
               <tr key={faculty._id}>
                 <td>
-                  <LinkContainer to="/admin/faculty">
+                  <LinkContainer to={`/admin/faculty/${faculty._id}`}>
                     <Button>View faculty</Button>
                   </LinkContainer>
                 </td>

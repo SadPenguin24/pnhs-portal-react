@@ -34,6 +34,7 @@ function AdminStudentMasterlist() {
   }, [dispatch, students]);
 
   let content;
+
   if (isLoading) {
     content = (
       <div className="text-center">
@@ -65,7 +66,7 @@ function AdminStudentMasterlist() {
             students.map((student: any) => (
               <tr key={student._id}>
                 <td>
-                  <LinkContainer to="/admin/student">
+                  <LinkContainer to={`/admin/student/${student._id}`}>
                     <Button>View Student</Button>
                   </LinkContainer>
                 </td>
