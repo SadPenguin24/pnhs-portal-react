@@ -154,42 +154,6 @@ function AdminCreateEnrolleeScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            Birth Certificate:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="text"
-              value={birth_certificate}
-              onChange={(e) => setBirthCertificate(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Picture 2x2:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="text"
-              value={picture_2x2}
-              onChange={(e) => setPicture(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Grade 10 Card:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="text"
-              value={grade_10_card}
-              onChange={(e) => setGradeTenCard(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
             LRN:
           </Form.Label>
           <Col md={10}>
@@ -197,18 +161,6 @@ function AdminCreateEnrolleeScreen() {
               type="text"
               value={lrn}
               onChange={(e) => setLrn(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Good Moral:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="text"
-              value={good_moral}
-              onChange={(e) => setGoodMoral(e.target.value)}
             />
           </Col>
         </Form.Group>
@@ -258,6 +210,54 @@ function AdminCreateEnrolleeScreen() {
               type="text"
               value={c_password}
               onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Birth Certificate:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="file"
+              // value={birth_certificate}
+              // onChange={(e) => setBirthCertificate(e.target.value)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Picture 2x2:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="file"
+              // value={picture_2x2}
+              // onChange={(e) => setPicture(e.target.value)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Grade 10 Card:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="file"
+              // value={grade_10_card}
+              // onChange={(e) => setGradeTenCard(e.target.value)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Good Moral:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="file"
+              // value={good_moral}
+              // onChange={(e) => setGoodMoral(e.target.value)}
             />
           </Col>
         </Form.Group>
