@@ -31,8 +31,7 @@ import AdminFacultyProfileScreen from './screens/admin/AdminFacultyProfileScreen
 import AdminStrandScreen from './screens/admin/AdminStrandScreen';
 import AdminEnrolleesScreen from './screens/admin/AdminEnrolleesScreen';
 import AdminSubjectScreen from './screens/admin/AdminSubjectScreen';
-import AdminFacultyScheduleScreen from './screens/admin/AdminFacultyScheduleScreen';
-import AdminStudentScheduleScreen from './screens/admin/AdminStudentScheduleScreen';
+import AdminScheduleScreen from './screens/admin/AdminScheduleScreen';
 import AdminStudentEnrolledlist from './screens/admin/AdminStudentEnrolledlist';
 import AdminCreateEnrolleeScreen from './screens/admin/AdminCreateEnrolleeScreen';
 import AdminEnrolleeScreen from './screens/admin/AdminEnrolleeScreen';
@@ -101,17 +100,10 @@ export function App() {
               path="/admin/subject/:subjectStrand/create"
               element={<AdminCreateSubjectScreen />}
             />
+            <Route path="/admin/schedule" element={<AdminScheduleScreen />} />
             <Route
-              path="/admin/facultyschedule"
-              element={<AdminFacultyScheduleScreen />}
-            />
-            <Route
-              path="/admin/facultyschedule/create"
+              path="/admin/schedule/create"
               element={<AdminCreateScheduleScreen />}
-            />
-            <Route
-              path="/admin/studentschedule"
-              element={<AdminStudentScheduleScreen />}
             />
             <Route
               path="/admin/enrolledlist"

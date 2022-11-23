@@ -50,7 +50,7 @@ function AdminCreateScheduleScreen() {
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate('/admin/facultyschedule');
+    navigate('/admin/schedule');
   };
 
   let content;
@@ -155,7 +155,7 @@ function AdminCreateScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Create Schedule" redirect="/admin/facultyschedule" />
+      <Header page="Create Schedule" redirect="/admin/schedule" />
       <Container>{content}</Container>
     </div>
   );

@@ -15,7 +15,7 @@ import { useGetSchedulesQuery } from '../../redux/api/scheduleApi';
 import { getSchedules } from '../../redux/slice/scheduleSlice';
 import { useAppDispatch } from '../../redux/store';
 
-function AdminFacultyScheduleScreen() {
+function AdminScheduleScreen() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -112,7 +112,7 @@ function AdminFacultyScheduleScreen() {
         <div className="text-end my-3">
           <Button
             className="me-5"
-            onClick={() => navigate('/admin/facultyschedule/create')}
+            onClick={() => navigate('/admin/schedule/create')}
           >
             Add
           </Button>
@@ -126,4 +126,4 @@ function AdminFacultyScheduleScreen() {
   );
 }
 
-export default AdminFacultyScheduleScreen;
+export default AdminScheduleScreen;
