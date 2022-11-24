@@ -1,8 +1,10 @@
-import React from 'react';
-import { Button, Container } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import Header from '../../components/header/Header';
 
 function StudentProfileScreen() {
+  const [notEditing, setNotEditing] = useState(true);
+
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
@@ -12,47 +14,386 @@ function StudentProfileScreen() {
         <div>
           <strong>Personal Data:</strong>
         </div>
-        <div className="mt-3">Image</div>
-        <div className="mt-3 mb-1 ms-3">Student No.:</div>
-        <div className="mb-1 ms-3">School Group:</div>
-        <div className="mb-1 ms-3">Student Batch:</div>
-        <div className="mb-1 ms-3">Surname</div>
-        <div className="mb-1 ms-3">First Name:</div>
-        <div className="mb-1 ms-3">Middle Name:</div>
-        <div className="mb-1 ms-3">Sex:</div>
-        <div className="mb-1 ms-3">Age:</div>
-        <div className="mb-1 ms-3">Date of Birth:</div>
-        <div className="mb-1 ms-3">Place of Birth</div>
-        <div className="mb-1 ms-3">Nationality:</div>
-        <div className="mb-1 ms-3">Civil Status:</div>
-        <div className="mb-1 ms-3">Religion:</div>
-        <div className="mb-1 ms-3">LRN</div>
-        <div className="mb-1 ms-3">Mother Tongue:</div>
+
+        {notEditing ? (
+          <div
+            style={{ width: '100px', height: '100px', border: 'solid' }}
+            className="mb-5"
+          >
+            Picture
+          </div>
+        ) : (
+          <Form.Group as={Row} className="mb-2">
+            <Form.Label column lg="1" md="2">
+              Image:
+            </Form.Label>
+            <Col lg="11" md="10">
+              <Form.Control type="file" />
+            </Col>
+          </Form.Group>
+        )}
+
+        <Form.Group as={Row} className="mt-3 mb-2">
+          <Form.Label column lg="1" md="2">
+            Student No.:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            School Group:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Student Batch:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Surname:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            First Name:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Middle Name:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Sex:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Age:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Date of Birth:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Place of Birth:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Nationality:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Civil Status:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Religion:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            LRN:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Mother Tongue:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
         <div className="mt-3 mb-1">
           <strong>Contact Information:</strong>
         </div>
-        <div className="ms-3">Address:</div>
-        <div className="ms-5">Street:</div>
-        <div className="ms-5">Barangay</div>
-        <div className="ms-5">City</div>
-        <div className="ms-5">Province:</div>
-        <div className="ms-5">Country:</div>
-        <div className="mb-1 ms-5">Zip Code:</div>
-        <div className="mb-1 ms-3">Contact No.:</div>
-        <div className="mb-1 ms-3">Email Address:</div>
+        <div>Address:</div>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Street:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Barangay:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            City:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Province:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Country:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Zip Code:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Contact No.:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Email Address:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
         <div className="mt-3 mb-1">
           <strong>Parents/Guardian Information:</strong>
         </div>
-        <div className="ms-3">Mother:</div>
-        <div className="mb-2 ms-3">Contact No.:</div>
-        <div className="ms-3">Father:</div>
-        <div className="mb-2 ms-3">Contact No.:</div>
-        <div className="ms-3">Guardian:</div>
-        <div className="mb-3 ms-3">Contact No.:</div>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Mother:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Mother's Contact No.:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Father:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Father's Contact No.:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Guardian:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column lg="1" md="2">
+            Guardian's Contact No.:
+          </Form.Label>
+          <Col lg="11" md="10">
+            <Form.Control
+              plaintext={notEditing}
+              readOnly={notEditing}
+              defaultValue="sample"
+            />
+          </Col>
+        </Form.Group>
         <div className="text-center my-3">
-          <Button className="me-4">Save</Button>
-          <Button className="me-4">Exit</Button>
-          <Button>Reset</Button>
+          {notEditing ? (
+            <Button onClick={() => setNotEditing(false)}>Edit</Button>
+          ) : (
+            <Button onClick={() => setNotEditing(true)}>Save</Button>
+          )}
         </div>
       </Container>
     </div>

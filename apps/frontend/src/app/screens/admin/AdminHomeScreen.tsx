@@ -58,22 +58,13 @@ function AdminHomeScreen() {
               <div>Strand/Enrollees/Subject</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/facultyschedule">
+          <LinkContainer to="/admin/schedule">
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/admin/faculty-schedule.png"
                 fluid
               />
-              <div>Faculty Schedule</div>
-            </Col>
-          </LinkContainer>
-          <LinkContainer to="/admin/studentschedule">
-            <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
-              <Image
-                src="../assets/images/icons/admin/student-schedule.png"
-                fluid
-              />
-              <div>Student Schedule</div>
+              <div>Schedules</div>
             </Col>
           </LinkContainer>
           <LinkContainer to="/admin/enrolledlist">

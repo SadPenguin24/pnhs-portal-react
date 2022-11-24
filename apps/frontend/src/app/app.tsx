@@ -31,8 +31,7 @@ import AdminFacultyProfileScreen from './screens/admin/AdminFacultyProfileScreen
 import AdminStrandScreen from './screens/admin/AdminStrandScreen';
 import AdminEnrolleesScreen from './screens/admin/AdminEnrolleesScreen';
 import AdminSubjectScreen from './screens/admin/AdminSubjectScreen';
-import AdminFacultyScheduleScreen from './screens/admin/AdminFacultyScheduleScreen';
-import AdminStudentScheduleScreen from './screens/admin/AdminStudentScheduleScreen';
+import AdminScheduleScreen from './screens/admin/AdminScheduleScreen';
 import AdminStudentEnrolledlist from './screens/admin/AdminStudentEnrolledlist';
 import AdminCreateEnrolleeScreen from './screens/admin/AdminCreateEnrolleeScreen';
 import AdminEnrolleeScreen from './screens/admin/AdminEnrolleeScreen';
@@ -41,6 +40,7 @@ import AdminCreateSubjectScreen from './screens/admin/AdminCreateSubjectScreen';
 import AdminStudentSectionsScreen from './screens/admin/AdminStudentSectionsScreen';
 import AdminCreateSectionScreen from './screens/admin/AdminCreateSectionScreen';
 import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
+import AdminCreateScheduleScreen from './screens/admin/AdminCreateScheduleScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -64,7 +64,7 @@ export function App() {
               element={<AdminStudentMasterlist />}
             />
             <Route
-              path="/admin/student"
+              path="/admin/student/:id"
               element={<AdminStudentProfileScreen />}
             />
             <Route
@@ -72,7 +72,7 @@ export function App() {
               element={<AdminFacultyMasterlistScreen />}
             />
             <Route
-              path="/admin/faculty"
+              path="/admin/faculty/:id"
               element={<AdminFacultyProfileScreen />}
             />
             <Route path="/admin/strand" element={<AdminStrandScreen />} />
@@ -97,16 +97,13 @@ export function App() {
               element={<AdminViewSubjectScreen />}
             />
             <Route
-              path="/admin/subject/create"
+              path="/admin/subject/:subjectStrand/create"
               element={<AdminCreateSubjectScreen />}
             />
+            <Route path="/admin/schedule" element={<AdminScheduleScreen />} />
             <Route
-              path="/admin/facultyschedule"
-              element={<AdminFacultyScheduleScreen />}
-            />
-            <Route
-              path="/admin/studentschedule"
-              element={<AdminStudentScheduleScreen />}
+              path="/admin/schedule/create"
+              element={<AdminCreateScheduleScreen />}
             />
             <Route
               path="/admin/enrolledlist"
