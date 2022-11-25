@@ -22,7 +22,8 @@ function AdminEnrolleesScreen() {
 
   const { strand } = useParams();
 
-  const [etos, setEtos] = useState('');
+  const [strandEnrollees]: any = useState([]);
+  const [acceptEnrollees]: any = useState([]);
 
   const dispatch = useAppDispatch();
 
@@ -33,9 +34,6 @@ function AdminEnrolleesScreen() {
     isError,
     error,
   } = useGetEnrolleesQuery({});
-
-  // eslint-disable-next-line prefer-const
-  let strandEnrollees: any[] = [];
 
   const getStrandEnrollees = (item: any) => {
     if (item.strand.split(' ').join('').toLowerCase() === strand) {
@@ -50,8 +48,6 @@ function AdminEnrolleesScreen() {
   useEffect(() => {
     dispatch(getEnrollees({ strandEnrollees }));
   }, [dispatch, strandEnrollees]);
-
-  const acceptEnrollees: any = [];
 
   const acceptHandler = (e: any) => {
     const index = acceptEnrollees.indexOf(e.target.value);

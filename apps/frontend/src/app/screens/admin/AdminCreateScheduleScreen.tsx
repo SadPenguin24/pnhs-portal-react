@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
@@ -9,14 +10,12 @@ import { useGetRoleQuery } from '../../redux/api/userApi';
 function AdminCreateScheduleScreen() {
   const navigate = useNavigate();
 
+  const { register, handleSubmit } = useForm();
+
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [teacher_id, setTeacherId] = useState('');
-  const [subject_id, setSubjectId] = useState('');
   const [days]: any = useState([]);
-  const [time_in, setTimeIn] = useState('');
-  const [time_out, setTimeOut] = useState('');
 
   const { data: teachers } = useGetRoleQuery('faculty');
 
@@ -33,9 +32,12 @@ function AdminCreateScheduleScreen() {
     }
   };
 
-  const submitHandler = async (e: any) => {
-    e.preventDefault();
-
+  const submitHandler = async ({
+    teacher_id,
+    subject_id,
+    time_in,
+    time_out,
+  }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
@@ -52,6 +54,8 @@ function AdminCreateScheduleScreen() {
     console.log(teacher_id, subject_id, days, time_in, time_out);
 
     await createSchedule({ teacher_id, subject_id, days, time_in, time_out });
+
+    alert('Successfully create a schedule.');
 
     setIsLoading(false);
     setIsSuccess(true);
@@ -71,7 +75,7 @@ function AdminCreateScheduleScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column md={2}>
             Faculty:
@@ -79,10 +83,7 @@ function AdminCreateScheduleScreen() {
           <Col md={10}>
             <Form.Select
               defaultValue="Choose Faculty"
-              value={teacher_id}
-              onChange={(e: any) => {
-                setTeacherId(e.target.value);
-              }}
+              {...register('teacher_id')}
             >
               {teachers ? (
                 teachers.map((teacher: any) => (
@@ -103,10 +104,7 @@ function AdminCreateScheduleScreen() {
           <Col md={10}>
             <Form.Select
               defaultValue="Choose Subject"
-              value={subject_id}
-              onChange={(e: any) => {
-                setSubjectId(e.target.value);
-              }}
+              {...register('subject_id')}
             >
               {subjects ? (
                 subjects.map((subject: any) => (
@@ -118,13 +116,6 @@ function AdminCreateScheduleScreen() {
                 <option>No Subject</option>
               )}
             </Form.Select>
-            {/* <Form.Control
-              type="text"
-              value={subject_id}
-              onChange={(e: any) => {
-                setSubjectId(e.target.value);
-              }}
-            /> */}
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -132,13 +123,7 @@ function AdminCreateScheduleScreen() {
             Time in:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="time"
-              value={time_in}
-              onChange={(e: any) => {
-                setTimeIn(e.target.value);
-              }}
-            />
+            <Form.Control type="time" {...register('time_in')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -146,13 +131,7 @@ function AdminCreateScheduleScreen() {
             Time out:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="time"
-              value={time_out}
-              onChange={(e: any) => {
-                setTimeOut(e.target.value);
-              }}
-            />
+            <Form.Control type="time" {...register('time_out')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">

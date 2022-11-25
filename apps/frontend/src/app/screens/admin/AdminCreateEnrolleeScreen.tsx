@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
@@ -7,40 +8,42 @@ import { useCreateEnrolleeMutation } from '../../redux/api/enrolleeApi';
 function AdminCreateEnrolleeScreen() {
   let redirect = location.search && location.search.split('?')[1];
 
+  const { register, handleSubmit } = useForm();
+
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [first_name, setFirstName] = useState('');
-  const [middle_name, setMiddleName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [address, setAddress] = useState('');
-  const [phone_number, setPhoneNumber] = useState('');
   const [birth_certificate, setBirthCertificate] = useState('');
   const [picture_2x2, setPicture] = useState('');
   const [grade_10_card, setGradeTenCard] = useState('');
-  const [lrn, setLrn] = useState('');
   const [good_moral, setGoodMoral] = useState('');
-  const [strand, setStrand] = useState(() => {
+  const [strandName, setStrandName] = useState(() => {
     if (redirect === 'tvl-homeeconomics') {
       return 'TVL-HOME ECONOMICS';
     }
     return redirect ? redirect.toUpperCase() : '';
   });
-  const [password, setPassword] = useState('');
-  const [c_password, setConfirmPassword] = useState('');
 
   const navigate = useNavigate();
 
   const [createEnrollee] = useCreateEnrolleeMutation();
 
-  const createEnrolleeHandler = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
+  const createEnrolleeHandler = async ({
+    first_name,
+    middle_name,
+    last_name,
+    email,
+    address,
+    phone_number,
+    lrn,
+    strand,
+    password,
+    c_password,
+  }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
-    const { enrollee } = await createEnrollee({
+    await createEnrollee({
       first_name,
       middle_name,
       last_name,
@@ -55,12 +58,18 @@ function AdminCreateEnrolleeScreen() {
       strand,
       password,
       c_password,
-    }).unwrap();
+    });
+
+    alert('Successfully create an enrollee.');
 
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate(`/admin/enrollees/${redirect}`);
+    if (redirect) {
+      navigate(`/admin/enrollees/${redirect}`);
+    } else {
+      navigate('/');
+    }
   };
 
   let content;
@@ -75,18 +84,13 @@ function AdminCreateEnrolleeScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Form onSubmit={createEnrolleeHandler} className="my-3">
+      <Form onSubmit={handleSubmit(createEnrolleeHandler)} className="my-3">
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             First Name:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              required
-              value={first_name}
-              onChange={(e) => setFirstName(e.target.value)}
-            />
+            <Form.Control type="text" required {...register('first_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -94,12 +98,7 @@ function AdminCreateEnrolleeScreen() {
             Middle Name:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              required
-              value={middle_name}
-              onChange={(e) => setMiddleName(e.target.value)}
-            />
+            <Form.Control type="text" required {...register('middle_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -107,12 +106,7 @@ function AdminCreateEnrolleeScreen() {
             Last Name:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              required
-              value={last_name}
-              onChange={(e) => setLastName(e.target.value)}
-            />
+            <Form.Control type="text" required {...register('last_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -120,12 +114,7 @@ function AdminCreateEnrolleeScreen() {
             Email:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
+            <Form.Control type="email" required {...register('email')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -133,11 +122,7 @@ function AdminCreateEnrolleeScreen() {
             Address:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={address}
-              onChange={(e) => setAddress(e.target.value)}
-            />
+            <Form.Control type="text" {...register('address')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -145,11 +130,7 @@ function AdminCreateEnrolleeScreen() {
             Phone Number:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={phone_number}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-            />
+            <Form.Control type="text" {...register('phone_number')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -157,11 +138,7 @@ function AdminCreateEnrolleeScreen() {
             LRN:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={lrn}
-              onChange={(e) => setLrn(e.target.value)}
-            />
+            <Form.Control type="text" {...register('lrn')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -170,21 +147,28 @@ function AdminCreateEnrolleeScreen() {
           </Form.Label>
           <Col md={10}>
             {redirect ? (
-              <Form.Control type="text" readOnly value={strand} />
+              <Form.Control
+                type="text"
+                readOnly
+                value={strandName}
+                {...register('strand')}
+              />
             ) : (
-              <Form.Select
-                defaultValue="Choose strand"
-                value={strand}
-                onChange={(e) => setStrand(e.target.value)}
-              >
-                <option value="ABM">ABM</option>
-                <option value="GAS">GAS</option>
-                <option value="HUMSS">HUMSS</option>
-                <option value="SPORTS">SPORTS</option>
-                <option value="STEM">STEM</option>
-                <option value="TVL-COOKERY">TVL-COOKERY</option>
-                <option value="TVL-HOME ECONOMICS">TVL-HOME ECONOMICS</option>
-                <option value="TVL-ICT">TVL-ICT</option>
+              <Form.Select {...register('strand')}>
+                {[
+                  'ABM',
+                  'GAS',
+                  'HUMSS',
+                  'SPORTS',
+                  'STEM',
+                  'TVL-COOKERY',
+                  'TVL-HOME ECONOMICS',
+                  'TVL-ICT',
+                ].map((strand: any) => (
+                  <option value={strand} key={strand}>
+                    {strand}
+                  </option>
+                ))}
               </Form.Select>
             )}
           </Col>
@@ -194,11 +178,7 @@ function AdminCreateEnrolleeScreen() {
             Password:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Form.Control type="password" {...register('password')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -206,11 +186,7 @@ function AdminCreateEnrolleeScreen() {
             Confirm Password:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={c_password}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+            <Form.Control type="password" {...register('c_password')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">

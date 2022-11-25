@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
 import { useAppDispatch } from '../redux/store';
 import { setCookie } from 'cookies-next';
 import {
@@ -17,8 +18,7 @@ import { useLoginMutation } from '../redux/api/authApiSlice';
 import '../styles/login.scss';
 
 function LoginScreen() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const { register, handleSubmit } = useForm();
   const [loading, setLoading] = useState(false);
 
   const [login] = useLoginMutation();
@@ -26,9 +26,7 @@ function LoginScreen() {
 
   const navigate = useNavigate();
 
-  const onSubmitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
+  const onSubmitHandler = async ({ email, password }: any) => {
     setLoading(true);
 
     console.log('THIS IS ENV', process.env.NODE_ENV);
@@ -40,9 +38,6 @@ function LoginScreen() {
       setCookie('access_token', access_token, {
         sameSite: 'strict',
       });
-
-      setEmail('');
-      setPassword('');
 
       setLoading(false);
 
@@ -77,7 +72,7 @@ function LoginScreen() {
           <strong className="textColor">WELCOME TO YOUR PORTAL</strong>
         </h1>
         <div className="p-5 mx-auto box">
-          <Form onSubmit={onSubmitHandler}>
+          <Form onSubmit={handleSubmit(onSubmitHandler)}>
             <Row style={{ textAlign: 'start' }}>
               <Form.Group className="mb-3">
                 <Row>
@@ -88,11 +83,9 @@ function LoginScreen() {
                     <Form.Control
                       type="email"
                       id="email"
-                      value={email}
-                      name="email"
                       className="borderColor"
+                      {...register('email')}
                       required
-                      onChange={(e) => setEmail(e.target.value)}
                     />
                   </Col>
                 </Row>
@@ -106,11 +99,9 @@ function LoginScreen() {
                     <Form.Control
                       type="password"
                       id="password"
-                      value={password}
-                      name="password"
                       className="borderColor"
+                      {...register('password')}
                       required
-                      onChange={(e) => setPassword(e.target.value)}
                     />
                   </Col>
                 </Row>

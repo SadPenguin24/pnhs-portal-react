@@ -1,39 +1,43 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateSectionMutation } from '../../redux/api/sectionApi';
+import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateSectionScreen() {
-  const [isSuccess, setIsSuccess] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
+  const { register, handleSubmit } = useForm();
+
+  const {
+    data: teachers,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetRoleQuery('faculty');
 
   const [role] = useState('student');
-  const [section_name, setSectionName] = useState('');
-  const [teacher_id, setTeacherId] = useState('');
   const [students_id, setStudentsId] = useState([]);
-  const [school_year, setSchoolYear] = useState('');
 
   const navigate = useNavigate();
 
   const [createSection] = useCreateSectionMutation();
 
-  const createSectionHandler = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
-    setIsSuccess(false);
-    setIsLoading(true);
-
-    const { section } = await createSection({
+  const createSectionHandler = async ({
+    school_year,
+    section_name,
+    teacher_id,
+  }: any) => {
+    await createSection({
       role,
       section_name,
       teacher_id,
       students_id,
       school_year,
-    }).unwrap();
+    });
 
-    setIsLoading(false);
-    setIsSuccess(true);
+    alert('Successfully create a section.');
 
     navigate('/admin/section');
   };
@@ -50,47 +54,47 @@ function AdminCreateSectionScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Form onSubmit={createSectionHandler}>
+      <Form onSubmit={handleSubmit(createSectionHandler)}>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Section:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={section_name}
-              onChange={(e) => setSectionName(e.target.value)}
-            />
+            <Form.Control type="text" {...register('section_name')} />
           </Col>
         </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Teacher Id:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="text"
-              value={teacher_id}
-              onChange={(e) => setTeacherId(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        {/* form of students id */}
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             School Year:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={school_year}
-              onChange={(e) => setSchoolYear(e.target.value)}
-            />
+            <Form.Control type="text" {...register('school_year')} />
           </Col>
         </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Faculty:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('teacher_id')}>
+              {teachers ? (
+                teachers.map((teacher: any) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.first_name} {teacher.last_name}
+                  </option>
+                ))
+              ) : (
+                <option>No Faculty</option>
+              )}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        {/* form of students id */}
         <Button type="submit">Create Section</Button>
       </Form>
     );
+  } else if (isError) {
+    content = <p>{JSON.stringify(error)}</p>;
   }
 
   return (

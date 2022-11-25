@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
@@ -8,21 +9,21 @@ import '../../styles/adminHome.scss';
 function AdminCreateProfileScreen() {
   const navigate = useNavigate();
 
+  const { register, handleSubmit } = useForm();
+
   const [faculty, setFaculty] = useState(false);
   const [admin, setAdmin] = useState(false);
 
-  const [first_name, setFirstName] = useState('');
-  const [middle_name, setMiddleName] = useState('');
-  const [last_name, setLastName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [role, setRole] = useState('faculty');
-
   const [createUser] = useCreateUserMutation();
 
-  const createUserHandler = async (e: any) => {
-    e.preventDefault();
-
+  const createUserHandler = async ({
+    first_name,
+    middle_name,
+    last_name,
+    email,
+    password,
+    role,
+  }: any) => {
     try {
       await createUser({
         first_name,
@@ -46,16 +47,13 @@ function AdminCreateProfileScreen() {
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Create Profile" redirect="/admin/home" />
       <Container>
-        <Form onSubmit={createUserHandler}>
+        <Form onSubmit={handleSubmit(createUserHandler)}>
           <Form.Group as={Row} className="mb-2">
             <Form.Label column md={2}>
               First Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control
-                type="text"
-                onChange={(e) => setFirstName(e.target.value)}
-              />
+              <Form.Control type="text" {...register('first_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -63,10 +61,7 @@ function AdminCreateProfileScreen() {
               Middle Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control
-                type="text"
-                onChange={(e) => setMiddleName(e.target.value)}
-              />
+              <Form.Control type="text" {...register('middle_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -74,10 +69,7 @@ function AdminCreateProfileScreen() {
               Last Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control
-                type="text"
-                onChange={(e) => setLastName(e.target.value)}
-              />
+              <Form.Control type="text" {...register('last_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -85,10 +77,7 @@ function AdminCreateProfileScreen() {
               Email:
             </Form.Label>
             <Col md={10}>
-              <Form.Control
-                type="email"
-                onChange={(e) => setEmail(e.target.value)}
-              />
+              <Form.Control type="email" {...register('email')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -96,10 +85,7 @@ function AdminCreateProfileScreen() {
               Password:
             </Form.Label>
             <Col md={10}>
-              <Form.Control
-                type="password"
-                onChange={(e) => setPassword(e.target.value)}
-              />
+              <Form.Control type="password" {...register('password')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -107,10 +93,7 @@ function AdminCreateProfileScreen() {
               Role:
             </Form.Label>
             <Col md={10}>
-              <Form.Select
-                value={role}
-                onChange={(e) => setRole(e.target.value)}
-              >
+              <Form.Select {...register('role')}>
                 <option value="faculty">Faculty</option>
                 <option value="admin">Admin</option>
               </Form.Select>
