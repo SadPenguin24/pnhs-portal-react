@@ -3,6 +3,8 @@ import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateScheduleMutation } from '../../redux/api/scheduleApi';
+import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
+import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateScheduleScreen() {
   const navigate = useNavigate();
@@ -15,6 +17,10 @@ function AdminCreateScheduleScreen() {
   const [days]: any = useState([]);
   const [time_in, setTimeIn] = useState('');
   const [time_out, setTimeOut] = useState('');
+
+  const { data: teachers } = useGetRoleQuery('faculty');
+
+  const { data: subjects } = useGetSubjectsQuery({});
 
   const [createSchedule] = useCreateScheduleMutation();
 
@@ -68,16 +74,26 @@ function AdminCreateScheduleScreen() {
       <Form onSubmit={submitHandler}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column md={2}>
-            Teacher:
+            Faculty:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
+            <Form.Select
+              defaultValue="Choose Faculty"
               value={teacher_id}
               onChange={(e: any) => {
                 setTeacherId(e.target.value);
               }}
-            />
+            >
+              {teachers ? (
+                teachers.map((teacher: any) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.first_name} {teacher.last_name}
+                  </option>
+                ))
+              ) : (
+                <option>No Faculty</option>
+              )}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -85,13 +101,30 @@ function AdminCreateScheduleScreen() {
             Subject:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
+            <Form.Select
+              defaultValue="Choose Subject"
+              value={subject_id}
+              onChange={(e: any) => {
+                setSubjectId(e.target.value);
+              }}
+            >
+              {subjects ? (
+                subjects.map((subject: any) => (
+                  <option key={subject._id} value={subject._id}>
+                    {subject.subject_name}
+                  </option>
+                ))
+              ) : (
+                <option>No Subject</option>
+              )}
+            </Form.Select>
+            {/* <Form.Control
               type="text"
               value={subject_id}
               onChange={(e: any) => {
                 setSubjectId(e.target.value);
               }}
-            />
+            /> */}
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">

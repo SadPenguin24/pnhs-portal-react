@@ -9,7 +9,7 @@ export const userApi = apiSlice.injectEndpoints({
       query: () => '/user/',
     }),
     getRole: builder.query({
-      query: (role_name) => `/user/role/${role_name}`
+      query: (role_name) => `/user/role/${role_name}`,
     }),
     getUserById: builder.query({
       query: (id) => `/user/${id}`,
@@ -21,6 +21,13 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Enrollee'],
     }),
+    createUser: builder.mutation({
+      query: (body) => ({
+        url: '/user/register',
+        method: 'POST',
+        body: { ...body },
+      }),
+    }),
   }),
 });
 
@@ -30,4 +37,5 @@ export const {
   useGetRoleQuery,
   useGetUserByIdQuery,
   useConvertEtosMutation,
+  useCreateUserMutation,
 } = userApi;

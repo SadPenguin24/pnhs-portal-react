@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Button,
   Col,
@@ -11,14 +11,19 @@ import {
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import { useGetSchedulesQuery } from '../../redux/api/scheduleApi';
+import {
+  useGetParsedScheduleQuery,
+  useGetSchedulesQuery,
+} from '../../redux/api/scheduleApi';
 import { getSchedules } from '../../redux/slice/scheduleSlice';
-import { useAppDispatch } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
 
 function AdminScheduleScreen() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
+
+  const [schedulesData]: any = useState([]);
 
   const {
     data: schedules,
@@ -31,6 +36,16 @@ function AdminScheduleScreen() {
   useEffect(() => {
     dispatch(getSchedules({ schedules }));
   }, [dispatch, schedules]);
+
+  // const schedulesData = useAppSelector((state) => state.schedule.schedules);
+
+  // schedules.map((schedule: any) => {
+  //   const { data: scheduleData } = useGetParsedScheduleQuery(schedule._id);
+  //   if (scheduleData) {
+  //     schedulesData.push(scheduleData);
+  //     console.log(schedulesData);
+  //   }
+  // });
 
   let content;
 

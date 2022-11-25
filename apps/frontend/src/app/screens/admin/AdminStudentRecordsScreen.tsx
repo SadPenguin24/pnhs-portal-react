@@ -148,7 +148,7 @@ function AdminStudentRecordsScreen() {
           <a href="#">Print Preview</a>
           <ReportCardTable headerColor="#19940e" sem="1st" />
           <a href="#">Print Preview</a>
-          <ReportCardTable headerColor="#19940e" sem="1st" />
+          <ReportCardTable headerColor="#19940e" sem="2nd" />
         </div>
       </Container>
     </div>

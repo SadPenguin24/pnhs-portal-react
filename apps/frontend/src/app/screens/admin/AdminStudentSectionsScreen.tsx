@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Button, Container, Spinner, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import '../../styles/adminHome.scss';
 import Header from '../../components/header/Header';
 import { useGetSectionsQuery } from '../../redux/api/sectionApi';
 import { getSections } from '../../redux/slice/sectionSlice';

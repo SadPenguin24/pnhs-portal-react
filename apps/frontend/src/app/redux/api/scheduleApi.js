@@ -9,6 +9,9 @@ export const scheduleApi = apiSlice.injectEndpoints({
     getSchedule: builder.query({
       query: (id) => `/schedule/${id}`,
     }),
+    getParsedSchedule: builder.query({
+      query: (id) => `/schedule/parsed/${id}`,
+    }),
     createSchedule: builder.mutation({
       query: (body) => ({
         url: '/schedule/create',
@@ -23,5 +26,6 @@ export const scheduleApi = apiSlice.injectEndpoints({
 export const {
   useGetSchedulesQuery,
   useGetScheduleQuery,
+  useGetParsedScheduleQuery,
   useCreateScheduleMutation,
 } = scheduleApi;
