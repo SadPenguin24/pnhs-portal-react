@@ -3,27 +3,31 @@ import {
   Button,
   Col,
   Container,
+  Form,
   FormControl,
   Row,
   Spinner,
   Table,
 } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import {
-  useGetParsedScheduleQuery,
-  useGetSchedulesQuery,
-} from '../../redux/api/scheduleApi';
+import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
+import { useGetParsedSectionsQuery } from '../../redux/api/sectionApi';
 import { getSchedules } from '../../redux/slice/scheduleSlice';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { useAppDispatch } from '../../redux/store';
 
 function AdminScheduleScreen() {
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  const [schedulesData]: any = useState([]);
+  let [foundSection, setFoundSection]: any = useState();
+
+  const { register, handleSubmit } = useForm();
+
+  const { data: sections } = useGetParsedSectionsQuery({});
 
   const {
     data: schedules,
@@ -31,23 +35,19 @@ function AdminScheduleScreen() {
     isSuccess,
     isError,
     error,
-  } = useGetSchedulesQuery({});
+  } = useGetParsedSchedulesQuery({});
 
   useEffect(() => {
     dispatch(getSchedules({ schedules }));
   }, [dispatch, schedules]);
 
-  // const schedulesData = useAppSelector((state) => state.schedule.schedules);
-
-  // schedules.map((schedule: any) => {
-  //   const { data: scheduleData } = useGetParsedScheduleQuery(schedule._id);
-  //   if (scheduleData) {
-  //     schedulesData.push(scheduleData);
-  //     console.log(schedulesData);
-  //   }
-  // });
-
   let content;
+
+  const filterHandler = ({ section }: any) => {
+    const found = sections.find((item: any) => item._id === section);
+    setFoundSection(found);
+    // foundSection = sections.find((item: any) => item._id === section);
+  };
 
   if (isLoading) {
     content = (
@@ -69,32 +69,56 @@ function AdminScheduleScreen() {
           </tr>
         </thead>
         <tbody>
-          {schedules ? (
-            schedules.map((schedule: any) => (
-              <tr key={schedule._id}>
-                <td>{schedule.subject_id}</td>
-                <td>
-                  {schedule.days.map((day: any, index: any, array: any) => {
-                    array = array.length - 1;
-                    if (array === index) {
-                      return day;
-                    }
-                    return day + '/';
-                  })}
-                </td>
-                <td>
-                  {schedule.time_in} - {schedule.time_out}
-                </td>
-                <td>{schedule.teacher_id}</td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan={3} className="text-center">
-                No Schedule
-              </td>
-            </tr>
-          )}
+          {
+            !foundSection
+              ? schedules.map((schedule: any) => (
+                  <tr key={schedule._id}>
+                    <td>{schedule.subject.subject_name}</td>
+                    <td>
+                      {schedule.days.map((day: any, index: any, array: any) => {
+                        array = array.length - 1;
+                        if (array === index) {
+                          return day;
+                        }
+                        return day + '/';
+                      })}
+                    </td>
+                    <td>
+                      {schedule.time_in} - {schedule.time_out}
+                    </td>
+                    <td>
+                      {schedule.teacher.first_name} {schedule.teacher.last_name}
+                    </td>
+                  </tr>
+                ))
+              : foundSection.schedules.map((schedule: any) => (
+                  <tr key={schedule._id}>
+                    <td>{schedule.subject.subject_name}</td>
+                    <td>
+                      {schedule.days.map((day: any, index: any, array: any) => {
+                        array = array.length - 1;
+                        if (array === index) {
+                          return day;
+                        }
+                        return day + '/';
+                      })}
+                    </td>
+                    <td>
+                      {schedule.time_in} - {schedule.time_out}
+                    </td>
+                    <td>
+                      {schedule.teacher.first_name} {schedule.teacher.last_name}
+                    </td>
+                  </tr>
+                ))
+            // : (
+            //   <tr>
+            //     <td colSpan={3} className="text-center">
+            //       No Schedule
+            //     </td>
+            //   </tr>
+            // )
+          }
         </tbody>
       </Table>
     );
@@ -107,23 +131,35 @@ function AdminScheduleScreen() {
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Faculty Schedule" redirect="/admin/home" />
       <Container>
-        <Row>
-          <Col>
-            <FormControl
-              style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-              placeholder="Teacher's Name"
-            ></FormControl>
-          </Col>
-          <Col>
-            <FormControl
-              style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-              placeholder="S.Y. & Term"
-            ></FormControl>
-          </Col>
-          <Col className="d-grid gap-2">
-            <Button variant="secondary">Load</Button>
-          </Col>
-        </Row>
+        <Form onSubmit={handleSubmit(filterHandler)}>
+          <Row>
+            <Col>
+              <FormControl
+                style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
+                placeholder="Teacher's Name"
+              ></FormControl>
+            </Col>
+            <Col>
+              <Form.Select
+                style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
+                {...register('section')}
+              >
+                <option value="all">All Sections</option>
+                {sections &&
+                  sections.map((section: any) => (
+                    <option value={section._id} key={section._id}>
+                      {section.section_name}
+                    </option>
+                  ))}
+              </Form.Select>
+            </Col>
+            <Col className="d-grid gap-2">
+              <Button variant="secondary" type="submit">
+                Load
+              </Button>
+            </Col>
+          </Row>
+        </Form>
         <div className="text-end my-3">
           <Button
             className="me-5"
