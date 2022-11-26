@@ -3,11 +3,20 @@ import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
+import { useGetSchedulesQuery } from '../../redux/api/scheduleApi';
 import { useCreateSectionMutation } from '../../redux/api/sectionApi';
+import {
+  useGetSubjectQuery,
+  useGetSubjectsQuery,
+} from '../../redux/api/subjectApi';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateSectionScreen() {
   const { register, handleSubmit } = useForm();
+
+  const { data: students } = useGetRoleQuery('student');
+
+  const { data: schedules } = useGetSchedulesQuery({});
 
   const {
     data: teachers,
@@ -18,11 +27,35 @@ function AdminCreateSectionScreen() {
   } = useGetRoleQuery('faculty');
 
   const [role] = useState('student');
-  const [students_id, setStudentsId] = useState([]);
+  const [students_id]: any = useState([]);
+  const [schedules_id]: any = useState([]);
 
   const navigate = useNavigate();
 
   const [createSection] = useCreateSectionMutation();
+
+  const addStudentHandler = (e: any) => {
+    const index = students_id.indexOf(e.target.value);
+    if (index > -1) {
+      students_id.splice(index, 1);
+    } else {
+      students_id.push(e.target.value);
+    }
+  };
+
+  const scheduleHandler = (id: any) => {
+    const { data: subject } = useGetSubjectQuery(id);
+    return subject;
+  };
+
+  const addScheduleHandler = (e: any) => {
+    const index = schedules_id.indexOf(e.target.value);
+    if (index > -1) {
+      schedules_id.splice(index, 1);
+    } else {
+      schedules_id.push(e.target.value);
+    }
+  };
 
   const createSectionHandler = async ({
     school_year,
@@ -34,6 +67,7 @@ function AdminCreateSectionScreen() {
       section_name,
       teacher_id,
       students_id,
+      schedules_id,
       school_year,
     });
 
@@ -90,6 +124,65 @@ function AdminCreateSectionScreen() {
           </Col>
         </Form.Group>
         {/* form of students id */}
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Students:
+          </Form.Label>
+          <Col md={10}>
+            <Row>
+              {students ? (
+                students.map((student: any) => (
+                  <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
+                    <Form.Check
+                      type="checkbox"
+                      name="student"
+                      label={student.first_name + ' ' + student.last_name}
+                      value={student._id}
+                      onChange={addStudentHandler}
+                    />
+                  </Col>
+                ))
+              ) : (
+                <div>No Students</div>
+              )}
+            </Row>
+          </Col>
+        </Form.Group>
+        {/* form of schedules id */}
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Schedules:
+          </Form.Label>
+          <Col md={10}>
+            <Row>
+              {schedules ? (
+                schedules.map((schedule: any) => {
+                  console.log('subject', schedule);
+
+                  return (
+                    <Col
+                      lg="3"
+                      md="4"
+                      xs="6"
+                      className="mb-2"
+                      key={schedule._id}
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        name="schedule"
+                        // label={subject.subject_name}
+                        value={schedule._id}
+                        onChange={addScheduleHandler}
+                      />
+                    </Col>
+                  );
+                })
+              ) : (
+                <div>No Schedules</div>
+              )}
+            </Row>
+          </Col>
+        </Form.Group>
         <Button type="submit">Create Section</Button>
       </Form>
     );
