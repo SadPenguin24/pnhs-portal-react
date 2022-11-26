@@ -4,7 +4,7 @@ import { Col, Container, Form, FormControl, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
-import { PrintStudentRecordsGrade } from '../../components/print/print';
+import { PrintStudentRecordsGrade } from '../../components/print/Print';
 import { ReportCardTable } from '../../components/tables/Tables';
 import '../../components/tables/tables.scss';
 

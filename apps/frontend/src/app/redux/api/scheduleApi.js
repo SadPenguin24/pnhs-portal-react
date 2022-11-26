@@ -20,6 +20,10 @@ export const scheduleApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Schedule'],
     }),
+    getParsedSchedules: builder.query({
+      query: () => '/schedule/parsed',
+      providesTags: ['Schedule'],
+    }),
   }),
 });
 
@@ -28,4 +32,5 @@ export const {
   useGetScheduleQuery,
   useGetParsedScheduleQuery,
   useCreateScheduleMutation,
+  useGetParsedSchedulesQuery,
 } = scheduleApi;

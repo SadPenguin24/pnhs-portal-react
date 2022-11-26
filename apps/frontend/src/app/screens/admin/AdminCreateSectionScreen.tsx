@@ -3,7 +3,7 @@ import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import { useGetSchedulesQuery } from '../../redux/api/scheduleApi';
+import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
 import { useCreateSectionMutation } from '../../redux/api/sectionApi';
 import {
   useGetSubjectQuery,
@@ -16,7 +16,7 @@ function AdminCreateSectionScreen() {
 
   const { data: students } = useGetRoleQuery('student');
 
-  const { data: schedules } = useGetSchedulesQuery({});
+  const { data: schedules } = useGetParsedSchedulesQuery({});
 
   const {
     data: teachers,
@@ -157,20 +157,36 @@ function AdminCreateSectionScreen() {
             <Row>
               {schedules ? (
                 schedules.map((schedule: any) => {
-                  console.log('subject', schedule);
-
                   return (
                     <Col
-                      lg="3"
-                      md="4"
-                      xs="6"
+                      lg="4"
+                      md="6"
+                      xs="12"
                       className="mb-2"
                       key={schedule._id}
                     >
                       <Form.Check
                         type="checkbox"
                         name="schedule"
-                        // label={subject.subject_name}
+                        label={
+                          schedule.subject.subject_name +
+                          ' (' +
+                          schedule.days.map(
+                            (day: any, index: any, array: any) => {
+                              array = array.length - 1;
+                              if (array === index) {
+                                return ' ' + day.charAt(0) + ' - ';
+                              } else if (index === 0) {
+                                return day.charAt(0);
+                              }
+                              return ' ' + day.charAt(0);
+                            }
+                          ) +
+                          schedule.time_in +
+                          '-' +
+                          schedule.time_out +
+                          ')'
+                        }
                         value={schedule._id}
                         onChange={addScheduleHandler}
                       />

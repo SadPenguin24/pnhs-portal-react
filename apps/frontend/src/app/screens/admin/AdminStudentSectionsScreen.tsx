@@ -3,7 +3,7 @@ import { Button, Container, Spinner, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/adminHome.scss';
 import Header from '../../components/header/Header';
-import { useGetSectionsQuery } from '../../redux/api/sectionApi';
+import { useGetParsedSectionsQuery } from '../../redux/api/sectionApi';
 import { getSections } from '../../redux/slice/sectionSlice';
 import { useAppDispatch } from '../../redux/store';
 
@@ -18,7 +18,7 @@ function AdminStudentSectionsScreen() {
     isSuccess,
     isError,
     error,
-  } = useGetSectionsQuery({});
+  } = useGetParsedSectionsQuery({});
 
   useEffect(() => {
     dispatch(getSections({ sections }));
@@ -50,7 +50,9 @@ function AdminStudentSectionsScreen() {
             sections.map((section: any) => (
               <tr key={section._id}>
                 <td>{section.section_name}</td>
-                <td>{section.teacher_id}</td>
+                <td>
+                  {section.teacher.first_name} {section.teacher.last_name}
+                </td>
                 <td>{section.school_year}</td>
                 <td>
                   <Button
