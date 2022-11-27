@@ -46,11 +46,6 @@ function LoginScreen() {
         sameSite: 'strict',
       });
 
-      setEmail('');
-      setPassword('');
-
-      setLoading(false);
-
       if (user.role[0] === 'admin') {
         navigate('/admin/home');
       } else if (user.role[0] === 'faculty') {
