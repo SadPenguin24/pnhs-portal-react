@@ -10,7 +10,7 @@ const enrolleeSlice = createSlice({
     },
     getEnrolleeById: (state, action) => {
       const { enrollee } = action.payload;
-      state.enrollees = enrollee;
+      state.enrollee = enrollee;
     },
     createEnrollee: (state, action) => {
       const { enrollee } = action.payload;

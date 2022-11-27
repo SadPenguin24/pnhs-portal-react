@@ -82,7 +82,7 @@ export function App() {
               element={<AdminEnrolleesScreen />}
             />
             <Route
-              path="/admin/enrollee/:strand/:id"
+              path="/admin/enrollee/:pathStrand/:id"
               element={<AdminEnrolleeScreen />}
             />
             <Route
