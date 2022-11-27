@@ -24,7 +24,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
   //403
   if (result?.error?.originalStatus === 403 || 401) {
-    console.log('sending refresh token');
     // send refresh token to get new access token
     const refresh_token = getCookie('refresh_token')
     const refreshResult = await baseQuery({
