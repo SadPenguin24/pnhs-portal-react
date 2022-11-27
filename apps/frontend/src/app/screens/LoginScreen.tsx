@@ -32,12 +32,22 @@ function LoginScreen() {
     console.log('THIS IS ENV', process.env.NODE_ENV);
 
     try {
-      const { user, access_token } = await login({ email, password }).unwrap();
+      const { user, access_token, refresh_token } = await login({
+        email,
+        password,
+      }).unwrap();
       dispatch(setCredentials({ user }));
 
       setCookie('access_token', access_token, {
         sameSite: 'strict',
       });
+
+      setCookie('refresh_token', refresh_token, {
+        sameSite: 'strict',
+      });
+
+      setEmail('');
+      setPassword('');
 
       setLoading(false);
 
