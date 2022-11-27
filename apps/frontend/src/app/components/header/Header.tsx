@@ -13,8 +13,9 @@ function Header({ page, redirect }: any) {
   const navigate = useNavigate();
 
   const logoutHandler = () => {
-    // dispatch(logOut({}));
     deleteCookie('access_token');
+    deleteCookie('refresh_token');
+    localStorage.removeItem('userInfo');
 
     navigate('/');
   };

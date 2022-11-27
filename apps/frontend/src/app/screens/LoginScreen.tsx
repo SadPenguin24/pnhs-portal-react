@@ -37,6 +37,7 @@ function LoginScreen() {
         password,
       }).unwrap();
       dispatch(setCredentials({ user }));
+      localStorage.setItem('userInfo', JSON.stringify(user));
 
       setCookie('access_token', access_token, {
         sameSite: 'strict',

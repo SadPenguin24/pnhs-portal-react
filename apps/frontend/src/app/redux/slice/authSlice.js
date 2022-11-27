@@ -12,6 +12,8 @@ const authSlice = createSlice({
     logOut: (state, action) => {
       state.user = null;
       deleteCookie('access_token');
+      deleteCookie('refresh_token');
+      localStorage.removeItem('userInfo');
     },
   },
 });
