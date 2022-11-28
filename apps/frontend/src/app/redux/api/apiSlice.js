@@ -19,49 +19,48 @@ const baseQuery = fetchBaseQuery({
   },
 });
 
-// const baseQueryWithReauth = async (args, api, extraOptions) => {
-//   let result = await baseQuery(args, api, extraOptions);
+const baseQueryWithReauth = async (args, api, extraOptions) => {
+  let result = await baseQuery(args, api, extraOptions);
 
-//   //403
-//   if (result?.error?.originalStatus === 403 || 401) {
-//     // send refresh token to get new access token
-//     const refresh_token = getCookie('refresh_token');
-//     const refreshResult = await baseQuery(
-//       {
-//         url: '/auth/refresh',
-//         method: 'POST',
-//         body: { refresh_token },
-//       },
-//       api,
-//       extraOptions
-//     );
-//     const refreshData = refreshResult.data;
+  //403
+  if (result.error?.status === 401) {
+    // send refresh token to get new access token
+    const refresh_token = getCookie('refresh_token');
+    const refreshResult = await baseQuery(
+      {
+        url: '/auth/refresh',
+        method: 'POST',
+        body: { refresh_token },
+      },
+      api,
+      extraOptions
+    );
+    const refreshData = refreshResult.data;
 
-//     if (refreshData) {
-//       // store the new token
-//       const n_access_token = refreshData.access_token;
-//       const n_refresh_token = refreshData.refresh_token;
-//       setCookie('access_token', n_access_token, {
-//         sameSite: 'strict',
-//       });
+    if (refreshData) {
+      // store the new token
+      const n_access_token = refreshData.access_token;
+      const n_refresh_token = refreshData.refresh_token;
+      setCookie('access_token', n_access_token, {
+        sameSite: 'strict',
+      });
 
-//       setCookie('refresh_token', n_refresh_token, {
-//         sameSite: 'strict',
-//       });
+      setCookie('refresh_token', n_refresh_token, {
+        sameSite: 'strict',
+      });
 
-//       // retry the original query with new access token
-//       result = await baseQuery(args, api, extraOptions);
-//     } else {
-//       api.dispatch(logOut());
-//     }
-//   }
+      // retry the original query with new access token
+      result = await baseQuery(args, api, extraOptions);
+    } else {
+      api.dispatch(logOut());
+    }
+  }
 
-//   return result;
-// };
+  return result;
+};
 
 export const apiSlice = createApi({
-  baseQuery,
-  // : baseQueryWithReauth,
+  baseQuery: baseQueryWithReauth,
   tagTypes: ['Enrollee', 'Subject', 'Section', 'Schedule'],
   endpoints: (builder) => ({}),
 });
