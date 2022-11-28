@@ -22,7 +22,7 @@ function AdminEnrolleesScreen() {
 
   const { strand } = useParams();
 
-  const [etos, setEtos] = useState('');
+  const [acceptEnrollees]: any = useState([]);
 
   const dispatch = useAppDispatch();
 
@@ -34,24 +34,9 @@ function AdminEnrolleesScreen() {
     error,
   } = useGetEnrolleesQuery({});
 
-  // eslint-disable-next-line prefer-const
-  let strandEnrollees: any[] = [];
-
-  const getStrandEnrollees = (item: any) => {
-    if (item.strand.split(' ').join('').toLowerCase() === strand) {
-      strandEnrollees.push(item);
-    }
-  };
-
-  if (enrollees) {
-    enrollees.forEach(getStrandEnrollees);
-  }
-
   useEffect(() => {
-    dispatch(getEnrollees({ strandEnrollees }));
-  }, [dispatch, strandEnrollees]);
-
-  const acceptEnrollees: any = [];
+    dispatch(getEnrollees({ enrollees }));
+  }, [dispatch, enrollees]);
 
   const acceptHandler = (e: any) => {
     const index = acceptEnrollees.indexOf(e.target.value);
@@ -83,6 +68,10 @@ function AdminEnrolleesScreen() {
       </div>
     );
   } else if (isSuccess) {
+    const filterEnrollees = enrollees.filter(
+      (enrollee: any) =>
+        enrollee.strand.split(' ').join('').toLowerCase() === strand
+    );
     content = (
       <>
         <div className="d-flex mb-3">
@@ -105,8 +94,8 @@ function AdminEnrolleesScreen() {
               </tr>
             </thead>
             <tbody>
-              {strandEnrollees.length !== 0 ? (
-                strandEnrollees.map((enrollee: any) => (
+              {filterEnrollees.length > 0 ? (
+                filterEnrollees.map((enrollee: any) => (
                   <tr key={enrollee._id}>
                     <td>
                       {enrollee.first_name} {enrollee.last_name}

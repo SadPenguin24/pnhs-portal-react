@@ -1,11 +1,16 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from 'react';
+import React, { useRef } from 'react';
 import { Col, Container, Form, FormControl, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
+import { PrintStudentRecordsGrade } from '../../components/print/Print';
 import { ReportCardTable } from '../../components/tables/Tables';
 import '../../components/tables/tables.scss';
 
 function AdminStudentRecordsScreen() {
+  const componentRef1 = useRef(null);
+  const componentRef2 = useRef(null);
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
@@ -145,10 +150,28 @@ function AdminStudentRecordsScreen() {
             </Col>
           </Row>
 
-          <a href="#">Print Preview</a>
+          <ReactToPrint
+            documentTitle="Student_Record"
+            trigger={() => <Link to={''}>Print Preview</Link>}
+            content={() => componentRef1.current}
+          />
+          <div style={{ display: 'none' }}>
+            <div ref={componentRef1}>
+              <PrintStudentRecordsGrade sem="1st" />
+            </div>
+          </div>
           <ReportCardTable headerColor="#19940e" sem="1st" />
-          <a href="#">Print Preview</a>
-          <ReportCardTable headerColor="#19940e" sem="1st" />
+          <ReactToPrint
+            documentTitle="Student_Record"
+            trigger={() => <Link to={''}>Print Preview</Link>}
+            content={() => componentRef2.current}
+          />
+          <div style={{ display: 'none' }}>
+            <div ref={componentRef2}>
+              <PrintStudentRecordsGrade sem="2nd" />
+            </div>
+          </div>
+          <ReportCardTable headerColor="#19940e" sem="2nd" />
         </div>
       </Container>
     </div>

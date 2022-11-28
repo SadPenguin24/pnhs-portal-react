@@ -17,6 +17,13 @@ export const sectionApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Section'],
     }),
+    getParsedSections: builder.query({
+      query: () => '/section/parsed',
+      providesTags: ['Section'],
+    }),
+    getParsedSection: builder.query({
+      query: (id) => `/section/parsed/${id}`,
+    }),
   }),
 });
 
@@ -24,4 +31,6 @@ export const {
   useGetSectionsQuery,
   useGetSectionQuery,
   useCreateSectionMutation,
+  useGetParsedSectionsQuery,
+  useGetParsedSectionQuery,
 } = sectionApi;

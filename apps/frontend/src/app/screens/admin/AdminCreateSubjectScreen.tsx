@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateSubjectMutation } from '../../redux/api/subjectApi';
 
 function AdminCreateSubjectScreen() {
+  const { register, handleSubmit } = useForm();
+
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
   const { subjectStrand } = useParams();
 
-  const [subject_name, setSubjectName] = useState('');
   const [strand, setStrand] = useState(() => {
     if (subjectStrand === 'tvl-homeeconomics') {
       return 'TVL-HOME ECONOMICS';
@@ -22,16 +24,16 @@ function AdminCreateSubjectScreen() {
 
   const [createSubject] = useCreateSubjectMutation();
 
-  const createSubjectHandler = async (e: { preventDefault: () => void }) => {
-    e.preventDefault();
-
+  const createSubjectHandler = async ({ subject_name }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
-    const { subject } = await createSubject({
+    await createSubject({
       subject_name,
       strand,
-    }).unwrap();
+    });
+
+    alert('Successfully create a subject.');
 
     setIsLoading(false);
     setIsSuccess(true);
@@ -51,17 +53,13 @@ function AdminCreateSubjectScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Form onSubmit={createSubjectHandler}>
+      <Form onSubmit={handleSubmit(createSubjectHandler)}>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Subject Name:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={subject_name}
-              onChange={(e) => setSubjectName(e.target.value)}
-            />
+            <Form.Control type="text" {...register('subject_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">

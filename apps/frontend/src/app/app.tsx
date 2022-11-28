@@ -41,6 +41,8 @@ import AdminStudentSectionsScreen from './screens/admin/AdminStudentSectionsScre
 import AdminCreateSectionScreen from './screens/admin/AdminCreateSectionScreen';
 import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
 import AdminCreateScheduleScreen from './screens/admin/AdminCreateScheduleScreen';
+import AdminCreateProfileScreen from './screens/admin/AdminCreateProfileScreen';
+import AdminViewScheduleScreen from './screens/admin/AdminViewScheduleScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -81,7 +83,7 @@ export function App() {
               element={<AdminEnrolleesScreen />}
             />
             <Route
-              path="/admin/enrollee/:strand/:id"
+              path="/admin/enrollee/:pathStrand/:id"
               element={<AdminEnrolleeScreen />}
             />
             <Route
@@ -93,7 +95,7 @@ export function App() {
               element={<AdminSubjectScreen />}
             />
             <Route
-              path="/admin/subject/:strand/:id"
+              path="/admin/subject/:pathStrand/:id"
               element={<AdminViewSubjectScreen />}
             />
             <Route
@@ -101,6 +103,10 @@ export function App() {
               element={<AdminCreateSubjectScreen />}
             />
             <Route path="/admin/schedule" element={<AdminScheduleScreen />} />
+            <Route
+              path="/admin/schedule/:id"
+              element={<AdminViewScheduleScreen />}
+            />
             <Route
               path="/admin/schedule/create"
               element={<AdminCreateScheduleScreen />}
@@ -120,6 +126,10 @@ export function App() {
             <Route
               path="/admin/section/create"
               element={<AdminCreateSectionScreen />}
+            />
+            <Route
+              path="/admin/createprofile"
+              element={<AdminCreateProfileScreen />}
             />
 
             {/* Student Screens */}

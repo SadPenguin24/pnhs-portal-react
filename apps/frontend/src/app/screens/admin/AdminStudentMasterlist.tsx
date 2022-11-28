@@ -70,7 +70,7 @@ function AdminStudentMasterlist() {
                     <Button>View Student</Button>
                   </LinkContainer>
                 </td>
-                <td>{student._id}</td>
+                <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
                 <td>{student.last_name}</td>
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>

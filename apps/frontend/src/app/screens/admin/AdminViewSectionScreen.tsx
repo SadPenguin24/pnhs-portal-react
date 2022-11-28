@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, FormSelect, Spinner } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import { useGetSectionQuery } from '../../redux/api/sectionApi';
+import { useGetParsedSectionQuery } from '../../redux/api/sectionApi';
 import { getSection } from '../../redux/slice/sectionSlice';
 import { useAppDispatch } from '../../redux/store';
 
@@ -17,7 +17,7 @@ function AdminViewSectionScreen() {
     isSuccess,
     isError,
     error,
-  } = useGetSectionQuery(id);
+  } = useGetParsedSectionQuery(id);
 
   console.log(section);
 
@@ -48,11 +48,13 @@ function AdminViewSectionScreen() {
           <strong>School Year:</strong> {section.school_year}
         </div>
         <div className="mb-2">
-          <strong>Students Id:</strong>
+          <strong>Students:</strong>
           <FormSelect>
-            {section ? (
-              section.students_id.map((student: any) => (
-                <option key={student}>{student}</option>
+            {section.students.length > 0 ? (
+              section.students.map((student: any) => (
+                <option key={student}>
+                  {student.first_name} {student.last_name}
+                </option>
               ))
             ) : (
               <option>No student</option>
@@ -60,14 +62,24 @@ function AdminViewSectionScreen() {
           </FormSelect>
         </div>
         <div className="mb-2">
-          <strong>Subjects:</strong>
+          <strong>Schedules:</strong>
           <FormSelect>
-            {section ? (
-              section.subjects.map((subject: any) => (
-                <option key={subject._id}>{subject.subject_name}</option>
+            {section.schedules.length > 0 ? (
+              section.schedules.map((schedule: any) => (
+                <option key={schedule._id}>
+                  {schedule.subject.subject_name} (
+                  {schedule.days.map((day: any, index: any, array: any) => {
+                    array = array.length - 1;
+                    if (array === index) {
+                      return day.charAt(0) + ' - ';
+                    }
+                    return day.charAt(0) + ' / ';
+                  })}
+                  {schedule.time_in}-{schedule.time_out})
+                </option>
               ))
             ) : (
-              <option>No subject</option>
+              <option>No schedule</option>
             )}
           </FormSelect>
         </div>

@@ -1,20 +1,25 @@
 import React, { useState } from 'react';
+import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateScheduleMutation } from '../../redux/api/scheduleApi';
+import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
+import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateScheduleScreen() {
   const navigate = useNavigate();
 
+  const { register, handleSubmit } = useForm();
+
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const [teacher_id, setTeacherId] = useState('');
-  const [subject_id, setSubjectId] = useState('');
   const [days]: any = useState([]);
-  const [time_in, setTimeIn] = useState('');
-  const [time_out, setTimeOut] = useState('');
+
+  const { data: teachers } = useGetRoleQuery('faculty');
+
+  const { data: subjects } = useGetSubjectsQuery({});
 
   const [createSchedule] = useCreateScheduleMutation();
 
@@ -27,9 +32,12 @@ function AdminCreateScheduleScreen() {
     }
   };
 
-  const submitHandler = async (e: any) => {
-    e.preventDefault();
-
+  const submitHandler = async ({
+    teacher_id,
+    subject_id,
+    time_in,
+    time_out,
+  }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
@@ -46,6 +54,8 @@ function AdminCreateScheduleScreen() {
     console.log(teacher_id, subject_id, days, time_in, time_out);
 
     await createSchedule({ teacher_id, subject_id, days, time_in, time_out });
+
+    alert('Successfully create a schedule.');
 
     setIsLoading(false);
     setIsSuccess(true);
@@ -65,19 +75,26 @@ function AdminCreateScheduleScreen() {
     );
   } else if (isSuccess) {
     content = (
-      <Form onSubmit={submitHandler}>
+      <Form onSubmit={handleSubmit(submitHandler)}>
         <Form.Group as={Row} className="mb-3">
           <Form.Label column md={2}>
-            Teacher:
+            Faculty:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={teacher_id}
-              onChange={(e: any) => {
-                setTeacherId(e.target.value);
-              }}
-            />
+            <Form.Select
+              defaultValue="Choose Faculty"
+              {...register('teacher_id')}
+            >
+              {teachers ? (
+                teachers.map((teacher: any) => (
+                  <option key={teacher._id} value={teacher._id}>
+                    {teacher.first_name} {teacher.last_name}
+                  </option>
+                ))
+              ) : (
+                <option>No Faculty</option>
+              )}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -85,13 +102,20 @@ function AdminCreateScheduleScreen() {
             Subject:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              value={subject_id}
-              onChange={(e: any) => {
-                setSubjectId(e.target.value);
-              }}
-            />
+            <Form.Select
+              defaultValue="Choose Subject"
+              {...register('subject_id')}
+            >
+              {subjects ? (
+                subjects.map((subject: any) => (
+                  <option key={subject._id} value={subject._id}>
+                    {subject.subject_name}
+                  </option>
+                ))
+              ) : (
+                <option>No Subject</option>
+              )}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -99,13 +123,7 @@ function AdminCreateScheduleScreen() {
             Time in:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="time"
-              value={time_in}
-              onChange={(e: any) => {
-                setTimeIn(e.target.value);
-              }}
-            />
+            <Form.Control type="time" {...register('time_in')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -113,13 +131,7 @@ function AdminCreateScheduleScreen() {
             Time out:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="time"
-              value={time_out}
-              onChange={(e: any) => {
-                setTimeOut(e.target.value);
-              }}
-            />
+            <Form.Control type="time" {...register('time_out')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
