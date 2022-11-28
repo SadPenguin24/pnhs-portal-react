@@ -21,22 +21,9 @@ function AdminSubjectScreen() {
     error,
   } = useGetSubjectsQuery({});
 
-  // eslint-disable-next-line prefer-const
-  let strandSubjects: any[] = [];
-
-  const getStrandSubjects = (item: any) => {
-    if (item.strand.split(' ').join('').toLowerCase() === strand) {
-      strandSubjects.push(item);
-    }
-  };
-
-  if (subjects) {
-    subjects.forEach(getStrandSubjects);
-  }
-
   useEffect(() => {
-    dispatch(getSubjects({ strandSubjects }));
-  }, [dispatch, strandSubjects]);
+    dispatch(getSubjects({ subjects }));
+  }, [dispatch, subjects]);
 
   let content;
 
@@ -49,6 +36,10 @@ function AdminSubjectScreen() {
       </div>
     );
   } else if (isSuccess) {
+    const filterSubjects = subjects.filter(
+      (subject: any) =>
+        subject.strand.split(' ').join('').toLowerCase() === strand
+    );
     content = (
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -59,8 +50,8 @@ function AdminSubjectScreen() {
           </tr>
         </thead>
         <tbody>
-          {strandSubjects.length !== 0 ? (
-            strandSubjects.map((subject: any) => (
+          {filterSubjects.length !== 0 ? (
+            filterSubjects.map((subject: any) => (
               <tr key={subject._id}>
                 <td>{subject.strand}</td>
                 <td>{subject.subject_name}</td>

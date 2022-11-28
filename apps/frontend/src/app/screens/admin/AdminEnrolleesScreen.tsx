@@ -22,7 +22,6 @@ function AdminEnrolleesScreen() {
 
   const { strand } = useParams();
 
-  const [strandEnrollees]: any = useState([]);
   const [acceptEnrollees]: any = useState([]);
 
   const dispatch = useAppDispatch();
@@ -34,16 +33,6 @@ function AdminEnrolleesScreen() {
     isError,
     error,
   } = useGetEnrolleesQuery({});
-
-  // const getStrandEnrollees = (item: any) => {
-  //   if (item.strand.split(' ').join('').toLowerCase() === strand) {
-  //     strandEnrollees.push(item);
-  //   }
-  // };
-
-  // if (enrollees) {
-  //   enrollees.forEach(getStrandEnrollees);
-  // }
 
   useEffect(() => {
     dispatch(getEnrollees({ enrollees }));
