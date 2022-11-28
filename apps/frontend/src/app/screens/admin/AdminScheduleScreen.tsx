@@ -46,6 +46,7 @@ function AdminScheduleScreen() {
   const filterHandler = ({ section }: any) => {
     const found = sections.find((item: any) => item._id === section);
     setFoundSection(found);
+
     // foundSection = sections.find((item: any) => item._id === section);
   };
 
@@ -58,6 +59,7 @@ function AdminScheduleScreen() {
       </div>
     );
   } else if (isSuccess) {
+    console.log(foundSection);
     content = (
       <Table bordered className="tableColor" responsive="md">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -66,59 +68,77 @@ function AdminScheduleScreen() {
             <th>Days</th>
             <th>Time</th>
             <th>Teacher</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {
-            !foundSection
-              ? schedules.map((schedule: any) => (
-                  <tr key={schedule._id}>
-                    <td>{schedule.subject.subject_name}</td>
-                    <td>
-                      {schedule.days.map((day: any, index: any, array: any) => {
-                        array = array.length - 1;
-                        if (array === index) {
-                          return day;
-                        }
-                        return day + '/';
-                      })}
-                    </td>
-                    <td>
-                      {schedule.time_in} - {schedule.time_out}
-                    </td>
-                    <td>
-                      {schedule.teacher.first_name} {schedule.teacher.last_name}
-                    </td>
-                  </tr>
-                ))
-              : foundSection.schedules.map((schedule: any) => (
-                  <tr key={schedule._id}>
-                    <td>{schedule.subject.subject_name}</td>
-                    <td>
-                      {schedule.days.map((day: any, index: any, array: any) => {
-                        array = array.length - 1;
-                        if (array === index) {
-                          return day;
-                        }
-                        return day + '/';
-                      })}
-                    </td>
-                    <td>
-                      {schedule.time_in} - {schedule.time_out}
-                    </td>
-                    <td>
-                      {schedule.teacher.first_name} {schedule.teacher.last_name}
-                    </td>
-                  </tr>
-                ))
-            // : (
-            //   <tr>
-            //     <td colSpan={3} className="text-center">
-            //       No Schedule
-            //     </td>
-            //   </tr>
-            // )
-          }
+          {!foundSection && schedules ? (
+            schedules.map((schedule: any) => (
+              <tr key={schedule._id}>
+                <td>{schedule.subject.subject_name}</td>
+                <td>
+                  {schedule.days.map((day: any, index: any, array: any) => {
+                    array = array.length - 1;
+                    if (array === index) {
+                      return day;
+                    }
+                    return day + '/';
+                  })}
+                </td>
+                <td>
+                  {schedule.time_in} - {schedule.time_out}
+                </td>
+                <td>
+                  {schedule.teacher.first_name} {schedule.teacher.last_name}
+                </td>
+                <td>
+                  <Button
+                    className="me-5"
+                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                  >
+                    View
+                  </Button>
+                  <Button variant="danger">Delete</Button>
+                </td>
+              </tr>
+            ))
+          ) : foundSection.schedules.length > 0 && schedules ? (
+            foundSection.schedules.map((schedule: any) => (
+              <tr key={schedule._id}>
+                <td>{schedule.subject.subject_name}</td>
+                <td>
+                  {schedule.days.map((day: any, index: any, array: any) => {
+                    array = array.length - 1;
+                    if (array === index) {
+                      return day;
+                    }
+                    return day + '/';
+                  })}
+                </td>
+                <td>
+                  {schedule.time_in} - {schedule.time_out}
+                </td>
+                <td>
+                  {schedule.teacher.first_name} {schedule.teacher.last_name}
+                </td>
+                <td>
+                  <Button
+                    className="me-5"
+                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                  >
+                    View
+                  </Button>
+                  <Button variant="danger">Delete</Button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan={4} className="text-center">
+                No Schedule
+              </td>
+            </tr>
+          )}
         </tbody>
       </Table>
     );
@@ -161,15 +181,9 @@ function AdminScheduleScreen() {
           </Row>
         </Form>
         <div className="text-end my-3">
-          <Button
-            className="me-5"
-            onClick={() => navigate('/admin/schedule/create')}
-          >
-            Add
+          <Button onClick={() => navigate('/admin/schedule/create')}>
+            Create Schedule
           </Button>
-          <Button className="me-5">Edit</Button>
-          <Button className="me-5">Save</Button>
-          <Button variant="danger">Delete</Button>
         </div>
         {content}
       </Container>

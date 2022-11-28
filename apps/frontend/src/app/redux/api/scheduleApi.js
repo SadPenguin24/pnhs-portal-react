@@ -8,9 +8,11 @@ export const scheduleApi = apiSlice.injectEndpoints({
     }),
     getSchedule: builder.query({
       query: (id) => `/schedule/${id}`,
+      providesTags: ['Schedule'],
     }),
     getParsedSchedule: builder.query({
       query: (id) => `/schedule/parsed/${id}`,
+      providesTags: ['Schedule'],
     }),
     createSchedule: builder.mutation({
       query: (body) => ({
@@ -24,6 +26,14 @@ export const scheduleApi = apiSlice.injectEndpoints({
       query: () => '/schedule/parsed',
       providesTags: ['Schedule'],
     }),
+    updateSchedule: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/schedule/update/${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['Schedule'],
+    }),
   }),
 });
 
@@ -33,4 +43,5 @@ export const {
   useGetParsedScheduleQuery,
   useCreateScheduleMutation,
   useGetParsedSchedulesQuery,
+  useUpdateScheduleMutation,
 } = scheduleApi;

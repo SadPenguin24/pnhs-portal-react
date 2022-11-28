@@ -25,12 +25,16 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   //403
   if (result?.error?.originalStatus === 403 || 401) {
     // send refresh token to get new access token
-    const refresh_token = getCookie('refresh_token')
-    const refreshResult = await baseQuery({
-      url: '/auth/refresh',
-      method: 'POST',
-      body: {refresh_token}
-    }, api, extraOptions);
+    const refresh_token = getCookie('refresh_token');
+    const refreshResult = await baseQuery(
+      {
+        url: '/auth/refresh',
+        method: 'POST',
+        body: { refresh_token },
+      },
+      api,
+      extraOptions
+    );
     const refreshData = refreshResult.data;
 
     if (refreshData) {
@@ -57,6 +61,6 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
 
 export const apiSlice = createApi({
   baseQuery: baseQueryWithReauth,
-  tagTypes: ['Enrollee', 'Subject', 'Section'],
+  tagTypes: ['Enrollee', 'Subject', 'Section', 'Schedule'],
   endpoints: (builder) => ({}),
 });
