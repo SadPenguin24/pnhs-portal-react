@@ -8,6 +8,7 @@ export const sectionApi = apiSlice.injectEndpoints({
     }),
     getSection: builder.query({
       query: (id) => `/section/${id}`,
+      providesTags: ['Section'],
     }),
     createSection: builder.mutation({
       query: (body) => ({
@@ -23,6 +24,15 @@ export const sectionApi = apiSlice.injectEndpoints({
     }),
     getParsedSection: builder.query({
       query: (id) => `/section/parsed/${id}`,
+      providesTags: ['Section'],
+    }),
+    updateSection: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/section/update/${id}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['Section'],
     }),
   }),
 });
@@ -33,4 +43,5 @@ export const {
   useCreateSectionMutation,
   useGetParsedSectionsQuery,
   useGetParsedSectionQuery,
+  useUpdateSectionMutation,
 } = sectionApi;

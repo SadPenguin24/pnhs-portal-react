@@ -1,13 +1,32 @@
-import React, { useEffect } from 'react';
-import { Container, FormSelect, Spinner } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormSelect,
+  ListGroup,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import { useGetParsedSectionQuery } from '../../redux/api/sectionApi';
+import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
+import {
+  useGetParsedSectionQuery,
+  useUpdateSectionMutation,
+} from '../../redux/api/sectionApi';
+import { useGetRoleQuery } from '../../redux/api/userApi';
 import { getSection } from '../../redux/slice/sectionSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminViewSectionScreen() {
   const { id } = useParams();
+
+  const [notEditing, setNotEditing] = useState(true);
+  const [students_id, setStudentsId]: any = useState([]);
+  const [schedules_id, setSchedulesId]: any = useState([]);
 
   const dispatch = useAppDispatch();
 
@@ -19,11 +38,62 @@ function AdminViewSectionScreen() {
     error,
   } = useGetParsedSectionQuery(id);
 
-  console.log(section);
+  const { register, handleSubmit } = useForm();
 
   useEffect(() => {
     dispatch(getSection({ section }));
   }, [dispatch, section]);
+
+  const { data: teachers } = useGetRoleQuery('faculty');
+
+  const { data: students } = useGetRoleQuery('student');
+
+  const { data: schedules } = useGetParsedSchedulesQuery({});
+
+  const [updateSection] = useUpdateSectionMutation();
+
+  const addStudentHandler = (e: any) => {
+    const index = students_id.indexOf(e.target.value);
+    if (index > -1) {
+      students_id.splice(index, 1);
+    } else {
+      students_id.push(e.target.value);
+    }
+    console.log(students_id);
+  };
+
+  const addScheduleHandler = (e: any) => {
+    const index = schedules_id.indexOf(e.target.value);
+    if (index > -1) {
+      schedules_id.splice(index, 1);
+    } else {
+      schedules_id.push(e.target.value);
+    }
+    console.log(schedules_id);
+  };
+
+  const updateHandler = async ({
+    section_name,
+    teacher_id,
+    school_year,
+  }: any) => {
+    try {
+      await updateSection({
+        id,
+        section_name,
+        teacher_id,
+        school_year,
+        students_id,
+        schedules_id,
+      });
+
+      alert('Successfully update section');
+
+      setNotEditing(true);
+    } catch (error) {
+      alert(error);
+    }
+  };
 
   let content;
 
@@ -36,54 +106,239 @@ function AdminViewSectionScreen() {
       </div>
     );
   } else if (isSuccess) {
+    console.log(students_id);
     content = (
-      <>
-        <div className="mb-2">
-          <strong>Section Name:</strong> {section.section_name}
-        </div>
-        <div className="mb-2">
-          <strong>Teacher Id:</strong> {section.teacher_id}
-        </div>
-        <div className="mb-2">
-          <strong>School Year:</strong> {section.school_year}
-        </div>
-        <div className="mb-2">
-          <strong>Students:</strong>
-          <FormSelect>
-            {section.students.length > 0 ? (
-              section.students.map((student: any) => (
-                <option key={student}>
-                  {student.first_name} {student.last_name}
-                </option>
-              ))
+      <Form onSubmit={handleSubmit(updateHandler)}>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Section Name:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              {...register('section_name')}
+              defaultValue={section.section_name}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            School Year:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              {...register('school_year')}
+              defaultValue={section.school_year}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Faculty:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>
+                {section.teacher.first_name} {section.teacher.last_name}
+              </div>
             ) : (
-              <option>No student</option>
+              <>
+                <Form.Select
+                  defaultValue="Choose Faculty"
+                  {...register('teacher_id')}
+                >
+                  <option value={section.teacher._id}>
+                    {section.teacher.first_name} {section.teacher.last_name}
+                  </option>
+                  {teachers ? (
+                    teachers.map((teacher: any) => {
+                      if (teacher._id === section.teacher._id) {
+                        return;
+                      }
+                      return (
+                        <option key={teacher._id} value={teacher._id}>
+                          {teacher.first_name} {teacher.last_name}
+                        </option>
+                      );
+                    })
+                  ) : (
+                    <option>No Faculty</option>
+                  )}
+                </Form.Select>
+              </>
             )}
-          </FormSelect>
-        </div>
-        <div className="mb-2">
-          <strong>Schedules:</strong>
-          <FormSelect>
-            {section.schedules.length > 0 ? (
-              section.schedules.map((schedule: any) => (
-                <option key={schedule._id}>
-                  {schedule.subject.subject_name} (
-                  {schedule.days.map((day: any, index: any, array: any) => {
-                    array = array.length - 1;
-                    if (array === index) {
-                      return day.charAt(0) + ' - ';
-                    }
-                    return day.charAt(0) + ' / ';
-                  })}
-                  {schedule.time_in}-{schedule.time_out})
-                </option>
-              ))
-            ) : (
-              <option>No schedule</option>
-            )}
-          </FormSelect>
-        </div>
-      </>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Students:
+          </Form.Label>
+          <Col md={10}>
+            <Row>
+              {notEditing ? (
+                section.students.length > 0 ? (
+                  section.students.map((student: any) => (
+                    <Col key={student._id} md={3} xs={6} className="p-2">
+                      <span className="border-bottom border-primary">
+                        <i className="fa-solid fa-user"></i>{' '}
+                        {student.first_name} {student.last_name}
+                      </span>
+                    </Col>
+                  ))
+                ) : (
+                  <div>No Students</div>
+                )
+              ) : students ? (
+                students.map((student: any) => (
+                  <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
+                    <Form.Check
+                      type="checkbox"
+                      label={student.first_name + ' ' + student.last_name}
+                      defaultChecked={students_id.includes(student._id) && true}
+                      value={student._id}
+                      onChange={addStudentHandler}
+                    />
+                  </Col>
+                ))
+              ) : (
+                <div>No Students</div>
+              )}
+            </Row>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Schedules:
+          </Form.Label>
+          <Col md={10}>
+            <Row>
+              {notEditing ? (
+                section.schedules.length > 0 ? (
+                  section.schedules.map((schedule: any) => (
+                    <Col key={schedule._id} md={3} xs={6} className="p-2">
+                      <span className="border-bottom border-primary">
+                        <i className="fa-solid fa-calendar"></i>{' '}
+                        {schedule.subject.subject_name +
+                          ' (' +
+                          schedule.days.map(
+                            (day: any, index: any, array: any) => {
+                              if (array.length === 1) {
+                                return day.charAt(0) + ' - ';
+                              }
+                              array = array.length - 1;
+                              if (array === index) {
+                                return ' ' + day.charAt(0) + ' - ';
+                              } else if (index === 0) {
+                                return day.charAt(0);
+                              }
+                              return ' ' + day.charAt(0);
+                            }
+                          ) +
+                          schedule.time_in +
+                          '-' +
+                          schedule.time_out +
+                          ')'}
+                      </span>
+                    </Col>
+                  ))
+                ) : (
+                  <div>No Schedule</div>
+                )
+              ) : schedules ? (
+                schedules.map((schedule: any) => {
+                  return (
+                    <Col
+                      lg="4"
+                      md="6"
+                      xs="12"
+                      className="mb-2"
+                      key={schedule._id}
+                    >
+                      <Form.Check
+                        type="checkbox"
+                        name="schedule"
+                        defaultChecked={
+                          schedules_id.includes(schedule._id) && true
+                        }
+                        label={
+                          schedule.subject.subject_name +
+                          ' (' +
+                          schedule.days.map(
+                            (day: any, index: any, array: any) => {
+                              if (array.length === 1) {
+                                return day.charAt(0) + ' - ';
+                              }
+                              array = array.length - 1;
+                              if (array === index) {
+                                return ' ' + day.charAt(0) + ' - ';
+                              } else if (index === 0) {
+                                return day.charAt(0);
+                              }
+                              return ' ' + day.charAt(0);
+                            }
+                          ) +
+                          schedule.time_in +
+                          '-' +
+                          schedule.time_out +
+                          ')'
+                        }
+                        value={schedule._id}
+                        onChange={addScheduleHandler}
+                      />
+                    </Col>
+                  );
+                })
+              ) : (
+                <div>No Schedules</div>
+              )}
+            </Row>
+          </Col>
+        </Form.Group>
+        {notEditing ? (
+          <Button
+            onClick={() => {
+              if (students) {
+                section.students.forEach((student: any) => {
+                  if (!students_id.includes(student._id)) {
+                    students_id.push(student._id);
+                  }
+                });
+              }
+              if (schedules) {
+                section.schedules.forEach((schedule: any) => {
+                  if (!schedules_id.includes(schedule._id)) {
+                    schedules_id.push(schedule._id);
+                  }
+                });
+              }
+              setNotEditing(false);
+            }}
+          >
+            Edit
+          </Button>
+        ) : (
+          <>
+            <Button type="submit" className="me-3">
+              Save
+            </Button>
+            <Button
+              variant="danger"
+              onClick={() => {
+                setStudentsId([]);
+                setSchedulesId([]);
+                setNotEditing(true);
+              }}
+            >
+              Exit
+            </Button>
+          </>
+        )}
+      </Form>
     );
   } else if (isError) {
     content = <p>{JSON.stringify(error)}</p>;
