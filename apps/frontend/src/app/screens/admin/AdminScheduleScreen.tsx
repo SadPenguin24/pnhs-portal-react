@@ -10,7 +10,7 @@ import {
   Table,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
@@ -19,6 +19,7 @@ import { getSchedules } from '../../redux/slice/scheduleSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminScheduleScreen() {
+  const { role } = useParams();
   const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
@@ -149,30 +150,65 @@ function AdminScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Faculty Schedule" redirect="/admin/home" />
+      <Header
+        page={role === 'student' ? 'Student Schedule' : 'Faculty Schedule'}
+        redirect="/admin/home"
+      />
       <Container>
         <Form onSubmit={handleSubmit(filterHandler)}>
           <Row>
-            <Col>
-              <FormControl
-                style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-                placeholder="Teacher's Name"
-              ></FormControl>
-            </Col>
-            <Col>
-              <Form.Select
-                style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-                {...register('section')}
-              >
-                <option value="all">All Sections</option>
-                {sections &&
-                  sections.map((section: any) => (
-                    <option value={section._id} key={section._id}>
-                      {section.section_name}
-                    </option>
-                  ))}
-              </Form.Select>
-            </Col>
+            {role === 'student' ? (
+              <>
+                <Col>
+                  <FormControl
+                    style={{
+                      backgroundColor: '#ffe4a0',
+                      border: '#eaaa79 solid',
+                    }}
+                    placeholder="Student's Name"
+                  ></FormControl>
+                </Col>
+                <Col>
+                  <Form.Select
+                    style={{
+                      backgroundColor: '#ffe4a0',
+                      border: '#eaaa79 solid',
+                    }}
+                    {...register('section')}
+                  >
+                    <option value="all">All Sections</option>
+                    {sections &&
+                      sections.map((section: any) => (
+                        <option value={section._id} key={section._id}>
+                          {section.section_name}
+                        </option>
+                      ))}
+                  </Form.Select>
+                </Col>
+              </>
+            ) : (
+              <>
+                <Col>
+                  <FormControl
+                    style={{
+                      backgroundColor: '#ffe4a0',
+                      border: '#eaaa79 solid',
+                    }}
+                    placeholder="Faculty's Name"
+                  ></FormControl>
+                </Col>
+                <Col>
+                  <FormControl
+                    style={{
+                      backgroundColor: '#ffe4a0',
+                      border: '#eaaa79 solid',
+                    }}
+                    placeholder="Term"
+                  ></FormControl>
+                </Col>
+              </>
+            )}
+
             <Col className="d-grid gap-2">
               <Button variant="secondary" type="submit">
                 Load

@@ -103,7 +103,10 @@ export function App() {
               path="/admin/subject/:subjectStrand/create"
               element={<AdminCreateSubjectScreen />}
             />
-            <Route path="/admin/schedule" element={<AdminScheduleScreen />} />
+            <Route
+              path="/admin/schedule/:role"
+              element={<AdminScheduleScreen />}
+            />
             <Route
               path="/admin/schedule/:id"
               element={<AdminViewScheduleScreen />}
