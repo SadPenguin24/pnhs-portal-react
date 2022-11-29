@@ -173,6 +173,9 @@ function AdminCreateSectionScreen() {
                           ' (' +
                           schedule.days.map(
                             (day: any, index: any, array: any) => {
+                              if (array.length === 1) {
+                                return day.charAt(0) + ' - ';
+                              }
                               array = array.length - 1;
                               if (array === index) {
                                 return ' ' + day.charAt(0) + ' - ';

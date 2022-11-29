@@ -17,7 +17,7 @@ function FacultyShsGradeScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="SHS Grade" redirect="/faculty/home" />
+      <Header page="SHS Grade" redirect="/faculty/shsgrade/sections" />
       <Container>
         <Row>
           <FormGroup as={Col} className="d-lg-flex">

@@ -35,7 +35,7 @@ function FacultyHomeScreen() {
               <div>Advisory Class</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/faculty/shsgrade">
+          <LinkContainer to="/faculty/shsgrade/sections">
             <Col md="3" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/faculty/shs-grade.png" fluid />
               <div>SHS Grade</div>

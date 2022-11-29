@@ -43,6 +43,7 @@ import AdminViewSectionScreen from './screens/admin/AdminViewSectionScreen';
 import AdminCreateScheduleScreen from './screens/admin/AdminCreateScheduleScreen';
 import AdminCreateProfileScreen from './screens/admin/AdminCreateProfileScreen';
 import AdminViewScheduleScreen from './screens/admin/AdminViewScheduleScreen';
+import FacultyHandleSectionsScreen from './screens/faculty/FacultyHandleSectionsScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -102,7 +103,10 @@ export function App() {
               path="/admin/subject/:subjectStrand/create"
               element={<AdminCreateSubjectScreen />}
             />
-            <Route path="/admin/schedule" element={<AdminScheduleScreen />} />
+            <Route
+              path="/admin/schedule/:role"
+              element={<AdminScheduleScreen />}
+            />
             <Route
               path="/admin/schedule/:id"
               element={<AdminViewScheduleScreen />}
@@ -156,7 +160,11 @@ export function App() {
             />
             <Route path="/faculty/profile" element={<FacultyProfileScreen />} />
             <Route
-              path="/faculty/shsgrade"
+              path="/faculty/shsgrade/sections"
+              element={<FacultyHandleSectionsScreen />}
+            />
+            <Route
+              path="/faculty/shsgrade/section/:sectionId"
               element={<FacultyShsGradeScreen />}
             />
             <Route
