@@ -35,6 +35,7 @@ function AdminStudentSectionsScreen() {
       </div>
     );
   } else if (isSuccess) {
+    console.log(sections);
     content = (
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -46,7 +47,7 @@ function AdminStudentSectionsScreen() {
           </tr>
         </thead>
         <tbody>
-          {sections ? (
+          {sections.length > 0 ? (
             sections.map((section: any) => (
               <tr key={section._id}>
                 <td>{section.section_name}</td>
@@ -65,7 +66,9 @@ function AdminStudentSectionsScreen() {
             ))
           ) : (
             <tr>
-              <td colSpan={3}>No Section</td>
+              <td colSpan={4} className="text-center">
+                No Section
+              </td>
             </tr>
           )}
         </tbody>

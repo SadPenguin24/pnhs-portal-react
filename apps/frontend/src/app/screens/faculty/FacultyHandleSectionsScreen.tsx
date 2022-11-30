@@ -22,12 +22,14 @@ function FacultyHandleSectionsScreen() {
 
   if (sections) {
     sections.map((section: any) => {
-      if (
-        currentFaculty.faculty.section_ids.includes(section._id) &&
-        !facultySections.includes(section)
-      ) {
-        facultySections.push(section);
-      }
+      currentFaculty.faculty.handled_subjects.map((handledSubject: any) => {
+        if (
+          handledSubject.section_id === section._id &&
+          !facultySections.includes(section)
+        ) {
+          facultySections.push(section);
+        }
+      });
       console.log(currentFaculty);
     });
   }
@@ -48,7 +50,7 @@ function FacultyHandleSectionsScreen() {
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
             <th>Section</th>
-            <th>Faculty</th>
+            <th>Advisor</th>
             <th>School Year</th>
             <td>Actions</td>
           </tr>
@@ -75,7 +77,9 @@ function FacultyHandleSectionsScreen() {
             ))
           ) : (
             <tr>
-              <td colSpan={3}>No Section</td>
+              <td colSpan={4} className="text-center">
+                No Section
+              </td>
             </tr>
           )}
         </tbody>

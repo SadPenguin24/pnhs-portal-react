@@ -40,6 +40,14 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['User'],
     }),
+    updateGrade: builder.mutation({
+      query: ({ studentId, subjectId, ...body }) => ({
+        url: `/user/${studentId}/${subjectId}`,
+        method: 'PUT',
+        body: body,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -51,4 +59,5 @@ export const {
   useConvertEtosMutation,
   useCreateUserMutation,
   useUpdateUserMutation,
+  useUpdateGradeMutation
 } = userApi;
