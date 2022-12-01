@@ -55,7 +55,7 @@ function AdminStudentSectionsScreen() {
                   {section.teacher.first_name} {section.teacher.last_name}
                 </td>
                 <td>{section.school_year}</td>
-                <td>
+                <td className="text-center">
                   <Button
                     onClick={() => navigate(`/admin/section/${section._id}`)}
                   >

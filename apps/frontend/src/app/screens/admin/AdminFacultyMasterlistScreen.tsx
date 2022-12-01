@@ -83,14 +83,15 @@ function AdminFacultyMasterlistScreen() {
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Faculty Masterlist" redirect="/admin/home" />
       <Container>
-        <div className="d-flex justify-content-end mb-3">
+        {/* Search Bar */}
+        {/* <div className="d-flex justify-content-end mb-3">
           <div className="w-50">
             <FormControl
               style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
               placeholder="Enter Faculty Name"
             ></FormControl>
           </div>
-        </div>
+        </div> */}
         {content}
       </Container>
     </div>

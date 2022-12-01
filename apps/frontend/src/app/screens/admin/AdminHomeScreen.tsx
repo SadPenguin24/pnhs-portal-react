@@ -76,7 +76,7 @@ function AdminHomeScreen() {
               <div>Faculty Schedule</div>
             </Col>
           </LinkContainer>
-          <LinkContainer to="/admin/enrolledlist">
+          {/* <LinkContainer to="/admin/enrolledlist">
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/admin/student-enrolled-masterlist.png"
@@ -84,7 +84,7 @@ function AdminHomeScreen() {
               />
               <div>Student Enrolled Masterlist</div>
             </Col>
-          </LinkContainer>
+          </LinkContainer> */}
           <LinkContainer to="/admin/section">
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/admin/shs-grade.png" fluid />

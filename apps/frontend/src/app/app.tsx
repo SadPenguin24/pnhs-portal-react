@@ -120,10 +120,11 @@ export function App() {
               path="/admin/schedule/:role/create"
               element={<AdminCreateScheduleScreen />}
             />
-            <Route
+            {/* Admin Student Enrolled Masterlist */}
+            {/* <Route
               path="/admin/enrolledlist"
               element={<AdminStudentEnrolledlist />}
-            />
+            /> */}
             <Route
               path="/admin/section"
               element={<AdminStudentSectionsScreen />}
