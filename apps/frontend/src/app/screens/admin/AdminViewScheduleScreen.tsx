@@ -13,7 +13,7 @@ import { getSchedule } from '../../redux/slice/scheduleSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminViewScheduleScreen() {
-  const { id } = useParams();
+  const { role, id } = useParams();
 
   const [notEditing, setNotEditing] = useState(true);
 
@@ -275,7 +275,10 @@ function AdminViewScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect={`/admin/schedule`} />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/schedule/${role}`}
+      />
       <Container>{content}</Container>
     </div>
   );

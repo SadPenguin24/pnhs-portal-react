@@ -60,7 +60,7 @@ function AdminScheduleScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(foundSection);
+    console.log(schedules);
     content = (
       <Table bordered className="tableColor" responsive="md">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -68,7 +68,7 @@ function AdminScheduleScreen() {
             <th>Subject</th>
             <th>Days</th>
             <th>Time</th>
-            <th>Teacher</th>
+            {role === 'student' ? <th>Teacher</th> : <th>Section</th>}
             <th>Actions</th>
           </tr>
         </thead>
@@ -90,12 +90,25 @@ function AdminScheduleScreen() {
                   {schedule.time_in} - {schedule.time_out}
                 </td>
                 <td>
-                  {schedule.teacher.first_name} {schedule.teacher.last_name}
+                  {role === 'student'
+                    ? schedule.teacher.first_name +
+                      ' ' +
+                      schedule.teacher.last_name
+                    : schedule.section_id
+                    ? sections.map((section: any) => {
+                        if (section._id === schedule.section_id) {
+                          return section.section_name;
+                        }
+                        return;
+                      })
+                    : 'No Section'}
                 </td>
                 <td>
                   <Button
                     className="me-5"
-                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/schedule/${role}/${schedule._id}`)
+                    }
                   >
                     View
                   </Button>
@@ -125,7 +138,9 @@ function AdminScheduleScreen() {
                 <td>
                   <Button
                     className="me-5"
-                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/schedule/${role}/${schedule._id}`)
+                    }
                   >
                     View
                   </Button>
@@ -217,7 +232,7 @@ function AdminScheduleScreen() {
           </Row>
         </Form>
         <div className="text-end my-3">
-          <Button onClick={() => navigate('/admin/schedule/create')}>
+          <Button onClick={() => navigate(`/admin/schedule/${role}/create`)}>
             Create Schedule
           </Button>
         </div>

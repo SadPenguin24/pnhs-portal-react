@@ -53,6 +53,10 @@ export function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<LoginScreen />} />
+          <Route
+            path="/enrollee/create"
+            element={<AdminCreateEnrolleeScreen />}
+          />
 
           {/*Protected Routes */}
           <Route element={<RequireAuth />}>
@@ -109,11 +113,11 @@ export function App() {
               element={<AdminScheduleScreen />}
             />
             <Route
-              path="/admin/schedule/:id"
+              path="/admin/schedule/:role/:id"
               element={<AdminViewScheduleScreen />}
             />
             <Route
-              path="/admin/schedule/create"
+              path="/admin/schedule/:role/create"
               element={<AdminCreateScheduleScreen />}
             />
             <Route

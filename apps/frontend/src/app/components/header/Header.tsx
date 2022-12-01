@@ -58,6 +58,10 @@ function Header({ page, redirect }: any) {
             <Navbar.Brand>
               <h3 className="py-0 my-0">Student User</h3>
             </Navbar.Brand>
+          ) : page === 'Strand/Enrollees/Subject' && role[1] === 'enrollee' ? (
+            <LinkContainer to="/">
+              <Navbar.Brand>Back</Navbar.Brand>
+            </LinkContainer>
           ) : (
             <LinkContainer to={redirect}>
               <Navbar.Brand>Back</Navbar.Brand>
@@ -66,7 +70,9 @@ function Header({ page, redirect }: any) {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {page === 'Menu' ? (
+              {role[1] === 'enrollee' ? (
+                <></>
+              ) : page === 'Menu' ? (
                 <>
                   <Navbar.Brand>
                     <strong>Menu</strong>

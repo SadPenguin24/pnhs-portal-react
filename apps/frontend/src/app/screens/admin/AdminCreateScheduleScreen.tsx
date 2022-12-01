@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateScheduleMutation } from '../../redux/api/scheduleApi';
 import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateScheduleScreen() {
+  const { role } = useParams();
+
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
@@ -60,7 +62,7 @@ function AdminCreateScheduleScreen() {
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate('/admin/schedule');
+    navigate(`/admin/schedule/${role}`);
   };
 
   let content;
@@ -92,7 +94,7 @@ function AdminCreateScheduleScreen() {
                   </option>
                 ))
               ) : (
-                <option>No Faculty</option>
+                <option value="">No Faculty</option>
               )}
             </Form.Select>
           </Col>
@@ -113,7 +115,7 @@ function AdminCreateScheduleScreen() {
                   </option>
                 ))
               ) : (
-                <option>No Subject</option>
+                <option value="">No Subject</option>
               )}
             </Form.Select>
           </Col>
@@ -167,7 +169,7 @@ function AdminCreateScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Create Schedule" redirect="/admin/schedule" />
+      <Header page="Create Schedule" redirect={`/admin/schedule/${role}`} />
       <Container>{content}</Container>
     </div>
   );
