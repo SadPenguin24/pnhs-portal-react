@@ -29,8 +29,6 @@ function LoginScreen() {
   const onSubmitHandler = async ({ email, password }: any) => {
     setLoading(true);
 
-    console.log('THIS IS ENV', process.env.NODE_ENV);
-
     try {
       const { user, access_token, refresh_token } = await login({
         email,

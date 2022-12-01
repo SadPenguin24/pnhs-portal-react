@@ -16,8 +16,6 @@ function RequireAuth() {
   const userRole = user?.role[0];
   userValidator = location.pathname.includes(userRole);
 
-  console.log(userValidator);
-
   const content = token ? (
     userValidator ? (
       <>
