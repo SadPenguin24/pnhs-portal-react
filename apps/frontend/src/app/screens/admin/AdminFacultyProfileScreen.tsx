@@ -68,7 +68,7 @@ function AdminFacultyProfileScreen() {
             border: '1px solid',
           }}
         >
-          <h4 className="mb-5">Student</h4>
+          <h4 className="mb-5">Faculty</h4>
           <Form.Group as={Row} className="mb-2">
             <Form.Label column md={2}>
               Last Name:

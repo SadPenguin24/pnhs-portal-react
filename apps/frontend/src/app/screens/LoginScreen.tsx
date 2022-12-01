@@ -73,7 +73,9 @@ function LoginScreen() {
           className="my-4 logo-width"
         />
         <h1 className="mb-4">
-          <strong className="textColor">WELCOME TO YOUR PORTAL</strong>
+          <strong className="textColor">
+            WELCOME TO PANGASINAN NATIONAL HIGH SCHOOL STUDENT PORTAL
+          </strong>
         </h1>
         <div className="p-5 mx-auto box">
           <Form onSubmit={handleSubmit(onSubmitHandler)}>
@@ -124,8 +126,9 @@ function LoginScreen() {
                 )}
               </div>
               <div className="text-center">
-                <Link style={{ color: '#045933' }} to="#">
-                  Forgot Password?
+                Not a student?
+                <Link style={{ color: '#045933' }} to="/enrollee/create">
+                  Enroll here
                 </Link>
               </div>
             </Row>

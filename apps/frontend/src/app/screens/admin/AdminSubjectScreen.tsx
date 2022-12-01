@@ -63,7 +63,7 @@ function AdminSubjectScreen() {
                   >
                     View
                   </Button>
-                  <Button variant="danger">Delete</Button>
+                  {/* <Button variant="danger">Delete</Button> */}
                 </td>
               </tr>
             ))
@@ -96,7 +96,7 @@ function AdminSubjectScreen() {
           >
             Add Subject
           </Button>
-          <Button variant="danger">Delete All</Button>
+          {/* <Button variant="danger">Delete All</Button> */}
         </div>
         {content}
       </Container>

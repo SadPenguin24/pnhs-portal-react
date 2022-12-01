@@ -220,7 +220,8 @@ function AdminEnrolleeScreen() {
             )}
           </Col>
         </Form.Group>
-        <Form.Group as={Row} className="mb-2">
+        {/* Images */}
+        {/* <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Birth Certificate:
           </Form.Label>
@@ -267,7 +268,7 @@ function AdminEnrolleeScreen() {
               // onChange={(e) => setGoodMoral(e.target.value)}
             />
           </Col>
-        </Form.Group>
+        </Form.Group> */}
         {notEditing ? (
           <Button onClick={() => setNotEditing(false)}>Edit</Button>
         ) : (

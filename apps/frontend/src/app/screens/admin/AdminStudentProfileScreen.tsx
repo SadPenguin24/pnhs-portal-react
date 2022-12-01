@@ -42,10 +42,12 @@ function AdminStudentProfileScreen() {
         middle_name,
         last_name,
         email,
-        address,
-        phone_number,
-        lrn,
-        strand,
+        profile: {
+          address: address,
+          phone_number: phone_number,
+          lrn: lrn,
+        },
+        student: { strand: strand },
       });
 
       alert('Successfully update student');
@@ -223,7 +225,8 @@ function AdminStudentProfileScreen() {
               )}
             </Col>
           </Form.Group>
-          <Form.Group as={Row} className="mb-2">
+          {/* Images */}
+          {/* <Form.Group as={Row} className="mb-2">
             <Form.Label column md={2}>
               Birth Certificate:
             </Form.Label>
@@ -270,7 +273,7 @@ function AdminStudentProfileScreen() {
                 // onChange={(e) => setGoodMoral(e.target.value)}
               />
             </Col>
-          </Form.Group>
+          </Form.Group> */}
         </div>
         <div className="text-center">
           {notEditing ? (

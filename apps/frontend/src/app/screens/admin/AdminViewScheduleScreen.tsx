@@ -13,7 +13,7 @@ import { getSchedule } from '../../redux/slice/scheduleSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminViewScheduleScreen() {
-  const { id } = useParams();
+  const { role, id } = useParams();
 
   const [notEditing, setNotEditing] = useState(true);
 
@@ -109,14 +109,11 @@ function AdminViewScheduleScreen() {
               </div>
             ) : (
               <>
-                <Form.Select
-                  defaultValue="Choose Faculty"
-                  {...register('teacher_id')}
-                >
+                <Form.Select {...register('teacher_id')}>
                   <option value={schedule.teacher._id}>
                     {schedule.teacher.first_name} {schedule.teacher.last_name}
                   </option>
-                  {teachers ? (
+                  {teachers &&
                     teachers.map((teacher: any) => {
                       if (teacher._id === schedule.teacher._id) {
                         return;
@@ -126,10 +123,7 @@ function AdminViewScheduleScreen() {
                           {teacher.first_name} {teacher.last_name}
                         </option>
                       );
-                    })
-                  ) : (
-                    <option>No Faculty</option>
-                  )}
+                    })}
                 </Form.Select>
               </>
             )}
@@ -143,14 +137,11 @@ function AdminViewScheduleScreen() {
             {notEditing ? (
               <div>{schedule.subject.subject_name}</div>
             ) : (
-              <Form.Select
-                defaultValue="Choose Subject"
-                {...register('subject_id')}
-              >
+              <Form.Select {...register('subject_id')}>
                 <option value={schedule.subject._id}>
                   {schedule.subject.subject_name}
                 </option>
-                {subjects ? (
+                {subjects &&
                   subjects.map((subject: any) => {
                     if (subject._id === schedule.subject._id) {
                       return;
@@ -160,10 +151,7 @@ function AdminViewScheduleScreen() {
                         {subject.subject_name}
                       </option>
                     );
-                  })
-                ) : (
-                  <option>No Subject</option>
-                )}
+                  })}
               </Form.Select>
             )}
           </Col>
@@ -275,7 +263,10 @@ function AdminViewScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect={`/admin/schedule`} />
+      <Header
+        page="Strand/Enrollees/Subject"
+        redirect={`/admin/schedule/${role}`}
+      />
       <Container>{content}</Container>
     </div>
   );

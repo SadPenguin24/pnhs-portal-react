@@ -58,17 +58,34 @@ function AdminCreateSectionScreen() {
   };
 
   const createSectionHandler = async ({
-    school_year,
     section_name,
+    school_year,
+    strand,
+    term,
+    grade_level,
     teacher_id,
   }: any) => {
+    console.log(
+      role,
+      section_name,
+      school_year,
+      strand,
+      term,
+      grade_level,
+      teacher_id,
+      students_id,
+      schedules_id
+    );
     await createSection({
       role,
       section_name,
+      school_year,
+      strand,
+      term,
+      grade_level,
       teacher_id,
       students_id,
       schedules_id,
-      school_year,
     });
 
     alert('Successfully create a section.');
@@ -107,18 +124,69 @@ function AdminCreateSectionScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            Faculty:
+            School Year:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('strand')}>
+              {[
+                'ABM',
+                'GAS',
+                'HUMSS',
+                'SPORTS',
+                'STEM',
+                'TVL-COOKERY',
+                'TVL-HOME ECONOMICS',
+                'TVL-ICT',
+              ].map((strand: any) => (
+                <option value={strand} key={strand}>
+                  {strand}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Term:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('term')}>
+              {[1, 1].map((num: any) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Grade Level:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('grade_level')}>
+              {[11, 12].map((num: any) => (
+                <option key={num} value={num}>
+                  {num}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Class Adviser:
           </Form.Label>
           <Col md={10}>
             <Form.Select {...register('teacher_id')}>
-              {teachers ? (
+              {teachers.length > 0 ? (
                 teachers.map((teacher: any) => (
                   <option key={teacher._id} value={teacher._id}>
                     {teacher.first_name} {teacher.last_name}
                   </option>
                 ))
               ) : (
-                <option>No Faculty</option>
+                <option value="">No Faculty</option>
               )}
             </Form.Select>
           </Col>
@@ -130,7 +198,7 @@ function AdminCreateSectionScreen() {
           </Form.Label>
           <Col md={10}>
             <Row>
-              {students ? (
+              {students && students.length > 0 ? (
                 students.map((student: any) => (
                   <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
                     <Form.Check
@@ -155,7 +223,7 @@ function AdminCreateSectionScreen() {
           </Form.Label>
           <Col md={10}>
             <Row>
-              {schedules ? (
+              {schedules && schedules.length > 0 ? (
                 schedules.map((schedule: any) => {
                   return (
                     <Col

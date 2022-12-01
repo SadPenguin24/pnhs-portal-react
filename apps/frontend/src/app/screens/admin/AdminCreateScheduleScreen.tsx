@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateScheduleMutation } from '../../redux/api/scheduleApi';
 import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateScheduleScreen() {
+  const { role } = useParams();
+
   const navigate = useNavigate();
 
   const { register, handleSubmit } = useForm();
@@ -41,6 +43,19 @@ function AdminCreateScheduleScreen() {
     setIsSuccess(false);
     setIsLoading(true);
 
+    if (teacher_id === '') {
+      alert('Please select a teacher.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
+    if (subject_id === '') {
+      alert('Please select a subject.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
+
     const timeInNum = parseInt(time_in);
     const timeOutNum = parseInt(time_out);
 
@@ -60,7 +75,7 @@ function AdminCreateScheduleScreen() {
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate('/admin/schedule');
+    navigate(`/admin/schedule/${role}`);
   };
 
   let content;
@@ -81,18 +96,15 @@ function AdminCreateScheduleScreen() {
             Faculty:
           </Form.Label>
           <Col md={10}>
-            <Form.Select
-              defaultValue="Choose Faculty"
-              {...register('teacher_id')}
-            >
-              {teachers ? (
+            <Form.Select {...register('teacher_id')}>
+              {teachers && teachers.length > 0 ? (
                 teachers.map((teacher: any) => (
                   <option key={teacher._id} value={teacher._id}>
                     {teacher.first_name} {teacher.last_name}
                   </option>
                 ))
               ) : (
-                <option>No Faculty</option>
+                <option value="">No Faculty</option>
               )}
             </Form.Select>
           </Col>
@@ -102,18 +114,15 @@ function AdminCreateScheduleScreen() {
             Subject:
           </Form.Label>
           <Col md={10}>
-            <Form.Select
-              defaultValue="Choose Subject"
-              {...register('subject_id')}
-            >
-              {subjects ? (
+            <Form.Select {...register('subject_id')}>
+              {subjects && subjects.length > 0 ? (
                 subjects.map((subject: any) => (
                   <option key={subject._id} value={subject._id}>
                     {subject.subject_name}
                   </option>
                 ))
               ) : (
-                <option>No Subject</option>
+                <option value="">No Subject</option>
               )}
             </Form.Select>
           </Col>
@@ -167,7 +176,7 @@ function AdminCreateScheduleScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Create Schedule" redirect="/admin/schedule" />
+      <Header page="Create Schedule" redirect={`/admin/schedule/${role}`} />
       <Container>{content}</Container>
     </div>
   );

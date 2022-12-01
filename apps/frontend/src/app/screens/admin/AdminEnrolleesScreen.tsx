@@ -73,8 +73,9 @@ function AdminEnrolleesScreen() {
         enrollee.strand.split(' ').join('').toLowerCase() === strand
     );
     content = (
-      <>
-        <div className="d-flex mb-3">
+      <div>
+        {/* Search Bar */}
+        {/* <div className="d-flex mb-3">
           <div className="w-50 me-3">
             <FormControl
               style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
@@ -82,7 +83,7 @@ function AdminEnrolleesScreen() {
             ></FormControl>
           </div>
           <Button>Search</Button>
-        </div>
+        </div> */}
         <Form onSubmit={submitHandler}>
           <Table bordered className="tableColor mb-3">
             <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -130,7 +131,7 @@ function AdminEnrolleesScreen() {
               )}
             </tbody>
           </Table>
-          <div className="text-end">
+          <div className="text-end mb-5">
             <Button type="submit">Accept Enrollees</Button>
           </div>
         </Form>
@@ -146,7 +147,7 @@ function AdminEnrolleesScreen() {
             Create Enrollee
           </Button>
         </div>
-      </>
+      </div>
     );
   } else if (isError) {
     content = <p>{JSON.stringify(error)}</p>;

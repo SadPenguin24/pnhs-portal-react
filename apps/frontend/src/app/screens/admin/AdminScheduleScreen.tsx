@@ -24,9 +24,9 @@ function AdminScheduleScreen() {
 
   const dispatch = useAppDispatch();
 
-  let [foundSection, setFoundSection]: any = useState();
+  // let [foundSection, setFoundSection]: any = useState();
 
-  const { register, handleSubmit } = useForm();
+  // const { register, handleSubmit } = useForm();
 
   const { data: sections } = useGetParsedSectionsQuery({});
 
@@ -44,12 +44,10 @@ function AdminScheduleScreen() {
 
   let content;
 
-  const filterHandler = ({ section }: any) => {
-    const found = sections.find((item: any) => item._id === section);
-    setFoundSection(found);
-
-    // foundSection = sections.find((item: any) => item._id === section);
-  };
+  // const filterHandler = ({ section }: any) => {
+  //   const found = sections.find((item: any) => item._id === section);
+  //   setFoundSection(found);
+  // };
 
   if (isLoading) {
     content = (
@@ -60,7 +58,7 @@ function AdminScheduleScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(foundSection);
+    console.log(schedules);
     content = (
       <Table bordered className="tableColor" responsive="md">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -68,12 +66,12 @@ function AdminScheduleScreen() {
             <th>Subject</th>
             <th>Days</th>
             <th>Time</th>
-            <th>Teacher</th>
+            {role === 'student' ? <th>Teacher</th> : <th>Section</th>}
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {!foundSection && schedules ? (
+          {schedules.length > 0 ? (
             schedules.map((schedule: any) => (
               <tr key={schedule._id}>
                 <td>{schedule.subject.subject_name}</td>
@@ -90,20 +88,41 @@ function AdminScheduleScreen() {
                   {schedule.time_in} - {schedule.time_out}
                 </td>
                 <td>
-                  {schedule.teacher.first_name} {schedule.teacher.last_name}
+                  {role === 'student'
+                    ? schedule.teacher.first_name +
+                      ' ' +
+                      schedule.teacher.last_name
+                    : schedule.section_id && sections
+                    ? sections.map((section: any) => {
+                        if (section._id === schedule.section_id) {
+                          return section.section_name;
+                        }
+                        return;
+                      })
+                    : 'No Section'}
                 </td>
-                <td>
+                <td className="text-center">
                   <Button
-                    className="me-5"
-                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                    // className="me-5"
+                    onClick={() =>
+                      navigate(`/admin/schedule/${role}/${schedule._id}`)
+                    }
                   >
                     View
                   </Button>
-                  <Button variant="danger">Delete</Button>
+                  {/* <Button variant="danger">Delete</Button> */}
                 </td>
               </tr>
             ))
-          ) : foundSection.schedules.length > 0 && schedules ? (
+          ) : (
+            <tr>
+              <td colSpan={5} className="text-center">
+                No Schedule
+              </td>
+            </tr>
+          )}
+          {/* Filter section */}
+          {/* : foundSection.schedules.length > 0 && schedules ? (
             foundSection.schedules.map((schedule: any) => (
               <tr key={schedule._id}>
                 <td>{schedule.subject.subject_name}</td>
@@ -125,7 +144,9 @@ function AdminScheduleScreen() {
                 <td>
                   <Button
                     className="me-5"
-                    onClick={() => navigate(`/admin/schedule/${schedule._id}`)}
+                    onClick={() =>
+                      navigate(`/admin/schedule/${role}/${schedule._id}`)
+                    }
                   >
                     View
                   </Button>
@@ -133,13 +154,7 @@ function AdminScheduleScreen() {
                 </td>
               </tr>
             ))
-          ) : (
-            <tr>
-              <td colSpan={4} className="text-center">
-                No Schedule
-              </td>
-            </tr>
-          )}
+          ) */}
         </tbody>
       </Table>
     );
@@ -155,7 +170,8 @@ function AdminScheduleScreen() {
         redirect="/admin/home"
       />
       <Container>
-        <Form onSubmit={handleSubmit(filterHandler)}>
+        {/* Select filter */}
+        {/* <Form onSubmit={handleSubmit(filterHandler)}>
           <Row>
             {role === 'student' ? (
               <>
@@ -215,9 +231,9 @@ function AdminScheduleScreen() {
               </Button>
             </Col>
           </Row>
-        </Form>
+        </Form> */}
         <div className="text-end my-3">
-          <Button onClick={() => navigate('/admin/schedule/create')}>
+          <Button onClick={() => navigate(`/admin/schedule/${role}/create`)}>
             Create Schedule
           </Button>
         </div>
