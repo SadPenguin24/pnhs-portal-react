@@ -41,7 +41,7 @@ function AdminStudentSectionsScreen() {
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
             <th>Section</th>
-            <th>Faculty</th>
+            <th>Class Adviser</th>
             <th>School Year</th>
             <td>Actions</td>
           </tr>

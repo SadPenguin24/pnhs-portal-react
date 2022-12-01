@@ -74,15 +74,19 @@ function AdminViewSectionScreen() {
 
   const updateHandler = async ({
     section_name,
-    teacher_id,
     school_year,
+    term,
+    grade_level,
+    teacher_id,
   }: any) => {
     try {
       await updateSection({
         id,
         section_name,
-        teacher_id,
         school_year,
+        term,
+        grade_level,
+        teacher_id,
         students_id,
         schedules_id,
       });
@@ -137,6 +141,56 @@ function AdminViewSectionScreen() {
             />
           </Col>
         </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Term:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{section.term}</div>
+            ) : (
+              <Form.Select {...register('term')}>
+                <option value={section.term}>{section.term}</option>
+                {[1, 2].map((num: any) => {
+                  if (section.term === num) {
+                    return;
+                  }
+                  return (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Grade Level:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{section.grade_level}</div>
+            ) : (
+              <Form.Select {...register('grade_level')}>
+                <option value={section.grade_level}>
+                  {section.grade_level}
+                </option>
+                {[11, 12].map((num: any) => {
+                  if (section.grade_level === num) {
+                    return;
+                  }
+                  return (
+                    <option key={num} value={num}>
+                      {num}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Faculty:
@@ -148,14 +202,11 @@ function AdminViewSectionScreen() {
               </div>
             ) : (
               <>
-                <Form.Select
-                  defaultValue="Choose Faculty"
-                  {...register('teacher_id')}
-                >
+                <Form.Select {...register('teacher_id')}>
                   <option value={section.teacher._id}>
                     {section.teacher.first_name} {section.teacher.last_name}
                   </option>
-                  {teachers ? (
+                  {teachers &&
                     teachers.map((teacher: any) => {
                       if (teacher._id === section.teacher._id) {
                         return;
@@ -165,10 +216,7 @@ function AdminViewSectionScreen() {
                           {teacher.first_name} {teacher.last_name}
                         </option>
                       );
-                    })
-                  ) : (
-                    <option>No Faculty</option>
-                  )}
+                    })}
                 </Form.Select>
               </>
             )}
@@ -193,7 +241,7 @@ function AdminViewSectionScreen() {
                 ) : (
                   <div>No Students</div>
                 )
-              ) : students ? (
+              ) : students && students.length > 0 ? (
                 students.map((student: any) => (
                   <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
                     <Form.Check
@@ -249,7 +297,7 @@ function AdminViewSectionScreen() {
                 ) : (
                   <div>No Schedule</div>
                 )
-              ) : schedules ? (
+              ) : schedules && schedules.length > 0 ? (
                 schedules.map((schedule: any) => {
                   return (
                     <Col
@@ -294,7 +342,7 @@ function AdminViewSectionScreen() {
                   );
                 })
               ) : (
-                <div>No Schedules</div>
+                <div>No Schedule</div>
               )}
             </Row>
           </Col>

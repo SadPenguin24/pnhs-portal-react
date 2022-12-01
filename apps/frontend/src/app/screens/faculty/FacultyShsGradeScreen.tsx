@@ -112,7 +112,7 @@ function FacultyShsGradeScreen() {
                     return;
                   })}
                   <td>sample</td>
-                  <td>
+                  <td className="text-center">
                     <Button
                       onClick={() =>
                         navigate(
@@ -127,7 +127,9 @@ function FacultyShsGradeScreen() {
               ))
             ) : (
               <tr>
-                <td colSpan={7}>No Student</td>
+                <td colSpan={7} className="text-center">
+                  No Student
+                </td>
               </tr>
             )}
           </tbody>

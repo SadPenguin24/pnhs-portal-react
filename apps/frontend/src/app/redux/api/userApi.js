@@ -12,6 +12,7 @@ export const userApi = apiSlice.injectEndpoints({
     }),
     getRole: builder.query({
       query: (role_name) => `/user/role/${role_name}`,
+      providesTags: ['User'],
     }),
     getUserById: builder.query({
       query: (id) => `/user/${id}`,
@@ -46,7 +47,7 @@ export const userApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: ['User'],
+      invalidatesTags: ['Section', 'User'],
     }),
   }),
 });
@@ -59,5 +60,5 @@ export const {
   useConvertEtosMutation,
   useCreateUserMutation,
   useUpdateUserMutation,
-  useUpdateGradeMutation
+  useUpdateGradeMutation,
 } = userApi;

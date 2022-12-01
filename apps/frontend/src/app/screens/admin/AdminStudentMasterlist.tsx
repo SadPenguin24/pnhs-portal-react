@@ -44,46 +44,40 @@ function AdminStudentMasterlist() {
       </div>
     );
   } else if (isSuccess) {
-    console.log('THIS IS PROFILE: ', students);
+    console.log(students);
     content = (
       <Table bordered className="tableColor" responsive="lg">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
-            <th className="textWhite">Actions</th>
             <th className="textWhite">Student No.</th>
             <th className="textWhite">Last Name</th>
             <th className="textWhite">First Name</th>
             <th className="textWhite">Middle Name</th>
-            <th className="textWhite">Grade Level</th>
-            <th className="textWhite">Age</th>
-            <th className="textWhite">Birthdate</th>
-            <th className="textWhite">Birthplace</th>
-            <th className="textWhite">Contact #</th>
+            <th className="textWhite">Strand</th>
+            <th className="textWhite">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {students ? (
+          {students.length > 0 ? (
             students.map((student: any) => (
               <tr key={student._id}>
-                <td>
-                  <LinkContainer to={`/admin/student/${student._id}`}>
-                    <Button>View Student</Button>
-                  </LinkContainer>
-                </td>
                 <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
                 <td>{student.last_name}</td>
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
-                <td>11</td>
-                <td>17</td>
-                <td>December 25, 2015</td>
-                <td>Pangasinan</td>
-                <td>09999999999</td>
+                <td>{student.student.strand}</td>
+                <td className="text-center">
+                  <LinkContainer to={`/admin/student/${student._id}`}>
+                    <Button>View Student</Button>
+                  </LinkContainer>
+                </td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={10}>No Students</td>
+              <td colSpan={6} className="text-center">
+                No Student
+              </td>
             </tr>
           )}
         </tbody>

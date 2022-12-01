@@ -43,6 +43,19 @@ function AdminCreateScheduleScreen() {
     setIsSuccess(false);
     setIsLoading(true);
 
+    if (teacher_id === '') {
+      alert('Please select a teacher.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
+    if (subject_id === '') {
+      alert('Please select a subject.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
+
     const timeInNum = parseInt(time_in);
     const timeOutNum = parseInt(time_out);
 
@@ -83,11 +96,8 @@ function AdminCreateScheduleScreen() {
             Faculty:
           </Form.Label>
           <Col md={10}>
-            <Form.Select
-              defaultValue="Choose Faculty"
-              {...register('teacher_id')}
-            >
-              {teachers ? (
+            <Form.Select {...register('teacher_id')}>
+              {teachers && teachers.length > 0 ? (
                 teachers.map((teacher: any) => (
                   <option key={teacher._id} value={teacher._id}>
                     {teacher.first_name} {teacher.last_name}
@@ -104,11 +114,8 @@ function AdminCreateScheduleScreen() {
             Subject:
           </Form.Label>
           <Col md={10}>
-            <Form.Select
-              defaultValue="Choose Subject"
-              {...register('subject_id')}
-            >
-              {subjects ? (
+            <Form.Select {...register('subject_id')}>
+              {subjects && subjects.length > 0 ? (
                 subjects.map((subject: any) => (
                   <option key={subject._id} value={subject._id}>
                     {subject.subject_name}

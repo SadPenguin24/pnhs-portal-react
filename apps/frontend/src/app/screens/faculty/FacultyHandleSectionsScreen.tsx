@@ -20,20 +20,6 @@ function FacultyHandleSectionsScreen() {
 
   const currentFaculty = JSON.parse(localStorage.getItem('userInfo')!);
 
-  if (sections) {
-    sections.map((section: any) => {
-      currentFaculty.faculty.handled_subjects.map((handledSubject: any) => {
-        if (
-          handledSubject.section_id === section._id &&
-          !facultySections.includes(section)
-        ) {
-          facultySections.push(section);
-        }
-      });
-      console.log(currentFaculty);
-    });
-  }
-
   let content;
 
   if (isLoading) {
@@ -45,6 +31,19 @@ function FacultyHandleSectionsScreen() {
       </div>
     );
   } else if (isSuccess) {
+    if (sections) {
+      sections.map((section: any) => {
+        currentFaculty.faculty.handled_subjects.map((handledSubject: any) => {
+          if (
+            handledSubject.section_id === section._id &&
+            !facultySections.includes(section)
+          ) {
+            facultySections.push(section);
+          }
+        });
+        console.log(currentFaculty);
+      });
+    }
     content = (
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>

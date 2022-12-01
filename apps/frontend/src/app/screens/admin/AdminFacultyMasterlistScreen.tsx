@@ -32,43 +32,34 @@ function AdminFacultyMasterlistScreen() {
       </div>
     );
   } else if (isSuccess) {
+    console.log(faculties);
     content = (
       <Table bordered className="tableColor" responsive="lg">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
-            <th className="textWhite">Actions</th>
             <th className="textWhite">Last Name</th>
             <th className="textWhite">First Name</th>
             <th className="textWhite">Middle Name</th>
-            <th className="textWhite">Age</th>
-            <th className="textWhite">Address</th>
-            <th className="textWhite">Birthdate</th>
-            <th className="textWhite">Birthplace</th>
-            <th className="textWhite">Contact #</th>
+            <th className="textWhite">Actions</th>
           </tr>
         </thead>
         <tbody>
-          {faculties ? (
+          {faculties.length > 0 ? (
             faculties.map((faculty: any) => (
               <tr key={faculty._id}>
-                <td>
+                <td>{faculty.last_name}</td>
+                <td>{faculty.first_name}</td>
+                <td>{faculty.middle_name}</td>
+                <td className="text-center">
                   <LinkContainer to={`/admin/faculty/${faculty._id}`}>
                     <Button>View faculty</Button>
                   </LinkContainer>
                 </td>
-                <td>{faculty.last_name}</td>
-                <td>{faculty.first_name}</td>
-                <td>{faculty.middle_name}</td>
-                <td>11</td>
-                <td>17</td>
-                <td>December 25, 2015</td>
-                <td>Pangasinan</td>
-                <td>09999999999</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan={10}>No facultys</td>
+              <td colSpan={5}>No Faculty</td>
             </tr>
           )}
         </tbody>

@@ -71,7 +71,7 @@ function AdminScheduleScreen() {
           </tr>
         </thead>
         <tbody>
-          {schedules ? (
+          {schedules.length > 0 ? (
             schedules.map((schedule: any) => (
               <tr key={schedule._id}>
                 <td>{schedule.subject.subject_name}</td>
@@ -92,7 +92,7 @@ function AdminScheduleScreen() {
                     ? schedule.teacher.first_name +
                       ' ' +
                       schedule.teacher.last_name
-                    : schedule.section_id
+                    : schedule.section_id && sections
                     ? sections.map((section: any) => {
                         if (section._id === schedule.section_id) {
                           return section.section_name;

@@ -42,10 +42,12 @@ function AdminStudentProfileScreen() {
         middle_name,
         last_name,
         email,
-        address,
-        phone_number,
-        lrn,
-        strand,
+        profile: {
+          address: address,
+          phone_number: phone_number,
+          lrn: lrn,
+        },
+        student: { strand: strand },
       });
 
       alert('Successfully update student');
