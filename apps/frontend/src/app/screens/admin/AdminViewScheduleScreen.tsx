@@ -66,6 +66,11 @@ function AdminViewScheduleScreen() {
         return;
       }
 
+      if (days.length === 0) {
+        alert('Please select days.');
+        return;
+      }
+
       console.log(teacher_id, subject_id, days, time_in, time_out);
 
       await updateSubject({
@@ -163,6 +168,7 @@ function AdminViewScheduleScreen() {
           <Col md={10}>
             <Form.Control
               type="time"
+              required
               {...register('time_in')}
               defaultValue={schedule.time_in}
               readOnly={notEditing}
@@ -177,6 +183,7 @@ function AdminViewScheduleScreen() {
           <Col md={10}>
             <Form.Control
               type="time"
+              required
               {...register('time_out')}
               defaultValue={schedule.time_out}
               readOnly={notEditing}

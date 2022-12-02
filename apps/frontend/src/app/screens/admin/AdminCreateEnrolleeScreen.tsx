@@ -43,6 +43,13 @@ function AdminCreateEnrolleeScreen() {
     setIsSuccess(false);
     setIsLoading(true);
 
+    if (!(password === c_password)) {
+      alert('Password and Confirm password should be match.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
+
     await createEnrollee({
       first_name,
       middle_name,
@@ -122,7 +129,7 @@ function AdminCreateEnrolleeScreen() {
             Address:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('address')} />
+            <Form.Control required type="text" {...register('address')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -130,7 +137,7 @@ function AdminCreateEnrolleeScreen() {
             Phone Number:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('phone_number')} />
+            <Form.Control required type="text" {...register('phone_number')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -138,7 +145,7 @@ function AdminCreateEnrolleeScreen() {
             LRN:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('lrn')} />
+            <Form.Control required type="text" {...register('lrn')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -178,7 +185,7 @@ function AdminCreateEnrolleeScreen() {
             Password:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="password" {...register('password')} />
+            <Form.Control required type="password" {...register('password')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -186,7 +193,11 @@ function AdminCreateEnrolleeScreen() {
             Confirm Password:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="password" {...register('c_password')} />
+            <Form.Control
+              required
+              type="password"
+              {...register('c_password')}
+            />
           </Col>
         </Form.Group>
         {/* Images */}

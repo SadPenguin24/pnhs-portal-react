@@ -59,7 +59,7 @@ function AdminCreateSubjectScreen() {
             Subject Name:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('subject_name')} />
+            <Form.Control required type="text" {...register('subject_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">

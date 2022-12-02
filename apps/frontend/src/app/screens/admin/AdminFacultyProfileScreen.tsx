@@ -76,6 +76,7 @@ function AdminFacultyProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('last_name')}
                 defaultValue={faculty.last_name}
                 readOnly={notEditing}
@@ -90,6 +91,7 @@ function AdminFacultyProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('first_name')}
                 defaultValue={faculty.first_name}
                 readOnly={notEditing}
@@ -104,6 +106,7 @@ function AdminFacultyProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('middle_name')}
                 defaultValue={faculty.middle_name}
                 readOnly={notEditing}
@@ -118,6 +121,7 @@ function AdminFacultyProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="email"
+                required
                 {...register('email')}
                 defaultValue={faculty.email}
                 readOnly={notEditing}

@@ -152,6 +152,7 @@ function AdminEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               {...register('address')}
               defaultValue={enrollee.address}
               readOnly={notEditing}
@@ -166,6 +167,7 @@ function AdminEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               {...register('phone_number')}
               defaultValue={enrollee.phone_number}
               readOnly={notEditing}
@@ -180,6 +182,7 @@ function AdminEnrolleeScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               {...register('lrn')}
               defaultValue={enrollee.lrn}
               readOnly={notEditing}

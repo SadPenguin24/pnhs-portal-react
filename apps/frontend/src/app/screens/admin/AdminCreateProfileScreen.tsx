@@ -53,7 +53,7 @@ function AdminCreateProfileScreen() {
               First Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control type="text" {...register('first_name')} />
+              <Form.Control required type="text" {...register('first_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -61,7 +61,7 @@ function AdminCreateProfileScreen() {
               Middle Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control type="text" {...register('middle_name')} />
+              <Form.Control required type="text" {...register('middle_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -69,7 +69,7 @@ function AdminCreateProfileScreen() {
               Last Name:
             </Form.Label>
             <Col md={10}>
-              <Form.Control type="text" {...register('last_name')} />
+              <Form.Control required type="text" {...register('last_name')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -77,7 +77,7 @@ function AdminCreateProfileScreen() {
               Email:
             </Form.Label>
             <Col md={10}>
-              <Form.Control type="email" {...register('email')} />
+              <Form.Control required type="email" {...register('email')} />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">
@@ -85,7 +85,11 @@ function AdminCreateProfileScreen() {
               Password:
             </Form.Label>
             <Col md={10}>
-              <Form.Control type="password" {...register('password')} />
+              <Form.Control
+                required
+                type="password"
+                {...register('password')}
+              />
             </Col>
           </Form.Group>
           <Form.Group as={Row} className="mb-2">

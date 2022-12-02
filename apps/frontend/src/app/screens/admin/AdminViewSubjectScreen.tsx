@@ -76,6 +76,7 @@ function AdminViewSubjectScreen() {
           <Col md={11}>
             <Form.Control
               type="text"
+              required
               {...register('subject_name')}
               defaultValue={subject.subject_name}
               readOnly={notEditing}
