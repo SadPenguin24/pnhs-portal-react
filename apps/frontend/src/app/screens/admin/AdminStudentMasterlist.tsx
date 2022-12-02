@@ -4,7 +4,8 @@ import React, { useEffect, useState } from 'react';
 import {
   Button,
   Container,
-  FormControl,
+  Form,
+  InputGroup,
   Spinner,
   Table,
 } from 'react-bootstrap';
@@ -15,11 +16,16 @@ import { setStudents } from '../../redux/slice/userSlice';
 import { useAppDispatch } from '../../redux/store';
 
 import '../../components/tables/tables.scss';
+import { useForm } from 'react-hook-form';
 
 function AdminStudentMasterlist() {
+  const { register, handleSubmit } = useForm();
+
   const dispatch = useAppDispatch();
 
   const [role_name] = useState('student');
+  const [searchResults, setSearchResults]: any = useState([]);
+  const [searching, setSearching] = useState(false);
 
   const {
     data: students,
@@ -32,6 +38,19 @@ function AdminStudentMasterlist() {
   useEffect(() => {
     dispatch(setStudents({ students }));
   }, [dispatch, students]);
+
+  const searchStudent = ({ lastName }: any) => {
+    setSearching(true);
+    console.log(searching);
+
+    const condition = new RegExp(lastName.trim(), 'i');
+
+    const result = students.filter((student: any) =>
+      condition.test(student.last_name)
+    );
+    console.log(result);
+    setSearchResults(result);
+  };
 
   let content;
 
@@ -58,7 +77,24 @@ function AdminStudentMasterlist() {
           </tr>
         </thead>
         <tbody>
-          {students.length > 0 ? (
+          {searchResults.length > 0 && students.length > 0 && searching ? (
+            searchResults.map((student: any) => (
+              <tr key={student._id}>
+                <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
+                <td>{student.last_name}</td>
+                <td>{student.first_name}</td>
+                <td>{student.middle_name}</td>
+                <td>{student.student.strand}</td>
+                <td className="text-center">
+                  <LinkContainer to={`/admin/student/${student._id}`}>
+                    <Button>View Student</Button>
+                  </LinkContainer>
+                </td>
+              </tr>
+            ))
+          ) : students.length > 0 &&
+            searchResults.length === 0 &&
+            !searching ? (
             students.map((student: any) => (
               <tr key={student._id}>
                 <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
@@ -92,14 +128,32 @@ function AdminStudentMasterlist() {
       <Header page="Student Masterlist" redirect="/admin/home" />
       <Container>
         {/* Search Bar */}
-        {/* <div className="d-flex justify-content-end mb-3">
-          <div className="w-50">
-            <FormControl
-              style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-              placeholder="Enter Student Name"
-            ></FormControl>
-          </div>
-        </div> */}
+        <Form
+          onSubmit={handleSubmit(searchStudent)}
+          className="d-flex justify-content-end"
+        >
+          <InputGroup className="w-50 d-flex mb-3">
+            <Form.Control
+              type="text"
+              {...register('lastName')}
+              style={{
+                backgroundColor: '#ffe4a0',
+                border: '#eaaa79 solid',
+              }}
+              placeholder="Search Student's Last Name"
+            />
+            <Button
+              type="submit"
+              style={{
+                backgroundColor: '#ffe4a0',
+                border: '#eaaa79 solid',
+                borderLeft: 'none',
+              }}
+            >
+              <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
+            </Button>
+          </InputGroup>
+        </Form>
         {content}
       </Container>
     </div>
