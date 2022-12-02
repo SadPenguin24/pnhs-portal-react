@@ -120,6 +120,7 @@ function AdminViewSectionScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               {...register('section_name')}
               defaultValue={section.section_name}
               readOnly={notEditing}
@@ -134,6 +135,7 @@ function AdminViewSectionScreen() {
           <Col md={10}>
             <Form.Control
               type="text"
+              required
               {...register('school_year')}
               defaultValue={section.school_year}
               readOnly={notEditing}

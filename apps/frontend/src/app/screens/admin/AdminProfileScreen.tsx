@@ -68,6 +68,7 @@ function AdminProfileScreen() {
               <Col lg={11} md={10}>
                 <Form.Control
                   type="text"
+                  required
                   {...register('last_name')}
                   defaultValue={currentUser.last_name}
                   readOnly={notEditing}
@@ -82,6 +83,7 @@ function AdminProfileScreen() {
               <Col lg={11} md={10}>
                 <Form.Control
                   type="text"
+                  required
                   {...register('first_name')}
                   defaultValue={currentUser.first_name}
                   readOnly={notEditing}
@@ -96,6 +98,7 @@ function AdminProfileScreen() {
               <Col lg={11} md={10}>
                 <Form.Control
                   type="text"
+                  required
                   {...register('middle_name')}
                   defaultValue={currentUser.middle_name}
                   readOnly={notEditing}
@@ -110,6 +113,7 @@ function AdminProfileScreen() {
               <Col lg={11} md={10}>
                 <Form.Control
                   type="email"
+                  required
                   {...register('email')}
                   defaultValue={currentUser.email}
                   readOnly={notEditing}

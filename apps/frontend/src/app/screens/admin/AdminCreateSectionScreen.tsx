@@ -27,21 +27,11 @@ function AdminCreateSectionScreen() {
   } = useGetRoleQuery('faculty');
 
   const [role] = useState('student');
-  const [students_id]: any = useState([]);
   const [schedules_id]: any = useState([]);
 
   const navigate = useNavigate();
 
   const [createSection] = useCreateSectionMutation();
-
-  const addStudentHandler = (e: any) => {
-    const index = students_id.indexOf(e.target.value);
-    if (index > -1) {
-      students_id.splice(index, 1);
-    } else {
-      students_id.push(e.target.value);
-    }
-  };
 
   const scheduleHandler = (id: any) => {
     const { data: subject } = useGetSubjectQuery(id);
@@ -65,6 +55,10 @@ function AdminCreateSectionScreen() {
     grade_level,
     teacher_id,
   }: any) => {
+    if (teacher_id === '') {
+      alert('Please select a faculty.');
+      return;
+    }
     console.log(
       role,
       section_name,
@@ -73,7 +67,6 @@ function AdminCreateSectionScreen() {
       term,
       grade_level,
       teacher_id,
-      students_id,
       schedules_id
     );
     await createSection({
@@ -84,7 +77,6 @@ function AdminCreateSectionScreen() {
       term,
       grade_level,
       teacher_id,
-      students_id,
       schedules_id,
     });
 
@@ -111,7 +103,7 @@ function AdminCreateSectionScreen() {
             Section:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('section_name')} />
+            <Form.Control type="text" required {...register('section_name')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -119,12 +111,12 @@ function AdminCreateSectionScreen() {
             School Year:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" {...register('school_year')} />
+            <Form.Control type="text" required {...register('school_year')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            School Year:
+            Strand:
           </Form.Label>
           <Col md={10}>
             <Form.Select {...register('strand')}>
@@ -151,7 +143,7 @@ function AdminCreateSectionScreen() {
           </Form.Label>
           <Col md={10}>
             <Form.Select {...register('term')}>
-              {[1, 1].map((num: any) => (
+              {[1, 2].map((num: any) => (
                 <option key={num} value={num}>
                   {num}
                 </option>
@@ -189,31 +181,6 @@ function AdminCreateSectionScreen() {
                 <option value="">No Faculty</option>
               )}
             </Form.Select>
-          </Col>
-        </Form.Group>
-        {/* form of students id */}
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Students:
-          </Form.Label>
-          <Col md={10}>
-            <Row>
-              {students && students.length > 0 ? (
-                students.map((student: any) => (
-                  <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
-                    <Form.Check
-                      type="checkbox"
-                      name="student"
-                      label={student.first_name + ' ' + student.last_name}
-                      value={student._id}
-                      onChange={addStudentHandler}
-                    />
-                  </Col>
-                ))
-              ) : (
-                <div>No Students</div>
-              )}
-            </Row>
           </Col>
         </Form.Group>
         {/* form of schedules id */}

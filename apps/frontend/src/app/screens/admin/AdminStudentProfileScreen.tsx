@@ -99,6 +99,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('last_name')}
                 defaultValue={student.last_name}
                 readOnly={notEditing}
@@ -113,6 +114,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('first_name')}
                 defaultValue={student.first_name}
                 readOnly={notEditing}
@@ -127,6 +129,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('middle_name')}
                 defaultValue={student.middle_name}
                 readOnly={notEditing}
@@ -141,6 +144,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="email"
+                required
                 {...register('email')}
                 defaultValue={student.email}
                 readOnly={notEditing}
@@ -155,6 +159,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('address')}
                 defaultValue={student.profile.address}
                 readOnly={notEditing}
@@ -169,6 +174,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('phone_number')}
                 defaultValue={student.profile.phone_number}
                 readOnly={notEditing}
@@ -183,6 +189,7 @@ function AdminStudentProfileScreen() {
             <Col md={10}>
               <Form.Control
                 type="text"
+                required
                 {...register('lrn')}
                 defaultValue={student.profile.lrn}
                 readOnly={notEditing}

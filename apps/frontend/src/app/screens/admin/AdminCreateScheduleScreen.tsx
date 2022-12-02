@@ -55,6 +55,12 @@ function AdminCreateScheduleScreen() {
       setIsSuccess(true);
       return;
     }
+    if (days.length === 0) {
+      alert('Please select days.');
+      setIsLoading(false);
+      setIsSuccess(true);
+      return;
+    }
 
     const timeInNum = parseInt(time_in);
     const timeOutNum = parseInt(time_out);
@@ -132,7 +138,7 @@ function AdminCreateScheduleScreen() {
             Time in:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="time" {...register('time_in')} />
+            <Form.Control required type="time" {...register('time_in')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -140,7 +146,7 @@ function AdminCreateScheduleScreen() {
             Time out:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="time" {...register('time_out')} />
+            <Form.Control required type="time" {...register('time_out')} />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
