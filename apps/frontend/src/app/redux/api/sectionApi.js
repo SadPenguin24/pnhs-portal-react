@@ -32,7 +32,7 @@ export const sectionApi = apiSlice.injectEndpoints({
         method: 'PUT',
         body: body,
       }),
-      invalidatesTags: ['Section'],
+      invalidatesTags: ['Section', 'User'],
     }),
   }),
 });
