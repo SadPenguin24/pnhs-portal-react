@@ -14,7 +14,6 @@ import AdminHomeScreen from './screens/admin/AdminHomeScreen';
 import AdminProfileScreen from './screens/admin/AdminProfileScreen';
 
 import StudentHomeScreen from './screens/student/StudentHomeScreen';
-import StudentEnrollmentScreen from './screens/student/StudentEnrollmentScreen';
 import StudentReportCardScreen from './screens/student/StudentReportCardScreen';
 import StudentScheduleScreen from './screens/student/StudentScheduleScreen';
 import StudentProfileScreen from './screens/student/StudentProfileScreen';
@@ -45,6 +44,8 @@ import AdminCreateProfileScreen from './screens/admin/AdminCreateProfileScreen';
 import AdminViewScheduleScreen from './screens/admin/AdminViewScheduleScreen';
 import FacultyHandleSectionsScreen from './screens/faculty/FacultyHandleSectionsScreen';
 import FacultyEditStudentGrade from './screens/faculty/FacultyEditStudentGrade';
+import StudentEnrollmentSectionsScreen from './screens/student/StudentEnrollmentSectionsScreen';
+import StudentEnrollmentScreen from './screens/student/StudentEnrollmentScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -145,7 +146,11 @@ export function App() {
             {/* Student Screens */}
             <Route path="/student/home" element={<StudentHomeScreen />} />
             <Route
-              path="/student/enrollment"
+              path="/student/enrollment/sections"
+              element={<StudentEnrollmentSectionsScreen />}
+            />
+            <Route
+              path="/student/enrollment/section/:sectionId"
               element={<StudentEnrollmentScreen />}
             />
             <Route
