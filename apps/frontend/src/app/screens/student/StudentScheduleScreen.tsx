@@ -40,7 +40,8 @@ function StudentScheduleScreen() {
             </h4>
             <h4>
               <strong>
-                Grade {studentSection.grade_level} - {studentSection.strand}
+                Grade {studentSection.grade_level} -{' '}
+                {studentSection.section_name}
               </strong>
             </h4>
             <h4>
