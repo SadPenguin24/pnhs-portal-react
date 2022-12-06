@@ -49,6 +49,7 @@ function StudentEnrollmentSectionsScreen() {
     let term: number;
     let gradeLevel: number;
     if (studentSection) {
+      console.log(studentSection);
       if (studentSection.term === 1 && studentSection.grade_level === 11) {
         term = 2;
         gradeLevel = 11;
@@ -65,6 +66,7 @@ function StudentEnrollmentSectionsScreen() {
         term = 2;
         gradeLevel = 12;
       }
+
       sameStrand = sections.filter(
         (section: any) =>
           section.strand === currentUser.student.strand &&
@@ -72,7 +74,6 @@ function StudentEnrollmentSectionsScreen() {
           section.grade_level === gradeLevel
       );
     }
-    console.log(studentSection);
     content = (
       <>
         {currentUser.student.section_id && studentSection ? (
