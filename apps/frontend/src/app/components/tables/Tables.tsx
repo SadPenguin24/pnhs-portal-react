@@ -28,15 +28,16 @@ export function ReportCardTable({ data, headerColor, sem }: any) {
         </tr>
       </thead>
       <tbody>
-        {data.map((card: any) => (
-          <tr key={card.subject._id}>
-            <td>{card.subject.subject_name}</td>
-            <td>{card.first_half}</td>
-            <td>{card.second_half}</td>
-            <td>{card.final_grade}</td>
-            <td>{card.remarks}</td>
-          </tr>
-        ))}
+        {data &&
+          data.map((card: any) => (
+            <tr key={card.subject._id}>
+              <td>{card.subject.subject_name}</td>
+              <td>{card.first_half}</td>
+              <td>{card.second_half}</td>
+              <td>{card.final_grade}</td>
+              <td>{card.remarks}</td>
+            </tr>
+          ))}
       </tbody>
     </Table>
   );

@@ -64,10 +64,10 @@ export function App() {
             {/* Admin Screens */}
             <Route path="/admin/home" element={<AdminHomeScreen />} />
             <Route path="/admin/profile" element={<AdminProfileScreen />} />
-            <Route
+            {/* <Route
               path="/admin/studentrecords"
               element={<AdminStudentRecordsScreen />}
-            />
+            /> */}
             <Route
               path="/admin/studentlist"
               element={<AdminStudentMasterlist />}
