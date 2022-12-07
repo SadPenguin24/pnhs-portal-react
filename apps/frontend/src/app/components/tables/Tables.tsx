@@ -5,7 +5,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 
 import './tables.scss';
 
-export function ReportCardTable({ headerColor, sem }: any) {
+export function ReportCardTable({ data, headerColor, sem }: any) {
+  console.log(data);
   return (
     <Table bordered className="tableColor">
       <thead>
@@ -27,13 +28,15 @@ export function ReportCardTable({ headerColor, sem }: any) {
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td>sample</td>
-          <td>sample</td>
-          <td>sample</td>
-          <td>sample</td>
-          <td>sample</td>
-        </tr>
+        {data.map((card: any) => (
+          <tr key={card.subject._id}>
+            <td>{card.subject.subject_name}</td>
+            <td>{card.first_half}</td>
+            <td>{card.second_half}</td>
+            <td>{card.final_grade}</td>
+            <td>{card.remarks}</td>
+          </tr>
+        ))}
       </tbody>
     </Table>
   );

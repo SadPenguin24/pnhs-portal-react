@@ -49,6 +49,7 @@ function StudentEnrollmentSectionsScreen() {
     let term: number;
     let gradeLevel: number;
     if (studentSection) {
+      console.log(studentSection);
       if (studentSection.term === 1 && studentSection.grade_level === 11) {
         term = 2;
         gradeLevel = 11;
@@ -65,6 +66,7 @@ function StudentEnrollmentSectionsScreen() {
         term = 2;
         gradeLevel = 12;
       }
+
       sameStrand = sections.filter(
         (section: any) =>
           section.strand === currentUser.student.strand &&
@@ -72,56 +74,73 @@ function StudentEnrollmentSectionsScreen() {
           section.grade_level === gradeLevel
       );
     }
-    console.log(studentSection);
     content = (
       <>
-        {currentUser.student.section_id ? (
-          <Table bordered className="tableColor mb-3" responsive="lg">
-            <thead style={{ backgroundColor: '#19940e' }}>
-              <tr className="text-center">
-                <th>Section</th>
-                <th>Class Adviser</th>
-                <th>Strand</th>
-                <th>Term</th>
-                <th>Grade Level</th>
-                <th>School Year</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {sameStrand && sameStrand.length > 0 ? (
-                sameStrand.map((section: any) => (
-                  <tr key={section._id}>
-                    <td>{section.section_name}</td>
-                    <td>
-                      {section.teacher.first_name +
-                        ' ' +
-                        section.teacher.last_name}
-                    </td>
-                    <td>{section.strand}</td>
-                    <td>{section.term}</td>
-                    <td>{section.grade_level}</td>
-                    <td>{section.school_year}</td>
-                    <td className="text-center">
-                      <LinkContainer
-                        to={`/student/enrollment/section/${section._id}`}
-                      >
-                        <Button>View</Button>
-                      </LinkContainer>
+        {currentUser.student.section_id && studentSection ? (
+          <>
+            <div className="mb-2">Student No.: {currentUser.profile.lrn}</div>
+            <div className="mb-2">
+              Name: {currentUser.first_name + ' ' + currentUser.last_name}
+            </div>
+            <div className="mb-2">
+              School Year: {studentSection.school_year}
+            </div>
+            <div className="mb-2">
+              Semester:{' '}
+              {studentSection.term === 1 ? '1st Semester' : '2nd Semester'}
+            </div>
+            {/* <div className="mb-2">Curriculum Ref. No.:</div> */}
+            <div className="mb-2">
+              Grade Level / Strand:{' '}
+              {studentSection.grade_level + ' / ' + currentUser.student.strand}
+            </div>
+            <Table bordered className="tableColor mb-3" responsive="lg">
+              <thead style={{ backgroundColor: '#19940e' }}>
+                <tr className="text-center">
+                  <th>Section</th>
+                  <th>Class Adviser</th>
+                  <th>Strand</th>
+                  <th>Term</th>
+                  <th>Grade Level</th>
+                  <th>School Year</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sameStrand && sameStrand.length > 0 ? (
+                  sameStrand.map((section: any) => (
+                    <tr key={section._id}>
+                      <td>{section.section_name}</td>
+                      <td>
+                        {section.teacher.first_name +
+                          ' ' +
+                          section.teacher.last_name}
+                      </td>
+                      <td>{section.strand}</td>
+                      <td>{section.term}</td>
+                      <td>{section.grade_level}</td>
+                      <td>{section.school_year}</td>
+                      <td className="text-center">
+                        <LinkContainer
+                          to={`/student/enrollment/section/${section._id}`}
+                        >
+                          <Button>View</Button>
+                        </LinkContainer>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan={7} className="text-center">
+                      No Section for {currentUser.student.strand} Strand
                     </td>
                   </tr>
-                ))
-              ) : (
-                <tr>
-                  <td colSpan={7} className="text-center">
-                    No Section for {currentUser.student.strand} Strand
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </Table>
+                )}
+              </tbody>
+            </Table>
+          </>
         ) : (
-          <h1>You are not enrolled to any section.</h1>
+          <h4 style={{ color: 'red' }}>You are not enrolled to any section.</h4>
         )}
       </>
     );
@@ -133,17 +152,6 @@ function StudentEnrollmentSectionsScreen() {
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Enrollment / Registration" redirect="/student/home" />
       <Container>
-        <div className="mb-2">Student No.: {currentUser.profile.lrn}</div>
-        <div className="mb-2">
-          Name: {currentUser.first_name + ' ' + currentUser.last_name}
-        </div>
-        <div className="mb-2">School Year:</div>
-        <div className="mb-2">Semester:</div>
-        <div className="mb-2">Curriculum Ref. No.:</div>
-        <div className="mb-2">
-          Grade Level / Strand: {currentUser.student.strand}
-        </div>
-
         {/* <FormGroup as={Row} className="mb-3">
           <FormLabel column lg="2" md="4">
             Grade Level&Sec / Strand:
