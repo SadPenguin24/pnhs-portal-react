@@ -23,7 +23,8 @@ function AdminStudentRecordsScreen() {
   const componentRef1 = useRef(null);
   const componentRef2 = useRef(null);
 
-  const { register, handleSubmit } = useForm();
+  const { register } = useForm();
+
   const [role_name] = useState('student');
   const [searchResults, setSearchResults]: any = useState([]);
 
@@ -35,17 +36,17 @@ function AdminStudentRecordsScreen() {
     error,
   } = useGetRoleQuery(role_name);
 
-  const searchStudent = ({ lastName }: any) => {
+  const searchStudent = (e: any) => {
     // setSearching(true);
-    // console.log(searching);
+    console.log(e.target.value);
 
-    const condition = new RegExp(lastName.trim(), 'i');
+    // const condition = new RegExp(lastName.trim(), 'i');
 
-    const result = students.filter((student: any) =>
-      condition.test(student.last_name)
-    );
-    console.log(result);
-    setSearchResults(result);
+    // const result = students.filter((student: any) =>
+    //   condition.test(student.last_name)
+    // );
+    // console.log(result);
+    // setSearchResults(result);
   };
 
   let content;
@@ -222,30 +223,22 @@ function AdminStudentRecordsScreen() {
       <Header page="Student Records" redirect="/admin/home" />
       <Container>
         <Form
-          onSubmit={handleSubmit(searchStudent)}
+          // onSubmit={handleSubmit(searchStudent)}
           className="d-flex justify-content-end"
         >
-          <InputGroup className="w-50 d-flex mb-3">
-            <Form.Control
-              type="text"
-              {...register('lastName')}
-              style={{
-                backgroundColor: '#ffe4a0',
-                border: '#eaaa79 solid',
-              }}
-              placeholder="Search Student's Last Name"
-            />
-            <Button
-              type="submit"
-              style={{
-                backgroundColor: '#ffe4a0',
-                border: '#eaaa79 solid',
-                borderLeft: 'none',
-              }}
-            >
-              <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
-            </Button>
-          </InputGroup>
+          <Form.Control
+            type="text"
+            className="w-50 d-flex mb-3"
+            {...(register('lastName'),
+            {
+              onChange: searchStudent,
+            })}
+            style={{
+              backgroundColor: '#ffe4a0',
+              border: '#eaaa79 solid',
+            }}
+            placeholder="Search Student's Last Name"
+          />
         </Form>
         {content}
       </Container>

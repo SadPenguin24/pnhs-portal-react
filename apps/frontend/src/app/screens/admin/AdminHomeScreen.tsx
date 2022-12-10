@@ -22,7 +22,7 @@ function AdminHomeScreen() {
               <div>Admin Profile</div>
             </Col>
           </LinkContainer>
-          {/* <LinkContainer to="/admin/studentrecords">
+          <LinkContainer to="/admin/studentrecords">
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image
                 src="../assets/images/icons/admin/student-records.png"
@@ -30,7 +30,7 @@ function AdminHomeScreen() {
               />
               <div>Student Records</div>
             </Col>
-          </LinkContainer> */}
+          </LinkContainer>
           <LinkContainer to="/admin/studentlist">
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image

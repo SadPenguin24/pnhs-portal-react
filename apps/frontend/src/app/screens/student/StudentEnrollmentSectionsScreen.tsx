@@ -3,6 +3,7 @@ import {
   Button,
   Col,
   Container,
+  Form,
   FormControl,
   FormGroup,
   FormLabel,
@@ -10,6 +11,7 @@ import {
   Spinner,
   Table,
 } from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { LinkContainer } from 'react-router-bootstrap';
 import Header from '../../components/header/Header';
 
@@ -20,6 +22,8 @@ import {
 } from '../../redux/api/sectionApi';
 
 function StudentEnrollmentSectionsScreen() {
+  const { register } = useForm();
+
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
 
   const { data: studentSection } = useGetParsedSectionQuery(
@@ -94,6 +98,25 @@ function StudentEnrollmentSectionsScreen() {
               Grade Level / Strand:{' '}
               {studentSection.grade_level + ' / ' + currentUser.student.strand}
             </div>
+            {sameStrand && sameStrand.length > 0 ? (
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label as={Col} md={1}>
+                  Section:
+                </Form.Label>
+                <Col md={11}>
+                  <Form.Select>
+                    <option>Select a section</option>
+                    {sameStrand.map((section: any) => (
+                      <option key={section._id}>{section.section_name}</option>
+                    ))}
+                  </Form.Select>
+                </Col>
+              </Form.Group>
+            ) : (
+              <h4 style={{ color: 'red' }}>
+                You are not enrolled to any section.
+              </h4>
+            )}
             <Table bordered className="tableColor mb-3" responsive="lg">
               <thead style={{ backgroundColor: '#19940e' }}>
                 <tr className="text-center">

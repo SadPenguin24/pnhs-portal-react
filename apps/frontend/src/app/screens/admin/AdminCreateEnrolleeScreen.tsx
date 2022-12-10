@@ -36,19 +36,54 @@ function AdminCreateEnrolleeScreen() {
     address,
     phone_number,
     lrn,
+    religion,
+    nationality,
+    age,
+    sex,
+    birth_date,
+    civil_status,
     strand,
     password,
     c_password,
+    ec_full_name,
+    ec_relationship,
+    ec_mobile_number,
   }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
-    if (!(password === c_password)) {
-      alert('Password and Confirm password should be match.');
+    if (password !== c_password) {
+      alert('Password and Confirm Password should match.');
       setIsLoading(false);
       setIsSuccess(true);
       return;
     }
+
+    const emergency_contacts = [
+      ec_full_name,
+      ec_relationship,
+      ec_mobile_number,
+    ];
+
+    console.log(
+      first_name,
+      middle_name,
+      last_name,
+      email,
+      address,
+      phone_number,
+      lrn,
+      religion,
+      nationality,
+      age,
+      sex,
+      birth_date,
+      civil_status,
+      strand,
+      password,
+      c_password,
+      emergency_contacts
+    );
 
     await createEnrollee({
       first_name,
@@ -61,10 +96,17 @@ function AdminCreateEnrolleeScreen() {
       picture_2x2,
       grade_10_card,
       lrn,
+      religion,
+      nationality,
+      age,
+      sex,
+      birth_date,
+      civil_status,
       good_moral,
       strand,
       password,
       c_password,
+      emergency_contacts,
     });
 
     alert('Successfully create an enrollee.');
@@ -150,6 +192,62 @@ function AdminCreateEnrolleeScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
+            Religion:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control required type="text" {...register('religion')} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Nationality:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control required type="text" {...register('nationality')} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Age:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control required type="number" {...register('age')} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Birth Date:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control required type="date" {...register('birth_date')} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Sex:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('sex')}>
+              <option>Male</option>
+              <option>Female</option>
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Civil Status:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('civil_status')}>
+              <option>Single</option>
+              <option>Married</option>
+              <option>Separated</option>
+              <option>Widowed</option>
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
             Strand:
           </Form.Label>
           <Col md={10}>
@@ -188,7 +286,7 @@ function AdminCreateEnrolleeScreen() {
             <Form.Control required type="password" {...register('password')} />
           </Col>
         </Form.Group>
-        <Form.Group as={Row} className="mb-2">
+        <Form.Group as={Row} className="mb-3">
           <Form.Label column md={2}>
             Confirm Password:
           </Form.Label>
@@ -197,6 +295,39 @@ function AdminCreateEnrolleeScreen() {
               required
               type="password"
               {...register('c_password')}
+            />
+          </Col>
+        </Form.Group>
+        <h4 className="mb-2">Emergency Contact</h4>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Full Name:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control required type="text" {...register('ec_full_name')} />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Relationship:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              required
+              type="text"
+              {...register('ec_relationship')}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Contact Number:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              required
+              type="text"
+              {...register('ec_mobile_number')}
             />
           </Col>
         </Form.Group>
