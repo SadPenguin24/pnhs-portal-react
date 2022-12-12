@@ -80,7 +80,7 @@ function AdminStudentMasterlist() {
           {searchResults.length > 0 && students.length > 0 && searching ? (
             searchResults.map((student: any) => (
               <tr key={student._id}>
-                <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
+                <td>{student.student ? student.student.lrn : 'No LRN'}</td>
                 <td>{student.last_name}</td>
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
@@ -97,7 +97,7 @@ function AdminStudentMasterlist() {
             !searching ? (
             students.map((student: any) => (
               <tr key={student._id}>
-                <td>{student.profile ? student.profile.lrn : 'No LRN'}</td>
+                <td>{student.student ? student.student.lrn : 'No LRN'}</td>
                 <td>{student.last_name}</td>
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>

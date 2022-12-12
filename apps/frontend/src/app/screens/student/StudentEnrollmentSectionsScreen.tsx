@@ -22,8 +22,6 @@ import {
 } from '../../redux/api/sectionApi';
 
 function StudentEnrollmentSectionsScreen() {
-  const { register } = useForm();
-
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
 
   const { data: studentSection } = useGetParsedSectionQuery(
@@ -82,28 +80,46 @@ function StudentEnrollmentSectionsScreen() {
       <>
         {currentUser.student.section_id && studentSection ? (
           <>
-            <div className="mb-2">Student No.: {currentUser.profile.lrn}</div>
-            <div className="mb-2">
-              Name: {currentUser.first_name + ' ' + currentUser.last_name}
-            </div>
-            <div className="mb-2">
-              School Year: {studentSection.school_year}
-            </div>
-            <div className="mb-2">
-              Semester:{' '}
-              {studentSection.term === 1 ? '1st Semester' : '2nd Semester'}
-            </div>
-            {/* <div className="mb-2">Curriculum Ref. No.:</div> */}
-            <div className="mb-2">
-              Grade Level / Strand:{' '}
-              {studentSection.grade_level + ' / ' + currentUser.student.strand}
-            </div>
+            <Row>
+              <Col md={2} className="mb-2">
+                <strong>LRN:</strong>
+              </Col>
+              <Col md={10} className="mb-2">
+                {currentUser.profile.lrn}
+              </Col>
+              <Col md={2} className="mb-2">
+                <strong>Student Name:</strong>
+              </Col>
+              <Col md={10} className="mb-2">
+                {currentUser.first_name + ' ' + currentUser.last_name}
+              </Col>
+              <Col md={2} className="mb-2">
+                <strong>School Year:</strong>
+              </Col>
+              <Col md={10} className="mb-2">
+                {studentSection.school_year}
+              </Col>
+              <Col md={2} className="mb-2">
+                <strong>Semester:</strong>
+              </Col>
+              <Col md={10} className="mb-2">
+                {studentSection.term === 1 ? '1st Semester' : '2nd Semester'}
+              </Col>
+              <Col md={2} className="mb-2">
+                <strong>Grade Level / Strand:</strong>
+              </Col>
+              <Col md={10} className="mb-2">
+                {studentSection.grade_level +
+                  ' / ' +
+                  currentUser.student.strand}
+              </Col>
+            </Row>
             {sameStrand && sameStrand.length > 0 ? (
               <Form.Group as={Row} className="mb-3">
-                <Form.Label as={Col} md={1}>
-                  Section:
+                <Form.Label as={Col} md={2}>
+                  <strong>Sections:</strong>
                 </Form.Label>
-                <Col md={11}>
+                <Col md={10}>
                   <Form.Select>
                     <option>Select a section</option>
                     {sameStrand.map((section: any) => (

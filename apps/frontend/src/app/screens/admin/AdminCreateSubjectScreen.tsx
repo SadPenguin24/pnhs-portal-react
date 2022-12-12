@@ -70,7 +70,9 @@ function AdminCreateSubjectScreen() {
           <Col md={10}>
             <Form.Select {...register('type')}>
               {['Core', 'Specialized'].map((type: any) => (
-                <option value={type}>{type}</option>
+                <option value={type} key={type}>
+                  {type}
+                </option>
               ))}
             </Form.Select>
           </Col>

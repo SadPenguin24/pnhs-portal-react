@@ -43,6 +43,8 @@ function AdminCreateEnrolleeScreen() {
     birth_date,
     civil_status,
     strand,
+    current_grade,
+    current_term,
     password,
     c_password,
     ec_full_name,
@@ -82,6 +84,8 @@ function AdminCreateEnrolleeScreen() {
       birth_date,
       civil_status,
       strand,
+      current_grade,
+      current_term,
       password,
       c_password,
       emergency_contacts
@@ -106,6 +110,8 @@ function AdminCreateEnrolleeScreen() {
       civil_status,
       good_moral,
       strand,
+      current_grade,
+      current_term,
       password,
       c_password,
       emergency_contacts,
@@ -231,8 +237,11 @@ function AdminCreateEnrolleeScreen() {
           </Form.Label>
           <Col md={10}>
             <Form.Select {...register('sex')}>
-              <option>Male</option>
-              <option>Female</option>
+              {['Male', 'Female'].map((sex: any) => (
+                <option value={sex} key={sex}>
+                  {sex}
+                </option>
+              ))}
             </Form.Select>
           </Col>
         </Form.Group>
@@ -242,10 +251,13 @@ function AdminCreateEnrolleeScreen() {
           </Form.Label>
           <Col md={10}>
             <Form.Select {...register('civil_status')}>
-              <option>Single</option>
-              <option>Married</option>
-              <option>Separated</option>
-              <option>Widowed</option>
+              {['Single', 'Married', 'Separated', 'Widowed'].map(
+                (civilStats: any) => (
+                  <option value={civilStats} key={civilStats}>
+                    {civilStats}
+                  </option>
+                )
+              )}
             </Form.Select>
           </Col>
         </Form.Group>
@@ -279,6 +291,34 @@ function AdminCreateEnrolleeScreen() {
                 ))}
               </Form.Select>
             )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Grade Level:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('current_grade')}>
+              {['11', '12'].map((gradeLevel: any) => (
+                <option value={gradeLevel} key={gradeLevel}>
+                  {gradeLevel}
+                </option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Term:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('current_term')}>
+              {['1', '2'].map((term: any) => (
+                <option value={term} key={term}>
+                  {term}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
