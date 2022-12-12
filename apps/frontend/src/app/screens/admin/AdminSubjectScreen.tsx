@@ -44,6 +44,7 @@ function AdminSubjectScreen() {
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
+            <th>Type</th>
             <th>Strand</th>
             <th>Subject</th>
             <th>Actions</th>
@@ -53,6 +54,7 @@ function AdminSubjectScreen() {
           {filterSubjects.length !== 0 ? (
             filterSubjects.map((subject: any) => (
               <tr key={subject._id}>
+                <td>{subject.type}</td>
                 <td>{subject.strand}</td>
                 <td>{subject.subject_name}</td>
                 <td className="d-flex justify-content-around">

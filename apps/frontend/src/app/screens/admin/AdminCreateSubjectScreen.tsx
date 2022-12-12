@@ -24,12 +24,13 @@ function AdminCreateSubjectScreen() {
 
   const [createSubject] = useCreateSubjectMutation();
 
-  const createSubjectHandler = async ({ subject_name }: any) => {
+  const createSubjectHandler = async ({ subject_name, type }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
     await createSubject({
       subject_name,
+      type,
       strand,
     });
 
@@ -64,10 +65,27 @@ function AdminCreateSubjectScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
+            Type:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('type')}>
+              {['Core', 'Specialized'].map((type: any) => (
+                <option value={type}>{type}</option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
             Strand:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" readOnly value={strand} />
+            <Form.Control
+              type="text"
+              defaultValue={strand}
+              readOnly
+              plaintext
+            />
           </Col>
         </Form.Group>
         <Button type="submit">Create Subject</Button>
