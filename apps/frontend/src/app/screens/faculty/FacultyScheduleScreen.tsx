@@ -40,7 +40,7 @@ function FacultyScheduleScreen() {
             <th className="textWhite">Subject</th>
             <th className="textWhite">Day</th>
             <th className="textWhite">Time</th>
-            <th className="textWhite">Grade&Section/Strand</th>
+            <th className="textWhite">Section</th>
           </tr>
         </thead>
         <tbody>
@@ -53,7 +53,7 @@ function FacultyScheduleScreen() {
                   ({ schedule_id }: any) => schedule_id === schedule._id
                 ) && (
                   <tr>
-                    <td>What is type?</td>
+                    <td>{schedule.subject.type}</td>
                     <td>{schedule.subject.subject_name}</td>
                     <td>
                       {schedule.days.map((day: any, index: any, array: any) => {

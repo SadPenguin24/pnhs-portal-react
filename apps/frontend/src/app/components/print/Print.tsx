@@ -3,7 +3,22 @@ import { Col, Container, Image, Row } from 'react-bootstrap';
 import { ReportCardTable } from '../tables/Tables';
 import '../header/header.scss';
 
-export function PrintStudentRecordsGrade({ sem }: any) {
+export function PrintStudentRecordsGrade({
+  eleven,
+  elevenFirst,
+  elevenSecond,
+  twelve,
+  twelveFirst,
+  twelveSecond,
+}: any) {
+  console.log(
+    eleven,
+    elevenFirst,
+    elevenSecond,
+    twelve,
+    twelveFirst,
+    twelveSecond
+  );
   return (
     <div>
       <nav className="topHeader py-2 mb-5">
@@ -29,7 +44,12 @@ export function PrintStudentRecordsGrade({ sem }: any) {
         </Container>
       </nav>
       <Container>
-        <ReportCardTable headerColor="#19940e" sem={sem} />
+        {eleven}
+        {elevenFirst}
+        {elevenSecond}
+        {twelve}
+        {twelveFirst}
+        {twelveSecond}
       </Container>
     </div>
   );

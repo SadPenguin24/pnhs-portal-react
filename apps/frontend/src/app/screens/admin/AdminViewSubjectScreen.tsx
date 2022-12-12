@@ -35,12 +35,13 @@ function AdminViewSubjectScreen() {
 
   const [updateSubject] = useUpdateSubjectMutation();
 
-  const updateHandler = async ({ strand, subject_name }: any) => {
+  const updateHandler = async ({ strand, subject_name, type }: any) => {
     try {
       await updateSubject({
         id,
         strand,
         subject_name,
+        type,
       });
 
       alert('Successfully update subject');
@@ -82,6 +83,26 @@ function AdminViewSubjectScreen() {
               readOnly={notEditing}
               plaintext={notEditing}
             />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={1}>
+            Type:
+          </Form.Label>
+          <Col md={11}>
+            {notEditing ? (
+              <div>{subject.type}</div>
+            ) : (
+              <Form.Select {...register('type')}>
+                <option value={subject.type}>{subject.type}</option>
+                {['Core', 'Specialized'].map((type: any) => {
+                  if (subject.type === type) {
+                    return;
+                  }
+                  return <option value={type}>{type}</option>;
+                })}
+              </Form.Select>
+            )}
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">

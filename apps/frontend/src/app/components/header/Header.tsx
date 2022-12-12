@@ -25,7 +25,7 @@ function Header({ page, redirect }: any) {
       <nav className="topHeader py-2">
         <Container>
           <Row className="text-center text-md-start justify-content-center justify-content-md-start">
-            <Col className="my-auto" lg="1" md="12" style={{ width: '95px' }}>
+            <Col className="my-auto" md="1" sm="12" style={{ width: '95px' }}>
               <Image
                 src="../../assets/images/pnhs-logo.png"
                 alt="pnhs-logo"
@@ -33,7 +33,7 @@ function Header({ page, redirect }: any) {
                 roundedCircle
               />
             </Col>
-            <Col className="my-auto" lg="11" md="12">
+            <Col className="my-auto" md="11" sm="12">
               <h1 className="mt-2">
                 <strong>Pangasinan National High School</strong>
               </h1>

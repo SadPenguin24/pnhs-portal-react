@@ -1,28 +1,67 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useRef } from 'react';
-import { Col, Container, Form, FormControl, Row } from 'react-bootstrap';
+import React, { useRef, useState } from 'react';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  FormControl,
+  InputGroup,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
+import { useForm } from 'react-hook-form';
 import { Link } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
 import { PrintStudentRecordsGrade } from '../../components/print/Print';
 import { ReportCardTable } from '../../components/tables/Tables';
 import '../../components/tables/tables.scss';
+import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminStudentRecordsScreen() {
   const componentRef1 = useRef(null);
   const componentRef2 = useRef(null);
-  return (
-    <div className="mb-5">
-      <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Student Records" redirect="/admin/home" />
-      <Container>
-        <div className="w-50 mb-3 ms-auto">
-          <FormControl
-            style={{ backgroundColor: '#ffe4a0', border: '#eaaa79 solid' }}
-            placeholder="Enter Student Name"
-          ></FormControl>
-        </div>
 
+  const { register } = useForm();
+
+  const [role_name] = useState('student');
+  const [searchResults, setSearchResults]: any = useState([]);
+
+  const {
+    data: students,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetRoleQuery(role_name);
+
+  const searchStudent = (e: any) => {
+    // setSearching(true);
+    console.log(e.target.value);
+
+    // const condition = new RegExp(lastName.trim(), 'i');
+
+    // const result = students.filter((student: any) =>
+    //   condition.test(student.last_name)
+    // );
+    // console.log(result);
+    // setSearchResults(result);
+  };
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <div className="text-center">
+        <Spinner variant="primary" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  } else if (isSuccess) {
+    content = (
+      <>
         <Row className="mb-5">
           <Col md="7">
             <Form>
@@ -173,6 +212,35 @@ function AdminStudentRecordsScreen() {
           </div>
           <ReportCardTable headerColor="#19940e" sem="2nd" />
         </div>
+      </>
+    );
+  } else if (isError) {
+    content = <p>{JSON.stringify(error)}</p>;
+  }
+  return (
+    <div className="mb-5">
+      <style>{'body { background-color: #dcf7b0; }'}</style>
+      <Header page="Student Records" redirect="/admin/home" />
+      <Container>
+        <Form
+          // onSubmit={handleSubmit(searchStudent)}
+          className="d-flex justify-content-end"
+        >
+          <Form.Control
+            type="text"
+            className="w-50 d-flex mb-3"
+            {...(register('lastName'),
+            {
+              onChange: searchStudent,
+            })}
+            style={{
+              backgroundColor: '#ffe4a0',
+              border: '#eaaa79 solid',
+            }}
+            placeholder="Search Student's Last Name"
+          />
+        </Form>
+        {content}
       </Container>
     </div>
   );

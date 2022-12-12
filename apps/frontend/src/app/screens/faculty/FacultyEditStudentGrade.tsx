@@ -29,30 +29,51 @@ function FacultyEditStudentGrade() {
 
   const updateGradeHandler = async ({
     termNum,
+    gradeLevel,
     firstHalf,
     secondHalf,
-    finalGrade,
   }: any) => {
     let term = Number(termNum);
+    let grade_level = Number(gradeLevel);
     let first_half = Number(firstHalf);
     let second_half = Number(secondHalf);
-    let final_grade = Number(finalGrade);
+    const final_grade = (first_half + second_half) / 2;
+    let remarks;
+
+    if (final_grade > 74) {
+      remarks = 'Passed';
+    } else {
+      remarks = 'Failed';
+    }
+
     console.log(
       typeof studentId,
       typeof subjectId,
       typeof term,
+      typeof grade_level,
       typeof first_half,
       typeof second_half,
-      typeof final_grade
+      typeof final_grade,
+      typeof remarks,
+      studentId,
+      subjectId,
+      term,
+      grade_level,
+      first_half,
+      second_half,
+      final_grade,
+      remarks
     );
 
     await updateGrade({
       studentId,
       subjectId,
       term,
+      grade_level,
       first_half,
       second_half,
       final_grade,
+      remarks,
     });
 
     alert(`Successfully update grade of ${student.last_name}.`);
@@ -78,9 +99,13 @@ function FacultyEditStudentGrade() {
         }
       });
     }
-    console.log(currentReportCard);
+    console.log(student);
     content = (
       <Form onSubmit={handleSubmit(updateGradeHandler)}>
+        <Row className="mb-3">
+          <Col md={2}>Student:</Col>
+          <Col md={10}>{student.first_name + ' ' + student.last_name}</Col>
+        </Row>
         <Row className="mb-3">
           <Col md={2}>Subject:</Col>
           <Col md={10}>{currentReportCard.subject.subject_name}</Col>
@@ -90,26 +115,32 @@ function FacultyEditStudentGrade() {
             Term:
           </Form.Label>
           <Col md={10}>
-            <Form.Select {...register('termNum')}>
-              <option value={currentReportCard.term}>
-                {currentReportCard.term}
-              </option>
-              {[1, 2].map((num: any) => {
-                if (num === currentReportCard.term) {
-                  return;
-                }
-                return (
-                  <option key={num} value={num}>
-                    {num}
-                  </option>
-                );
-              })}
-            </Form.Select>
+            <Form.Control
+              type="number"
+              {...register('termNum')}
+              defaultValue={currentReportCard.term}
+              readOnly
+              plaintext
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Grade Level:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="number"
+              {...register('gradeLevel')}
+              defaultValue={currentReportCard.grade_level}
+              readOnly
+              plaintext
+            />
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            First Half:
+            First Quarter:
           </Form.Label>
           <Col md={10}>
             <Form.Control
@@ -121,7 +152,7 @@ function FacultyEditStudentGrade() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            Second Half:
+            Second Quarter:
           </Form.Label>
           <Col md={10}>
             <Form.Control
@@ -140,6 +171,8 @@ function FacultyEditStudentGrade() {
               type="number"
               {...register('finalGrade')}
               defaultValue={currentReportCard.final_grade}
+              readOnly
+              plaintext
             />
           </Col>
         </Form.Group>
