@@ -106,12 +106,12 @@ function FacultyShsGradeScreen() {
                           <td>{grade.first_half}</td>
                           <td>{grade.second_half}</td>
                           <td>{grade.final_grade}</td>
+                          <td>{grade.remarks}</td>
                         </>
                       );
                     }
                     return;
                   })}
-                  <td>sample</td>
                   <td className="text-center">
                     <Button
                       onClick={() =>
