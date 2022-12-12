@@ -43,9 +43,26 @@ function AdminEnrolleeScreen() {
     address,
     phone_number,
     lrn,
+    religion,
+    nationality,
+    age,
+    sex,
+    birth_date,
+    civil_status,
     strand,
+    ec_full_name,
+    ec_relationship,
+    ec_mobile_number,
   }: any) => {
     try {
+      const emergency_contacts = [
+        {
+          ec_full_name: ec_full_name,
+          ec_relationship: ec_relationship,
+          ec_mobile_number: ec_mobile_number,
+        },
+      ];
+
       await updateEnrollee({
         id,
         first_name,
@@ -55,7 +72,14 @@ function AdminEnrolleeScreen() {
         address,
         phone_number,
         lrn,
+        religion,
+        nationality,
+        age,
+        birth_date,
+        sex,
+        civil_status,
         strand,
+        emergency_contacts,
       });
 
       alert('Successfully update enrollee');
@@ -85,6 +109,7 @@ function AdminEnrolleeScreen() {
     console.log(enrollee);
     content = (
       <Form onSubmit={handleSubmit(updateHandler)}>
+        <h4 className="mb-2">Enrollee Profile</h4>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             First Name:
@@ -192,6 +217,118 @@ function AdminEnrolleeScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
+            Religion:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              required
+              {...register('religion')}
+              defaultValue={enrollee.religion}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Nationality:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              required
+              {...register('nationality')}
+              defaultValue={enrollee.nationality}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Age:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="number"
+              required
+              {...register('age')}
+              defaultValue={enrollee.age}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Birth Date:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="date"
+              required
+              {...register('birth_date')}
+              defaultValue={enrollee.birth_date}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Sex:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{enrollee.sex}</div>
+            ) : (
+              <Form.Select {...register('sex')}>
+                <option value={enrollee.sex}>{enrollee.sex}</option>
+                {['Male', 'Female'].map((sex: any) => {
+                  if (enrollee.sex === sex) {
+                    return;
+                  }
+                  return (
+                    <option value={sex} key={sex}>
+                      {sex}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Civil Status:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{enrollee.civil_status}</div>
+            ) : (
+              <Form.Select {...register('civil_status')}>
+                <option value={enrollee.civil_status}>
+                  {enrollee.civil_status}
+                </option>
+                {['Single', 'Married', 'Separated', 'Widowed'].map(
+                  (civil_status: any) => {
+                    if (enrollee.civil_status === civil_status) {
+                      return;
+                    }
+                    return (
+                      <option value={civil_status} key={civil_status}>
+                        {civil_status}
+                      </option>
+                    );
+                  }
+                )}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
             Strand:
           </Form.Label>
           <Col md={10}>
@@ -221,6 +358,52 @@ function AdminEnrolleeScreen() {
                 })}
               </Form.Select>
             )}
+          </Col>
+        </Form.Group>
+        <h4 className="mb-2">Emergency Contact</h4>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Full Name:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              required
+              {...register('ec_full_name')}
+              defaultValue={enrollee.emergency_contacts[0].ec_full_name}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Relationship:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              required
+              {...register('ec_relationship')}
+              defaultValue={enrollee.emergency_contacts[0].ec_relationship}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Contact Number:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              type="text"
+              required
+              {...register('ec_mobile_number')}
+              defaultValue={enrollee.emergency_contacts[0].ec_mobile_number}
+              readOnly={notEditing}
+              plaintext={notEditing}
+            />
           </Col>
         </Form.Group>
         {/* Images */}

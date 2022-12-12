@@ -40,7 +40,7 @@ function FacultyScheduleScreen() {
             <th className="textWhite">Subject</th>
             <th className="textWhite">Day</th>
             <th className="textWhite">Time</th>
-            <th className="textWhite">Grade&Section/Strand</th>
+            <th className="textWhite">Section</th>
           </tr>
         </thead>
         <tbody>

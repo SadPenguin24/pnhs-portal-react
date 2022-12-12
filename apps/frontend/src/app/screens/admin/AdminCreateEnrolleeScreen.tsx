@@ -60,9 +60,11 @@ function AdminCreateEnrolleeScreen() {
     }
 
     const emergency_contacts = [
-      ec_full_name,
-      ec_relationship,
-      ec_mobile_number,
+      {
+        ec_full_name: ec_full_name,
+        ec_relationship: ec_relationship,
+        ec_mobile_number: ec_mobile_number,
+      },
     ];
 
     console.log(
@@ -134,6 +136,7 @@ function AdminCreateEnrolleeScreen() {
   } else if (isSuccess) {
     content = (
       <Form onSubmit={handleSubmit(createEnrolleeHandler)} className="my-3">
+        <h4 className="mb-2">Enrollee Profile</h4>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             First Name:
