@@ -99,9 +99,13 @@ function FacultyEditStudentGrade() {
         }
       });
     }
-    console.log(currentReportCard);
+    console.log(student);
     content = (
       <Form onSubmit={handleSubmit(updateGradeHandler)}>
+        <Row className="mb-3">
+          <Col md={2}>Student:</Col>
+          <Col md={10}>{student.first_name + ' ' + student.last_name}</Col>
+        </Row>
         <Row className="mb-3">
           <Col md={2}>Subject:</Col>
           <Col md={10}>{currentReportCard.subject.subject_name}</Col>
@@ -136,7 +140,7 @@ function FacultyEditStudentGrade() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            First Half:
+            First Quarter:
           </Form.Label>
           <Col md={10}>
             <Form.Control
@@ -148,7 +152,7 @@ function FacultyEditStudentGrade() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            Second Half:
+            Second Quarter:
           </Form.Label>
           <Col md={10}>
             <Form.Control
