@@ -1,11 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Container, Spinner, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
+import { PrintStudentSchedule } from '../../components/print/Print';
 
 import '../../components/tables/tables.scss';
 import { useGetParsedSectionsQuery } from '../../redux/api/sectionApi';
 
 function StudentScheduleScreen() {
+  const componentRef = useRef(null);
+
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
 
   const {
@@ -47,7 +52,7 @@ function StudentScheduleScreen() {
             <h4>
               <strong>SY. {studentSection.school_year}</strong>
             </h4>
-            <h4 className="mb-5">
+            <h4>
               <strong>
                 Adviser:{' '}
                 {studentSection.teacher.first_name +
@@ -55,7 +60,30 @@ function StudentScheduleScreen() {
                   studentSection.teacher.last_name}
               </strong>
             </h4>
-            <Table bordered className="my-3 tableColor">
+            <h4 className="mb-5">
+              <strong>
+                {'Student: ' +
+                  currentUser.first_name +
+                  ' ' +
+                  currentUser.last_name}
+              </strong>
+            </h4>
+            <div className="text-start">
+              <ReactToPrint
+                documentTitle="Student_Schedule"
+                trigger={() => <Link to={''}>Print Preview</Link>}
+                content={() => componentRef.current}
+              />
+              <div style={{ display: 'none' }}>
+                <div ref={componentRef}>
+                  <PrintStudentSchedule
+                    studentSection={studentSection}
+                    currentUser={currentUser}
+                  />
+                </div>
+              </div>
+            </div>
+            <Table bordered className="tableColor">
               <thead>
                 <tr
                   className="text-center"

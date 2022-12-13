@@ -18,7 +18,7 @@ function StudentReportCardScreen() {
     twelve,
     twelveFirst,
     twelveSecond;
-  if (currentUser.student.report_card.length > 0 && section) {
+  if (section) {
     if (
       currentUser.student.report_card.find(
         ({ grade_level }: any) => grade_level === 11
