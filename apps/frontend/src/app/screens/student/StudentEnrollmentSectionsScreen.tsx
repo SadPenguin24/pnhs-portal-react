@@ -1,46 +1,108 @@
+import { deleteCookie } from 'cookies-next';
 import React, { useState } from 'react';
 import {
   Button,
   Col,
   Container,
   Form,
-  FormControl,
-  FormGroup,
-  FormLabel,
   Row,
   Spinner,
   Table,
 } from 'react-bootstrap';
-import { useForm } from 'react-hook-form';
-import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 
 import '../../components/tables/tables.scss';
+import { useGetMiscQuery } from '../../redux/api/miscApi';
 import {
   useGetParsedSectionQuery,
   useGetParsedSectionsQuery,
+  useUpdateSectionMutation,
 } from '../../redux/api/sectionApi';
 
 function StudentEnrollmentSectionsScreen() {
-  const { register } = useForm();
+  const navigate = useNavigate();
 
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
+  const [selectedSection, setSelectedSection]: any = useState();
+  const [students_id]: any = useState([]);
 
-  const { data: studentSection } = useGetParsedSectionQuery(
-    currentUser.student.section_id
-  );
+  const {
+    data: misc,
+    isLoading: isLoadingMisc,
+    isSuccess: isSuccessMisc,
+    isError: isErrorMisc,
+    error: errorMisc,
+  } = useGetMiscQuery('63976fa2de273706ca849846');
+
+  const {
+    data: studentSection,
+    isLoading: isLoadingStudentSection,
+    isSuccess: isSuccessStudentSection,
+    isError: isErrorStudentSection,
+    error: errorStudentSection,
+  } = useGetParsedSectionQuery(currentUser.student.section_id);
 
   const {
     data: sections,
-    isLoading,
-    isSuccess,
-    isError,
-    error,
+    isLoading: isLoadingSections,
+    isSuccess: isSuccessSections,
+    isError: isErrorSections,
+    error: errorSections,
   } = useGetParsedSectionsQuery({});
 
-  let content;
+  const [updateSection] = useUpdateSectionMutation();
 
-  if (isLoading) {
+  let content, table, sameStrand: any;
+
+  const enrollToSection = async () => {
+    selectedSection.students.map((student: any) => {
+      if (!students_id.includes(student._id)) {
+        students_id.push(student._id);
+      }
+    });
+    const id = selectedSection._id;
+    if (!students_id.includes(currentUser._id)) {
+      students_id.push(currentUser._id);
+    }
+    console.log('Yes', id, students_id);
+
+    try {
+      await updateSection({
+        id,
+        students_id,
+      });
+      await updateSection({
+        id,
+        students_id,
+      });
+
+      alert(
+        'Successfully enroll to section. You will be automatically logout, please login again.'
+      );
+
+      deleteCookie('access_token');
+      deleteCookie('refresh_token');
+      localStorage.removeItem('userInfo');
+
+      navigate('/');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const selectSectionHandler = (e: any) => {
+    if (e.target.value === 'default') {
+      setSelectedSection();
+    } else {
+      setSelectedSection(
+        sameStrand.find((item: any) => item._id === e.target.value)
+      );
+      console.log(selectedSection);
+    }
+  };
+
+  if (isLoadingSections && isLoadingStudentSection && isLoadingMisc) {
     content = (
       <div className="text-center">
         <Spinner variant="primary" animation="border" role="status">
@@ -48,8 +110,7 @@ function StudentEnrollmentSectionsScreen() {
         </Spinner>
       </div>
     );
-  } else if (isSuccess) {
-    let sameStrand;
+  } else if (isSuccessSections && isSuccessMisc) {
     let term: number;
     let gradeLevel: number;
     if (studentSection) {
@@ -77,131 +138,190 @@ function StudentEnrollmentSectionsScreen() {
           section.term === term &&
           section.grade_level === gradeLevel
       );
+    } else {
+      sameStrand = sections.filter(
+        (section: any) =>
+          section.strand === currentUser.student.strand &&
+          section.term === +currentUser.student.current_term &&
+          section.grade_level === +currentUser.student.current_grade
+      );
     }
+    console.log(sameStrand);
     content = (
       <>
+        <Row>
+          <h4>Student Details</h4>
+          <Col md={2} className="mb-2">
+            <strong>LRN:</strong>
+          </Col>
+          <Col md={10} className="mb-2">
+            {currentUser.profile.lrn}
+          </Col>
+          <Col md={2} className="mb-2">
+            <strong>Student Name:</strong>
+          </Col>
+          <Col md={10} className="mb-2">
+            {currentUser.first_name + ' ' + currentUser.last_name}
+          </Col>
+          <Col md={2} className="mb-2">
+            <strong>Strand:</strong>
+          </Col>
+          <Col md={10} className="mb-2">
+            {currentUser.student.strand}
+          </Col>
+          <Col md={2} className="mb-2">
+            <strong>Grade Level:</strong>
+          </Col>
+          <Col md={10} className="mb-2">
+            {currentUser.student.current_grade}
+          </Col>
+          <Col md={2} className="mb-2">
+            <strong>Term:</strong>
+          </Col>
+          <Col md={10} className="mb-2">
+            {currentUser.student.current_term}
+          </Col>
+        </Row>
         {currentUser.student.section_id && studentSection ? (
-          <>
-            <div className="mb-2">Student No.: {currentUser.profile.lrn}</div>
-            <div className="mb-2">
-              Name: {currentUser.first_name + ' ' + currentUser.last_name}
-            </div>
-            <div className="mb-2">
-              School Year: {studentSection.school_year}
-            </div>
-            <div className="mb-2">
-              Semester:{' '}
-              {studentSection.term === 1 ? '1st Semester' : '2nd Semester'}
-            </div>
-            {/* <div className="mb-2">Curriculum Ref. No.:</div> */}
-            <div className="mb-2">
-              Grade Level / Strand:{' '}
-              {studentSection.grade_level + ' / ' + currentUser.student.strand}
-            </div>
-            {sameStrand && sameStrand.length > 0 ? (
-              <Form.Group as={Row} className="mb-3">
-                <Form.Label as={Col} md={1}>
-                  Section:
-                </Form.Label>
-                <Col md={11}>
-                  <Form.Select>
-                    <option>Select a section</option>
-                    {sameStrand.map((section: any) => (
-                      <option key={section._id}>{section.section_name}</option>
-                    ))}
-                  </Form.Select>
+          misc.bool_value ? (
+            <>
+              <Row>
+                <Col md={2} className="mb-2">
+                  <strong>Student Section:</strong>
                 </Col>
-              </Form.Group>
-            ) : (
-              <h4 style={{ color: 'red' }}>
-                You are not enrolled to any section.
-              </h4>
-            )}
-            <Table bordered className="tableColor mb-3" responsive="lg">
-              <thead style={{ backgroundColor: '#19940e' }}>
-                <tr className="text-center">
-                  <th>Section</th>
-                  <th>Class Adviser</th>
-                  <th>Strand</th>
-                  <th>Term</th>
-                  <th>Grade Level</th>
-                  <th>School Year</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sameStrand && sameStrand.length > 0 ? (
-                  sameStrand.map((section: any) => (
-                    <tr key={section._id}>
-                      <td>{section.section_name}</td>
-                      <td>
-                        {section.teacher.first_name +
-                          ' ' +
-                          section.teacher.last_name}
-                      </td>
-                      <td>{section.strand}</td>
-                      <td>{section.term}</td>
-                      <td>{section.grade_level}</td>
-                      <td>{section.school_year}</td>
-                      <td className="text-center">
-                        <LinkContainer
-                          to={`/student/enrollment/section/${section._id}`}
-                        >
-                          <Button>View</Button>
-                        </LinkContainer>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={7} className="text-center">
-                      No Section for {currentUser.student.strand} Strand
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </Table>
-          </>
+                <Col md={10} className="mb-2">
+                  {studentSection.section_name}
+                </Col>
+                <Col md={2} className="mb-2">
+                  <strong>School Year:</strong>
+                </Col>
+                <Col md={10} className="mb-2">
+                  {studentSection.school_year}
+                </Col>
+              </Row>
+              {sameStrand && sameStrand.length > 0 ? (
+                <Form.Group as={Row} className="mb-3">
+                  <Form.Label as={Col} md={2}>
+                    <strong>Enroll Sections:</strong>
+                  </Form.Label>
+                  <Col md={10}>
+                    <Form.Select onChange={selectSectionHandler}>
+                      <option value="default">Select a section</option>
+                      {sameStrand.map((section: any) => (
+                        <option key={section._id} value={section._id}>
+                          {section.section_name}
+                        </option>
+                      ))}
+                    </Form.Select>
+                  </Col>
+                </Form.Group>
+              ) : (
+                <Form.Group as={Row} className="mb-3">
+                  <Form.Label as={Col} md={2}>
+                    <strong>Enroll Sections:</strong>
+                  </Form.Label>
+                  <Col md={10}>No Section</Col>
+                </Form.Group>
+              )}
+            </>
+          ) : (
+            <div className="text-center">
+              <h3>Enrollment is now closed</h3>
+            </div>
+          )
+        ) : sameStrand && sameStrand.length > 0 ? (
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label as={Col} md={2}>
+              <strong>Enroll Sections:</strong>
+            </Form.Label>
+            <Col md={10}>
+              <Form.Select onChange={selectSectionHandler}>
+                <option value="default">Select a section</option>
+                {sameStrand.map((section: any) => (
+                  <option key={section._id} value={section._id}>
+                    {section.section_name}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+          </Form.Group>
         ) : (
-          <h4 style={{ color: 'red' }}>You are not enrolled to any section.</h4>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label as={Col} md={2}>
+              <strong>Enroll Sections:</strong>
+            </Form.Label>
+            <Col md={10}>No Section</Col>
+          </Form.Group>
         )}
       </>
     );
-  } else if (isError) {
-    content = <p>{JSON.stringify(error)}</p>;
+    if (selectedSection) {
+      table = (
+        <>
+          <Table bordered className="tableColor mb-3" responsive="lg">
+            <thead style={{ backgroundColor: '#19940e' }}>
+              <tr className="text-center">
+                <th>Subject</th>
+                <th>Faculty</th>
+                <th>Days</th>
+                <th>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {selectedSection &&
+                selectedSection.schedules.map((schedule: any) => (
+                  <tr key={schedule._id}>
+                    <td>{schedule.subject.subject_name}</td>
+                    <td>
+                      {schedule.teacher.first_name +
+                        ' ' +
+                        schedule.teacher.last_name}
+                    </td>
+                    <td>
+                      {schedule.days.map((day: any, index: any, array: any) => {
+                        array = array.length - 1;
+                        if (array === index) {
+                          return day;
+                        }
+                        return day + ' / ';
+                      })}
+                    </td>
+                    <td>{schedule.time_in + ' - ' + schedule.time_out}</td>
+                  </tr>
+                ))}
+            </tbody>
+          </Table>
+          <Button
+            onClick={() => {
+              if (
+                confirm('Do you really want to enroll on this section?') ===
+                true
+              ) {
+                enrollToSection();
+              }
+            }}
+          >
+            Enroll Now
+          </Button>
+        </>
+      );
+    }
+  } else if (isErrorSections && isErrorStudentSection && isErrorMisc) {
+    content = (
+      <>
+        <p>{JSON.stringify(errorSections)}</p>
+        <p>{JSON.stringify(errorStudentSection)}</p>
+        <p>{JSON.stringify(errorMisc)}</p>;
+      </>
+    );
   }
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Enrollment / Registration" redirect="/student/home" />
       <Container>
-        {/* <FormGroup as={Row} className="mb-3">
-          <FormLabel column lg="2" md="4">
-            Grade Level&Sec / Strand:
-          </FormLabel>
-          <Col lg="10" md="8">
-            <FormControl></FormControl>
-          </Col>
-        </FormGroup>
-
-        <div className="text-end mb-3">
-          <Button variant="secondary">Load Section</Button>
-        </div> */}
-
         {content}
-
-        {/* <div className="text-center mb-2">
-          <Button
-            variant="secondary"
-            className="me-5"
-            style={{ width: '110px' }}
-          >
-            Enroll Now
-          </Button>
-          <Button variant="danger" style={{ width: '110px' }}>
-            Exit
-          </Button>
-        </div> */}
+        {table}
       </Container>
     </div>
   );

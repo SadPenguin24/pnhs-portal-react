@@ -17,6 +17,8 @@ function AdminStudentProfileScreen() {
   const { id } = useParams();
 
   const [notEditing, setNotEditing] = useState(true);
+  let [objectStudent] = useState({});
+  let [objectProfile] = useState({});
 
   const { register, handleSubmit } = useForm();
 
@@ -41,18 +43,41 @@ function AdminStudentProfileScreen() {
     strand,
   }: any) => {
     try {
+      // const emergency_contacts = [
+      //   {
+      //     ec_full_name: ec_full_name,
+      //     ec_relationship: ec_relationship,
+      //     ec_mobile_number: ec_mobile_number,
+      //   },
+      // ];
+
+      const student = {
+        ...objectStudent,
+        lrn: lrn,
+        strand: strand,
+      };
+
+      const profile = {
+        ...objectProfile,
+        address: address,
+        phone_number: phone_number,
+        // birth_date: birth_date,
+        // age: age,
+        // sex: sex,
+        // nationality: nationality,
+        // religion: religion,
+        // civil_status: civil_status,
+        // emergency_contacts: emergency_contacts,
+      };
+
       await updateStudent({
         id,
         first_name,
         middle_name,
         last_name,
         email,
-        profile: {
-          address: address,
-          phone_number: phone_number,
-          lrn: lrn,
-        },
-        student: { strand: strand },
+        profile,
+        student,
       });
 
       alert('Successfully update student');
@@ -145,6 +170,8 @@ function AdminStudentProfileScreen() {
     );
   } else if (isSuccess) {
     console.log(student);
+    objectStudent = student.student;
+    objectProfile = student.profile;
     content = (
       <>
         <Form onSubmit={handleSubmit(updateHandler)}>
@@ -268,7 +295,7 @@ function AdminStudentProfileScreen() {
                   type="text"
                   required
                   {...register('lrn')}
-                  defaultValue={student.profile.lrn}
+                  defaultValue={student.student.lrn}
                   readOnly={notEditing}
                   plaintext={notEditing}
                 />

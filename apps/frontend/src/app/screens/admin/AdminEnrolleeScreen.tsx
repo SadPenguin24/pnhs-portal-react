@@ -50,6 +50,8 @@ function AdminEnrolleeScreen() {
     birth_date,
     civil_status,
     strand,
+    current_grade,
+    current_term,
     ec_full_name,
     ec_relationship,
     ec_mobile_number,
@@ -79,6 +81,8 @@ function AdminEnrolleeScreen() {
         sex,
         civil_status,
         strand,
+        current_grade,
+        current_term,
         emergency_contacts,
       });
 
@@ -353,6 +357,58 @@ function AdminEnrolleeScreen() {
                   return (
                     <option value={strand} key={strand}>
                       {strand}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Grade Level:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{enrollee.current_grade}</div>
+            ) : (
+              <Form.Select {...register('current_grade')}>
+                <option value={enrollee.current_grade}>
+                  {enrollee.current_grade}
+                </option>
+                {['11', '12'].map((current_grade: any) => {
+                  if (enrollee.current_grade === current_grade) {
+                    return;
+                  }
+                  return (
+                    <option value={current_grade} key={current_grade}>
+                      {current_grade}
+                    </option>
+                  );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Term:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{enrollee.current_term}</div>
+            ) : (
+              <Form.Select {...register('current_term')}>
+                <option value={enrollee.current_term}>
+                  {enrollee.current_term}
+                </option>
+                {['1', '2'].map((current_term: any) => {
+                  if (enrollee.current_term === current_term) {
+                    return;
+                  }
+                  return (
+                    <option value={current_term} key={current_term}>
+                      {current_term}
                     </option>
                   );
                 })}
