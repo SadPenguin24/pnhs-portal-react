@@ -87,78 +87,7 @@ function AdminStudentProfileScreen() {
     }
   };
 
-  let content,
-    eleven,
-    elevenFirst,
-    elevenSecond,
-    twelve,
-    twelveFirst,
-    twelveSecond;
-
-  if (
-    student &&
-    student.student.report_card.length > 0 &&
-    student.student.section_id
-  ) {
-    if (
-      student.student.report_card.find(
-        ({ grade_level }: any) => grade_level === 11
-      )
-    ) {
-      eleven = <h3>Grade 11</h3>;
-      if (student.student.report_card.find(({ term }: any) => term === 1)) {
-        const cardData = student.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 1 && grade_level === 11
-        );
-        elevenFirst = (
-          <>
-            <h4>1ST SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
-          </>
-        );
-      }
-      if (student.student.report_card.find(({ term }: any) => term === 2)) {
-        const cardData = student.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 2 && grade_level === 11
-        );
-        elevenSecond = (
-          <>
-            <h4>2nd SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
-          </>
-        );
-      }
-    }
-    if (
-      student.student.report_card.find(
-        ({ grade_level }: any) => grade_level === 12
-      )
-    ) {
-      twelve = <h3>Grade 12</h3>;
-      if (student.student.report_card.find(({ term }: any) => term === 1)) {
-        const cardData = student.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 1 && grade_level === 12
-        );
-        twelveFirst = (
-          <>
-            <h4>1ST SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
-          </>
-        );
-      }
-      if (student.student.report_card.find(({ term }: any) => term === 2)) {
-        const cardData = student.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 2 && grade_level === 12
-        );
-        twelveSecond = (
-          <>
-            <h4>2nd SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
-          </>
-        );
-      }
-    }
-  }
+  let content;
 
   if (isLoading) {
     content = (
@@ -401,43 +330,6 @@ function AdminStudentProfileScreen() {
             </div>
           </div>
         </Form>
-
-        {student.student.section_id && (
-          <>
-            <div>STUDENT GRADES OF SENIOR HIGH STUDENT ONLY</div>
-            <div
-              style={{
-                backgroundColor: '#fffefe',
-                border: '1px solid',
-              }}
-              className="p-3"
-            >
-              <ReactToPrint
-                documentTitle="Student_Record"
-                trigger={() => <Link to={''}>Print Preview</Link>}
-                content={() => componentRef.current}
-              />
-              <div style={{ display: 'none' }}>
-                <div ref={componentRef}>
-                  <PrintStudentRecordsGrade
-                    eleven={eleven}
-                    elevenFirst={elevenFirst}
-                    elevenSecond={elevenSecond}
-                    twelve={twelve}
-                    twelveFirst={twelveFirst}
-                    twelveSecond={twelveSecond}
-                  />
-                </div>
-              </div>
-              {eleven}
-              {elevenFirst}
-              {elevenSecond}
-              {twelve}
-              {twelveFirst}
-              {twelveSecond}
-            </div>
-          </>
-        )}
       </>
     );
   } else if (isError) {

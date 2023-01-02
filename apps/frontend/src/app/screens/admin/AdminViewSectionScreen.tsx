@@ -44,6 +44,13 @@ function AdminViewSectionScreen() {
     dispatch(getSection({ section }));
   }, [dispatch, section]);
 
+  // School Years
+  let years: any = [];
+
+  for (let i = 0; i < 10; i++) {
+    years.push(new Date().getFullYear() + i);
+  }
+
   const { data: teachers } = useGetRoleQuery('faculty');
 
   const { data: students } = useGetRoleQuery('student');
@@ -133,14 +140,22 @@ function AdminViewSectionScreen() {
             School Year:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              required
-              {...register('school_year')}
-              defaultValue={section.school_year}
-              readOnly={notEditing}
-              plaintext={notEditing}
-            />
+            {notEditing ? (
+              <div>{section.school_year}</div>
+            ) : (
+              <Form.Select {...register('school_year')}>
+                <option value={section.school_year}>
+                  {section.school_year}
+                </option>
+                {years.map((year: any) => {
+                  let schoolYear = year - 1 + '-' + year;
+                  if (section.school_year === schoolYear) {
+                    return;
+                  }
+                  return <option key={year}>{schoolYear}</option>;
+                })}
+              </Form.Select>
+            )}
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-3">
@@ -278,11 +293,11 @@ function AdminViewSectionScreen() {
                           schedule.days.map(
                             (day: any, index: any, array: any) => {
                               if (array.length === 1) {
-                                return day.charAt(0) + ' - ';
+                                return day.charAt(0) + ' / ';
                               }
                               array = array.length - 1;
                               if (array === index) {
-                                return ' ' + day.charAt(0) + ' - ';
+                                return ' ' + day.charAt(0) + ' / ';
                               } else if (index === 0) {
                                 return day.charAt(0);
                               }
@@ -292,6 +307,8 @@ function AdminViewSectionScreen() {
                           schedule.time_in +
                           '-' +
                           schedule.time_out +
+                          ' / ' +
+                          schedule.room +
                           ')'}
                       </span>
                     </Col>
@@ -321,11 +338,11 @@ function AdminViewSectionScreen() {
                           schedule.days.map(
                             (day: any, index: any, array: any) => {
                               if (array.length === 1) {
-                                return day.charAt(0) + ' - ';
+                                return day.charAt(0) + ' / ';
                               }
                               array = array.length - 1;
                               if (array === index) {
-                                return ' ' + day.charAt(0) + ' - ';
+                                return ' ' + day.charAt(0) + ' / ';
                               } else if (index === 0) {
                                 return day.charAt(0);
                               }
@@ -335,6 +352,8 @@ function AdminViewSectionScreen() {
                           schedule.time_in +
                           '-' +
                           schedule.time_out +
+                          ' / ' +
+                          schedule.room +
                           ')'
                         }
                         value={schedule._id}

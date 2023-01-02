@@ -70,7 +70,7 @@ function AdminStudentSectionsScreen() {
           >
             Create Section
           </Button>
-          {misc.bool_value ? (
+          {misc?.bool_value ? (
             <Button variant="danger" onClick={enrollmentHandler}>
               Disable Enrollment
             </Button>
