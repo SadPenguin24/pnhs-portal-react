@@ -234,7 +234,11 @@ function AdminStudentRecordsScreen() {
                 School Year
               </Form.Label>
               <Col lg={10} md={9}>
-                <Form.Control type="text" />
+                <Form.Control
+                  type="text"
+                  value={selectedStudent && selectedStudent.student.school_year}
+                  readOnly
+                />
               </Col>
             </Form.Group>
             <Form.Group as={Row} className="mb-2">
@@ -247,6 +251,7 @@ function AdminStudentRecordsScreen() {
                   value={
                     selectedStudent && selectedStudent.student.current_term
                   }
+                  readOnly
                 />
               </Col>
             </Form.Group>
@@ -260,6 +265,7 @@ function AdminStudentRecordsScreen() {
                   value={
                     selectedStudent && selectedStudent.student.current_grade
                   }
+                  readOnly
                 />
               </Col>
             </Form.Group>
@@ -271,6 +277,7 @@ function AdminStudentRecordsScreen() {
                 <Form.Control
                   type="text"
                   value={selectedStudent && selectedStudent.student.strand}
+                  readOnly
                 />
               </Col>
             </Form.Group>
@@ -364,15 +371,7 @@ function AdminStudentRecordsScreen() {
                 <ListGroup.Item
                   key={result._id}
                   action
-                  onClick={() => {
-                    eleven = '';
-                    elevenFirst = '';
-                    elevenSecond = '';
-                    twelve = '';
-                    twelveFirst = '';
-                    twelveSecond = '';
-                    setSelectedStudent(result);
-                  }}
+                  onClick={() => setSelectedStudent(result)}
                 >
                   {result.first_name + ' ' + result.last_name}
                 </ListGroup.Item>

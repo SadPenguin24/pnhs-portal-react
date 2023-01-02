@@ -4,7 +4,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
-import { useCreateSectionMutation } from '../../redux/api/sectionApi';
+import {
+  useCreateSectionMutation,
+  useGetSectionsQuery,
+} from '../../redux/api/sectionApi';
 import {
   useGetSubjectQuery,
   useGetSubjectsQuery,
@@ -13,6 +16,8 @@ import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateSectionScreen() {
   const { register, handleSubmit } = useForm();
+
+  const { data: sections } = useGetSectionsQuery({});
 
   const { data: students } = useGetRoleQuery('student');
 
@@ -33,6 +38,13 @@ function AdminCreateSectionScreen() {
 
   const [createSection] = useCreateSectionMutation();
 
+  // School Years
+  let years: any = [];
+
+  for (let i = 0; i < 10; i++) {
+    years.push(new Date().getFullYear() + i);
+  }
+
   const scheduleHandler = (id: any) => {
     const { data: subject } = useGetSubjectQuery(id);
     return subject;
@@ -48,7 +60,6 @@ function AdminCreateSectionScreen() {
   };
 
   const createSectionHandler = async ({
-    section_name,
     school_year,
     strand,
     term,
@@ -59,6 +70,13 @@ function AdminCreateSectionScreen() {
       alert('Please select a faculty.');
       return;
     }
+    let filteredSections = sections.filter(
+      (section: any) =>
+        section.strand === strand && section.grade_level === grade_level
+    );
+    console.log(filteredSections);
+    let section_name =
+      grade_level + '-' + strand + '-' + (filteredSections.length + 1);
     console.log(
       role,
       section_name,
@@ -100,18 +118,14 @@ function AdminCreateSectionScreen() {
       <Form onSubmit={handleSubmit(createSectionHandler)}>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
-            Section:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control type="text" required {...register('section_name')} />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
             School Year:
           </Form.Label>
           <Col md={10}>
-            <Form.Control type="text" required {...register('school_year')} />
+            <Form.Select {...register('school_year')}>
+              {years.map((year: any) => (
+                <option key={year}>{year - 1 + '-' + year}</option>
+              ))}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
@@ -209,11 +223,11 @@ function AdminCreateSectionScreen() {
                           schedule.days.map(
                             (day: any, index: any, array: any) => {
                               if (array.length === 1) {
-                                return day.charAt(0) + ' - ';
+                                return day.charAt(0) + ' / ';
                               }
                               array = array.length - 1;
                               if (array === index) {
-                                return ' ' + day.charAt(0) + ' - ';
+                                return ' ' + day.charAt(0) + ' / ';
                               } else if (index === 0) {
                                 return day.charAt(0);
                               }
@@ -223,6 +237,8 @@ function AdminCreateSectionScreen() {
                           schedule.time_in +
                           '-' +
                           schedule.time_out +
+                          ' / ' +
+                          schedule.room +
                           ')'
                         }
                         value={schedule._id}
