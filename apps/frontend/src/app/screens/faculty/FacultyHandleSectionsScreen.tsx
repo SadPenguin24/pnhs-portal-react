@@ -49,7 +49,7 @@ function FacultyHandleSectionsScreen() {
         <thead style={{ backgroundColor: '#2a6fd6' }}>
           <tr className="text-center">
             <th>Section</th>
-            <th>Advisor</th>
+            <th>Faculty Adviser</th>
             <th>School Year</th>
             <td>Actions</td>
           </tr>

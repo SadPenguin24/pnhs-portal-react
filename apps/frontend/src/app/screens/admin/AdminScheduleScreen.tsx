@@ -66,6 +66,7 @@ function AdminScheduleScreen() {
             <th>Subject</th>
             <th>Days</th>
             <th>Time</th>
+            <th>Room</th>
             {role === 'student' ? <th>Teacher</th> : <th>Section</th>}
             <th>Actions</th>
           </tr>
@@ -87,6 +88,7 @@ function AdminScheduleScreen() {
                 <td>
                   {schedule.time_in} - {schedule.time_out}
                 </td>
+                <td>{schedule.room}</td>
                 <td>
                   {role === 'student'
                     ? schedule.teacher.first_name +
@@ -116,7 +118,7 @@ function AdminScheduleScreen() {
             ))
           ) : (
             <tr>
-              <td colSpan={5} className="text-center">
+              <td colSpan={6} className="text-center">
                 No Schedule
               </td>
             </tr>

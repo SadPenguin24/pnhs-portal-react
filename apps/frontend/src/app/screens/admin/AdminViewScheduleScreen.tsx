@@ -54,6 +54,7 @@ function AdminViewScheduleScreen() {
   const updateHandler = async ({
     teacher_id,
     subject_id,
+    room,
     time_in,
     time_out,
   }: any) => {
@@ -71,12 +72,13 @@ function AdminViewScheduleScreen() {
         return;
       }
 
-      console.log(teacher_id, subject_id, days, time_in, time_out);
+      console.log(teacher_id, subject_id, room, days, time_in, time_out);
 
       await updateSubject({
         id,
         teacher_id,
         subject_id,
+        room,
         days,
         time_in,
         time_out,
@@ -157,6 +159,31 @@ function AdminViewScheduleScreen() {
                       </option>
                     );
                   })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Room:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{schedule.room}</div>
+            ) : (
+              <Form.Select {...register('room')}>
+                <option value={schedule.subject._id}>{schedule.room}</option>
+                {[
+                  'Shs Building 101',
+                  'Shs Building 201',
+                  'Shs Building 301',
+                  'Shs Building 401',
+                ].map((room: any) => {
+                  if (room === schedule.room) {
+                    return;
+                  }
+                  return <option key={room}>{room}</option>;
+                })}
               </Form.Select>
             )}
           </Col>

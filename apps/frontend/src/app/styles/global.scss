@@ -14,6 +14,15 @@ body {
 cursor: pointer;
 }
 
+.resultBox {
+  position: absolute;
+  min-width: 200px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin: 40px 0;
+  z-index: 1;
+}
+
 $primary: #66da43;
 $secondary: #377bff;
 $danger: #ff0817;

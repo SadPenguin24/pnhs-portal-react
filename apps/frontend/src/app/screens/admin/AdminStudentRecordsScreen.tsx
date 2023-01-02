@@ -4,9 +4,11 @@ import {
   Button,
   Col,
   Container,
+  Dropdown,
   Form,
   FormControl,
   InputGroup,
+  ListGroup,
   Row,
   Spinner,
 } from 'react-bootstrap';
@@ -20,13 +22,14 @@ import '../../components/tables/tables.scss';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminStudentRecordsScreen() {
-  const componentRef1 = useRef(null);
-  const componentRef2 = useRef(null);
+  const componentRef = useRef(null);
 
   const { register } = useForm();
 
   const [role_name] = useState('student');
+  const [searching, setSearching] = useState(false);
   const [searchResults, setSearchResults]: any = useState([]);
+  const [selectedStudent, setSelectedStudent]: any = useState();
 
   const {
     data: students,
@@ -37,19 +40,103 @@ function AdminStudentRecordsScreen() {
   } = useGetRoleQuery(role_name);
 
   const searchStudent = (e: any) => {
-    // setSearching(true);
+    setSearching(true);
     console.log(e.target.value);
 
-    // const condition = new RegExp(lastName.trim(), 'i');
+    if (e.target.value === '') {
+      setSearchResults([]);
+      return;
+    }
 
-    // const result = students.filter((student: any) =>
-    //   condition.test(student.last_name)
-    // );
-    // console.log(result);
-    // setSearchResults(result);
+    const condition = new RegExp(e.target.value.trim(), 'i');
+
+    const result = students.filter((student: any) =>
+      condition.test(student.last_name)
+    );
+    console.log(result);
+    setSearchResults(result);
   };
 
-  let content;
+  let content,
+    eleven,
+    elevenFirst,
+    elevenSecond,
+    twelve,
+    twelveFirst,
+    twelveSecond;
+
+  if (
+    selectedStudent &&
+    selectedStudent.student.report_card.length > 0 &&
+    selectedStudent.student.section_id
+  ) {
+    if (
+      selectedStudent.student.report_card.find(
+        ({ grade_level }: any) => grade_level === 11
+      )
+    ) {
+      eleven = <h3>Grade 11</h3>;
+      if (
+        selectedStudent.student.report_card.find(({ term }: any) => term === 1)
+      ) {
+        const cardData = selectedStudent.student.report_card.filter(
+          ({ term, grade_level }: any) => term === 1 && grade_level === 11
+        );
+        elevenFirst = (
+          <>
+            <h4>1ST SEMESTER</h4>
+            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
+          </>
+        );
+      }
+      if (
+        selectedStudent.student.report_card.find(({ term }: any) => term === 2)
+      ) {
+        const cardData = selectedStudent.student.report_card.filter(
+          ({ term, grade_level }: any) => term === 2 && grade_level === 11
+        );
+        elevenSecond = (
+          <>
+            <h4>2nd SEMESTER</h4>
+            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
+          </>
+        );
+      }
+    }
+    if (
+      selectedStudent.student.report_card.find(
+        ({ grade_level }: any) => grade_level === 12
+      )
+    ) {
+      twelve = <h3>Grade 12</h3>;
+      if (
+        selectedStudent.student.report_card.find(({ term }: any) => term === 1)
+      ) {
+        const cardData = selectedStudent.student.report_card.filter(
+          ({ term, grade_level }: any) => term === 1 && grade_level === 12
+        );
+        twelveFirst = (
+          <>
+            <h4>1ST SEMESTER</h4>
+            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
+          </>
+        );
+      }
+      if (
+        selectedStudent.student.report_card.find(({ term }: any) => term === 2)
+      ) {
+        const cardData = selectedStudent.student.report_card.filter(
+          ({ term, grade_level }: any) => term === 2 && grade_level === 12
+        );
+        twelveSecond = (
+          <>
+            <h4>2nd SEMESTER</h4>
+            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
+          </>
+        );
+      }
+    }
+  }
 
   if (isLoading) {
     content = (
@@ -59,7 +146,8 @@ function AdminStudentRecordsScreen() {
         </Spinner>
       </div>
     );
-  } else if (isSuccess) {
+  } else if (isSuccess || selectedStudent) {
+    console.log(selectedStudent);
     content = (
       <>
         <Row className="mb-5">
@@ -67,10 +155,14 @@ function AdminStudentRecordsScreen() {
             <Form>
               <Form.Group as={Row} className="mb-2">
                 <Form.Label column md={2}>
-                  Student No.
+                  LRN
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="text" />
+                  <Form.Control
+                    type="text"
+                    value={selectedStudent && selectedStudent.student.lrn}
+                    readOnly
+                  />
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-2">
@@ -78,7 +170,16 @@ function AdminStudentRecordsScreen() {
                   Name
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="text" />
+                  <Form.Control
+                    type="text"
+                    value={
+                      selectedStudent &&
+                      selectedStudent.first_name +
+                        ' ' +
+                        selectedStudent.last_name
+                    }
+                    readOnly
+                  />
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-2">
@@ -86,7 +187,11 @@ function AdminStudentRecordsScreen() {
                   Address
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="text" />
+                  <Form.Control
+                    type="text"
+                    value={selectedStudent && selectedStudent.profile.address}
+                    readOnly
+                  />
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-2">
@@ -94,7 +199,13 @@ function AdminStudentRecordsScreen() {
                   Contact
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="text" />
+                  <Form.Control
+                    type="text"
+                    value={
+                      selectedStudent && selectedStudent.profile.phone_number
+                    }
+                    readOnly
+                  />
                 </Col>
               </Form.Group>
             </Form>
@@ -117,79 +228,87 @@ function AdminStudentRecordsScreen() {
           }}
           className="p-3"
         >
-          <Row className="mb-4 mx-md-5">
-            <Col md="6">
-              <Form>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    School Year
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-              </Form>
-            </Col>
-            <Col md="6"></Col>
-            <Col md="6">
-              <Form>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Term
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Grade
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Section / Strand
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-              </Form>
-            </Col>
-            <Col md="6">
-              <Form>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Term
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Grade
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-                <Form.Group as={Row} className="mb-2">
-                  <Form.Label column lg={2} md={3}>
-                    Section / Strand
-                  </Form.Label>
-                  <Col lg={10} md={9}>
-                    <Form.Control type="text" />
-                  </Col>
-                </Form.Group>
-              </Form>
-            </Col>
-          </Row>
+          <Form className="mb-5">
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column lg={2} md={3}>
+                School Year
+              </Form.Label>
+              <Col lg={10} md={9}>
+                <Form.Control type="text" />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column lg={2} md={3}>
+                Term
+              </Form.Label>
+              <Col lg={10} md={9}>
+                <Form.Control
+                  type="text"
+                  value={
+                    selectedStudent && selectedStudent.student.current_term
+                  }
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column lg={2} md={3}>
+                Grade
+              </Form.Label>
+              <Col lg={10} md={9}>
+                <Form.Control
+                  type="text"
+                  value={
+                    selectedStudent && selectedStudent.student.current_grade
+                  }
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column lg={2} md={3}>
+                Section / Strand
+              </Form.Label>
+              <Col lg={10} md={9}>
+                <Form.Control
+                  type="text"
+                  value={selectedStudent && selectedStudent.student.strand}
+                />
+              </Col>
+            </Form.Group>
+          </Form>
 
-          <ReactToPrint
+          <div
+            style={{
+              backgroundColor: '#fffefe',
+              border: '1px solid',
+            }}
+            className="p-3"
+          >
+            <ReactToPrint
+              documentTitle="Student_Record"
+              trigger={() => <Link to={''}>Print Preview</Link>}
+              content={() => componentRef.current}
+            />
+            <div style={{ display: 'none' }}>
+              <div ref={componentRef}>
+                <PrintStudentRecordsGrade
+                  eleven={eleven}
+                  elevenFirst={elevenFirst}
+                  elevenSecond={elevenSecond}
+                  twelve={twelve}
+                  twelveFirst={twelveFirst}
+                  twelveSecond={twelveSecond}
+                />
+              </div>
+            </div>
+            {eleven}
+            {elevenFirst}
+            {elevenSecond}
+            {twelve}
+            {twelveFirst}
+            {twelveSecond}
+          </div>
+
+          {/* <ReactToPrint
             documentTitle="Student_Record"
             trigger={() => <Link to={''}>Print Preview</Link>}
             content={() => componentRef1.current}
@@ -210,7 +329,7 @@ function AdminStudentRecordsScreen() {
               <PrintStudentRecordsGrade sem="2nd" />
             </div>
           </div>
-          <ReportCardTable headerColor="#19940e" sem="2nd" />
+          <ReportCardTable headerColor="#19940e" sem="2nd" /> */}
         </div>
       </>
     );
@@ -218,7 +337,7 @@ function AdminStudentRecordsScreen() {
     content = <p>{JSON.stringify(error)}</p>;
   }
   return (
-    <div className="mb-5">
+    <div className="mb-5" onClick={() => setSearchResults([])}>
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header page="Student Records" redirect="/admin/home" />
       <Container>
@@ -228,7 +347,7 @@ function AdminStudentRecordsScreen() {
         >
           <Form.Control
             type="text"
-            className="w-50 d-flex mb-3"
+            className="w-50 d-flex mb-3 position-relative searchBar"
             {...(register('lastName'),
             {
               onChange: searchStudent,
@@ -239,6 +358,26 @@ function AdminStudentRecordsScreen() {
             }}
             placeholder="Search Student's Last Name"
           />
+          <ListGroup className="resultBox start-50">
+            {searchResults.length > 0 &&
+              searchResults.map((result: any) => (
+                <ListGroup.Item
+                  key={result._id}
+                  action
+                  onClick={() => {
+                    eleven = '';
+                    elevenFirst = '';
+                    elevenSecond = '';
+                    twelve = '';
+                    twelveFirst = '';
+                    twelveSecond = '';
+                    setSelectedStudent(result);
+                  }}
+                >
+                  {result.first_name + ' ' + result.last_name}
+                </ListGroup.Item>
+              ))}
+          </ListGroup>
         </Form>
         {content}
       </Container>
