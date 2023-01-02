@@ -26,6 +26,13 @@ function AdminCreateEnrolleeScreen() {
 
   const navigate = useNavigate();
 
+  // School Years
+  let years: any = [];
+
+  for (let i = 0; i < 10; i++) {
+    years.push(new Date().getFullYear() + i);
+  }
+
   const [createEnrollee] = useCreateEnrolleeMutation();
 
   const createEnrolleeHandler = async ({
@@ -43,6 +50,7 @@ function AdminCreateEnrolleeScreen() {
     birth_date,
     civil_status,
     strand,
+    school_year,
     current_grade,
     current_term,
     password,
@@ -84,6 +92,7 @@ function AdminCreateEnrolleeScreen() {
       birth_date,
       civil_status,
       strand,
+      school_year,
       current_grade,
       current_term,
       password,
@@ -110,6 +119,7 @@ function AdminCreateEnrolleeScreen() {
       civil_status,
       good_moral,
       strand,
+      school_year,
       current_grade,
       current_term,
       password,
@@ -295,6 +305,18 @@ function AdminCreateEnrolleeScreen() {
         </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
+            School Year:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('school_year')}>
+              {years.map((year: any) => (
+                <option key={year}>{year - 1 + '-' + year}</option>
+              ))}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
             Grade Level:
           </Form.Label>
           <Col md={10}>
@@ -423,7 +445,7 @@ function AdminCreateEnrolleeScreen() {
             />
           </Col>
         </Form.Group> */}
-        <Button type="submit">Create Enrollee</Button>
+        <Button type="submit">Enroll Now</Button>
       </Form>
     );
   }

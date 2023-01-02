@@ -328,6 +328,21 @@ function StudentProfileScreen() {
           </Form.Group>
           <Form.Group as={Row} className="mb-3">
             <Form.Label column md={2}>
+              School Year:
+            </Form.Label>
+            <Col md={10}>
+              <Form.Control
+                type="text"
+                required
+                defaultValue={currentUser.student.school_year}
+                {...register('school_year')}
+                readOnly
+                plaintext
+              />
+            </Col>
+          </Form.Group>
+          <Form.Group as={Row} className="mb-3">
+            <Form.Label column md={2}>
               Grade Level:
             </Form.Label>
             <Col md={10}>

@@ -37,6 +37,7 @@ function AdminCreateScheduleScreen() {
   const submitHandler = async ({
     teacher_id,
     subject_id,
+    room,
     time_in,
     time_out,
   }: any) => {
@@ -72,9 +73,16 @@ function AdminCreateScheduleScreen() {
       return;
     }
 
-    console.log(teacher_id, subject_id, days, time_in, time_out);
+    console.log(teacher_id, subject_id, room, days, time_in, time_out);
 
-    await createSchedule({ teacher_id, subject_id, days, time_in, time_out });
+    await createSchedule({
+      teacher_id,
+      subject_id,
+      room,
+      days,
+      time_in,
+      time_out,
+    });
 
     alert('Successfully create a schedule.');
 
@@ -130,6 +138,23 @@ function AdminCreateScheduleScreen() {
               ) : (
                 <option value="">No Subject</option>
               )}
+            </Form.Select>
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-3">
+          <Form.Label column md={2}>
+            Room:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Select {...register('room')}>
+              {[
+                'Shs Building 101',
+                'Shs Building 201',
+                'Shs Building 301',
+                'Shs Building 401',
+              ].map((room: any) => (
+                <option key={room}>{room}</option>
+              ))}
             </Form.Select>
           </Col>
         </Form.Group>

@@ -33,6 +33,13 @@ function AdminEnrolleeScreen() {
     dispatch(getEnrolleeById({ enrollee }));
   }, [dispatch, enrollee]);
 
+  // School Years
+  let years: any = [];
+
+  for (let i = 0; i < 10; i++) {
+    years.push(new Date().getFullYear() + i);
+  }
+
   const [updateEnrollee] = useUpdateEnrolleeMutation();
 
   const updateHandler = async ({
@@ -50,6 +57,7 @@ function AdminEnrolleeScreen() {
     birth_date,
     civil_status,
     strand,
+    school_year,
     current_grade,
     current_term,
     ec_full_name,
@@ -81,6 +89,7 @@ function AdminEnrolleeScreen() {
         sex,
         civil_status,
         strand,
+        school_year,
         current_grade,
         current_term,
         emergency_contacts,
@@ -331,7 +340,7 @@ function AdminEnrolleeScreen() {
             )}
           </Col>
         </Form.Group>
-        <Form.Group as={Row} className="mb-3">
+        <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Strand:
           </Form.Label>
@@ -359,6 +368,29 @@ function AdminEnrolleeScreen() {
                       {strand}
                     </option>
                   );
+                })}
+              </Form.Select>
+            )}
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            School Year:
+          </Form.Label>
+          <Col md={10}>
+            {notEditing ? (
+              <div>{enrollee.school_year}</div>
+            ) : (
+              <Form.Select {...register('school_year')}>
+                <option value={enrollee.school_year}>
+                  {enrollee.school_year}
+                </option>
+                {years.map((year: any) => {
+                  let schoolYear = year - 1 + '-' + year;
+                  if (enrollee.school_year === schoolYear) {
+                    return;
+                  }
+                  return <option key={year}>{schoolYear}</option>;
                 })}
               </Form.Select>
             )}

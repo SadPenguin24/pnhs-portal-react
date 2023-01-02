@@ -70,6 +70,7 @@ function FacultyScheduleScreen() {
               <th className="textWhite">Subject</th>
               <th className="textWhite">Day</th>
               <th className="textWhite">Time</th>
+              <th className="textWhite">Room</th>
               <th className="textWhite">Section</th>
             </tr>
           </thead>
@@ -99,6 +100,7 @@ function FacultyScheduleScreen() {
                       <td>
                         {schedule.time_in} - {schedule.time_out}
                       </td>
+                      <td>{schedule.room}</td>
                       <td>
                         {sections.map(
                           (section: any) =>
@@ -113,7 +115,7 @@ function FacultyScheduleScreen() {
               )
             ) : (
               <tr className="text-center">
-                <td colSpan={5}>No schedule</td>
+                <td colSpan={6}>No schedule</td>
               </tr>
             )}
           </tbody>

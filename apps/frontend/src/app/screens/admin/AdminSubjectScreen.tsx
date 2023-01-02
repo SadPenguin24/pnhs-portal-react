@@ -71,7 +71,7 @@ function AdminSubjectScreen() {
             ))
           ) : (
             <tr>
-              <td colSpan={3} className="text-center">
+              <td colSpan={4} className="text-center">
                 No Subjects
               </td>
             </tr>

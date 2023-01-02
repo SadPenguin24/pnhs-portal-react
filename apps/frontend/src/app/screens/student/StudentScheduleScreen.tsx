@@ -92,6 +92,7 @@ function StudentScheduleScreen() {
                   <th>DAY</th>
                   <th>TIME</th>
                   <th>SUBJECT</th>
+                  <th>ROOM</th>
                   <th>TEACHER</th>
                 </tr>
               </thead>
@@ -114,6 +115,7 @@ function StudentScheduleScreen() {
                         {schedule.time_in} - {schedule.time_out}
                       </td>
                       <td>{schedule.subject.subject_name}</td>
+                      <td>{schedule.room}</td>
                       <td>
                         {schedule.teacher.first_name +
                           ' ' +
@@ -123,7 +125,7 @@ function StudentScheduleScreen() {
                   ))
                 ) : (
                   <tr className="text-center">
-                    <td colSpan={4}>No schedule</td>
+                    <td colSpan={5}>No schedule</td>
                   </tr>
                 )}
               </tbody>
