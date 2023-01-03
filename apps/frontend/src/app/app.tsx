@@ -97,16 +97,13 @@ export function App() {
               path="/admin/enrollee/create"
               element={<AdminCreateEnrolleeScreen />}
             />
+            <Route path="/admin/subject/" element={<AdminSubjectScreen />} />
             <Route
-              path="/admin/subject/:strand"
-              element={<AdminSubjectScreen />}
-            />
-            <Route
-              path="/admin/subject/:pathStrand/:id"
+              path="/admin/subject/:id"
               element={<AdminViewSubjectScreen />}
             />
             <Route
-              path="/admin/subject/:subjectStrand/create"
+              path="/admin/subject/create"
               element={<AdminCreateSubjectScreen />}
             />
             <Route

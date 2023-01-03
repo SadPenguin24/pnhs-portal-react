@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Button, Container, Spinner, Table } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
 import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
@@ -9,7 +9,6 @@ import { useAppDispatch } from '../../redux/store';
 
 function AdminSubjectScreen() {
   const navigate = useNavigate();
-  const { strand } = useParams();
 
   const dispatch = useAppDispatch();
 
@@ -36,10 +35,6 @@ function AdminSubjectScreen() {
       </div>
     );
   } else if (isSuccess) {
-    const filterSubjects = subjects.filter(
-      (subject: any) =>
-        subject.strand.split(' ').join('').toLowerCase() === strand
-    );
     content = (
       <Table bordered className="tableColor">
         <thead style={{ backgroundColor: '#2a6fd6' }}>
@@ -51,17 +46,15 @@ function AdminSubjectScreen() {
           </tr>
         </thead>
         <tbody>
-          {filterSubjects.length !== 0 ? (
-            filterSubjects.map((subject: any) => (
+          {subjects ? (
+            subjects.map((subject: any) => (
               <tr key={subject._id}>
                 <td>{subject.type}</td>
                 <td>{subject.strand}</td>
                 <td>{subject.subject_name}</td>
                 <td className="d-flex justify-content-around">
                   <Button
-                    onClick={() =>
-                      navigate(`/admin/subject/${strand}/${subject._id}`)
-                    }
+                    onClick={() => navigate(`/admin/subject/${subject._id}`)}
                   >
                     View
                   </Button>
@@ -86,15 +79,12 @@ function AdminSubjectScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header
-        page="Strand/Enrollees/Subject"
-        redirect={`/admin/enrollees/${strand}`}
-      />
+      <Header page="Subjects" redirect={`/admin/home`} />
       <Container>
         <div className="text-end mb-3">
           <Button
             className="me-3"
-            onClick={() => navigate(`/admin/subject/${strand}/create`)}
+            onClick={() => navigate(`/admin/subject/create`)}
           >
             Add Subject
           </Button>

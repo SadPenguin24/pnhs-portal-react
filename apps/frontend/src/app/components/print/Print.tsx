@@ -121,6 +121,7 @@ export function PrintStudentSchedule({ studentSection, currentUser }: any) {
                 <th>DAY</th>
                 <th>TIME</th>
                 <th>SUBJECT</th>
+                <th>ROOM</th>
                 <th>TEACHER</th>
               </tr>
             </thead>
@@ -141,6 +142,7 @@ export function PrintStudentSchedule({ studentSection, currentUser }: any) {
                       {schedule.time_in} - {schedule.time_out}
                     </td>
                     <td>{schedule.subject.subject_name}</td>
+                    <td>{schedule.room}</td>
                     <td>
                       {schedule.teacher.first_name +
                         ' ' +
@@ -211,6 +213,7 @@ export function PrintFacultySchedule({
               <th className="textWhite">Subject</th>
               <th className="textWhite">Day</th>
               <th className="textWhite">Time</th>
+              <th className="textWhite">Room</th>
               <th className="textWhite">Section</th>
             </tr>
           </thead>
@@ -239,6 +242,7 @@ export function PrintFacultySchedule({
                       <td>
                         {schedule.time_in} - {schedule.time_out}
                       </td>
+                      <td>{schedule.room}</td>
                       <td>
                         {sections.map(
                           (section: any) =>
