@@ -565,7 +565,7 @@ function AdminEnrolleeScreen() {
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
       <Header
-        page="Strand/Enrollees/Subject"
+        page="Strand/Enrollees"
         redirect={`/admin/enrollees/${pathStrand}`}
       />
       <Container>{content}</Container>

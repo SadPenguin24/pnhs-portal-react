@@ -136,9 +136,6 @@ function AdminEnrolleesScreen() {
           </div>
         </Form>
         <div className="text-center">
-          <LinkContainer to={`/admin/subject/${strand}`}>
-            <Button className="me-3">View Subject</Button>
-          </LinkContainer>
           <Button
             onClick={() => {
               navigate(`/admin/enrollee/create?${strand}`);
@@ -155,7 +152,7 @@ function AdminEnrolleesScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/strand" />
+      <Header page="Strand/Enrollees" redirect="/admin/strand" />
       <Container>{content}</Container>
     </div>
   );

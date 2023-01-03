@@ -46,6 +46,8 @@ import FacultyHandleSectionsScreen from './screens/faculty/FacultyHandleSections
 import FacultyEditStudentGrade from './screens/faculty/FacultyEditStudentGrade';
 import StudentEnrollmentSectionsScreen from './screens/student/StudentEnrollmentSectionsScreen';
 import StudentEnrollmentScreen from './screens/student/StudentEnrollmentScreen';
+import AdminCurriculumScreen from './screens/admin/AdminCurriculumScreen';
+import AdminCreateCurriculumScreen from './screens/admin/AdminCreateCurriculumScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -138,6 +140,14 @@ export function App() {
             <Route
               path="/admin/createprofile"
               element={<AdminCreateProfileScreen />}
+            />
+            <Route
+              path="/admin/curriculum"
+              element={<AdminCurriculumScreen />}
+            />
+            <Route
+              path="/admin/curriculum/create"
+              element={<AdminCreateCurriculumScreen />}
             />
 
             {/* Student Screens */}

@@ -7,7 +7,7 @@ function AdminStrandScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="Strand/Enrollees/Subject" redirect="/admin/home" />
+      <Header page="Strand/Enrollees" redirect="/admin/home" />
       <Container>
         <Row>
           <LinkContainer to="/admin/enrollees/abm">
