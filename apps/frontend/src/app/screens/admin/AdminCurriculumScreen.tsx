@@ -33,7 +33,7 @@ function AdminCurriculumScreen() {
               <td>1</td>
               <td>
                 <Button variant="primary">View Subject</Button>
-                <Button variant="danger">Delete</Button>
+                {/* <Button variant="danger">Delete</Button> */}
               </td>
             </tr>
           </tbody>
