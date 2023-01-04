@@ -97,9 +97,6 @@ function AdminScheduleScreen() {
   };
 
   const getSelectedFacultySchedule = (result: any) => {
-    if (selectedFaculty === result) {
-      setFacultySchedules([]);
-    }
     setSearching(true);
     console.log(result, selectedFaculty);
     result.faculty.handled_subjects.map((subjects: any) => {
@@ -185,47 +182,51 @@ function AdminScheduleScreen() {
               </Col>
             </Row>
           </Form>
+        ) : searching ? (
+          <Button
+            variant="danger"
+            onClick={() => {
+              setSearching(false);
+              setFacultySchedules([]);
+              setSelectedFaculty();
+            }}
+          >
+            Reset
+          </Button>
         ) : (
-          <Form>
-            <Row>
-              <Col>
-                <Form.Control
-                  id="searchBar"
-                  {...(register('lastName'),
-                  {
-                    onChange: searchFaculty,
-                  })}
-                  style={{
-                    backgroundColor: '#ffe4a0',
-                    border: '#eaaa79 solid',
-                  }}
-                  placeholder="Faculty's Last Name"
-                ></Form.Control>
-                <ListGroup
-                  className="z-1 position-absolute"
-                  style={{ maxHeight: '300px', overflowY: 'auto' }}
-                >
-                  {searchResults.length > 0 &&
-                    searchResults.map((result: any) => {
-                      if (result === selectedFaculty) {
-                        return;
-                      }
-                      return (
-                        <ListGroup.Item
-                          key={result._id}
-                          action
-                          onClick={() => {
-                            getSelectedFacultySchedule(result);
-                            setSelectedFaculty(result);
-                          }}
-                        >
-                          {result.first_name + ' ' + result.last_name}
-                        </ListGroup.Item>
-                      );
-                    })}
-                </ListGroup>
-              </Col>
-              {/* <Col>
+          <>
+            <Form.Control
+              id="searchBar"
+              className="w-50"
+              {...(register('lastName'),
+              {
+                onChange: searchFaculty,
+              })}
+              style={{
+                backgroundColor: '#ffe4a0',
+                border: '#eaaa79 solid',
+              }}
+              placeholder="Faculty's Last Name"
+            ></Form.Control>
+            <ListGroup
+              className="z-1 position-absolute"
+              style={{ maxHeight: '300px', overflowY: 'auto' }}
+            >
+              {searchResults.length > 0 &&
+                searchResults.map((result: any) => (
+                  <ListGroup.Item
+                    key={result._id}
+                    action
+                    onClick={() => {
+                      getSelectedFacultySchedule(result);
+                      setSelectedFaculty(result);
+                    }}
+                  >
+                    {result.first_name + ' ' + result.last_name}
+                  </ListGroup.Item>
+                ))}
+            </ListGroup>
+            {/* <Col>
                 <FormControl
                   style={{
                     backgroundColor: '#ffe4a0',
@@ -234,21 +235,7 @@ function AdminScheduleScreen() {
                   placeholder="Term"
                 ></FormControl>
               </Col> */}
-              <Col>
-                <Button
-                  variant="danger"
-                  onClick={() => {
-                    setSearching(false);
-                    (
-                      document.getElementById('searchBar') as HTMLInputElement
-                    ).value = '';
-                  }}
-                >
-                  Reset
-                </Button>
-              </Col>
-            </Row>
-          </Form>
+          </>
         )}
         <div className="text-end my-3">
           <Button onClick={() => navigate(`/admin/schedule/${role}/create`)}>
