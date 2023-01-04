@@ -1,15 +1,35 @@
 import React from 'react';
-import { Button, Container, Table } from 'react-bootstrap';
+import { Button, Container, Spinner, Table } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
+import { useGetCurriculumsQuery } from '../../redux/api/curriculumApi';
 
 function AdminCurriculumScreen() {
-  return (
-    <div className="mb-5">
-      <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header page="SHS Curriculum" redirect="/admin/home" />
-      <Container>
+  const navigate = useNavigate();
+  const {
+    data: curriculums,
+    isLoading,
+    isSuccess,
+    isError,
+    error,
+  } = useGetCurriculumsQuery({});
+
+  let content;
+
+  if (isLoading) {
+    content = (
+      <div className="text-center">
+        <Spinner variant="primary" animation="border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </Spinner>
+      </div>
+    );
+  } else if (isSuccess) {
+    console.log(curriculums);
+    content = (
+      <>
         <div className="text-end mb-3">
           <LinkContainer to="/admin/curriculum/create">
             <Button className="me-3">Create Curriculum</Button>
@@ -26,19 +46,44 @@ function AdminCurriculumScreen() {
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>2022-2023</td>
-              <td>ABM</td>
-              <td>11</td>
-              <td>1</td>
-              <td>
-                <Button variant="primary">View Subject</Button>
-                {/* <Button variant="danger">Delete</Button> */}
-              </td>
-            </tr>
+            {curriculums.length > 0 ? (
+              curriculums.map((curriculum: any) => (
+                <tr key={curriculum._id}>
+                  <td>{curriculum.school_year}</td>
+                  <td>{curriculum.strand}</td>
+                  <td>{curriculum.grade_level}</td>
+                  <td>{curriculum.term}</td>
+                  <td className="d-flex justify-content-around">
+                    <Button
+                      onClick={() =>
+                        navigate(`/admin/curriculum/${curriculum._id}`)
+                      }
+                    >
+                      View Subject
+                    </Button>
+                    {/* <Button variant="danger">Delete</Button> */}
+                  </td>
+                </tr>
+              ))
+            ) : (
+              <tr>
+                <td colSpan={5} className="text-center">
+                  No Curriculums
+                </td>
+              </tr>
+            )}
           </tbody>
         </Table>
-      </Container>
+      </>
+    );
+  } else if (isError) {
+    content = <p>{JSON.stringify(error)}</p>;
+  }
+  return (
+    <div className="mb-5">
+      <style>{'body { background-color: #dcf7b0; }'}</style>
+      <Header page="SHS Curriculum" redirect="/admin/home" />
+      <Container>{content}</Container>
     </div>
   );
 }
