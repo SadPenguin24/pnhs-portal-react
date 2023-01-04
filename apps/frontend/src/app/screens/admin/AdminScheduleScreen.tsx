@@ -297,9 +297,9 @@ function AdminScheduleScreen() {
                                 })
                               : 'No Section'}
                           </td>
-                          <td className="text-center">
+                          <td className="d-flex justify-content-around">
                             <Button
-                              // className="me-5"
+                              className="me-2"
                               onClick={() =>
                                 navigate(
                                   `/admin/schedule/${role}/${schedule._id}`
@@ -308,7 +308,7 @@ function AdminScheduleScreen() {
                             >
                               View
                             </Button>
-                            {/* <Button variant="danger">Delete</Button> */}
+                            <Button variant="danger">Delete</Button>
                           </td>
                         </tr>
                       ))
@@ -359,14 +359,14 @@ function AdminScheduleScreen() {
                       </td>
                       <td className="text-center">
                         <Button
-                          // className="me-5"
+                          className="me-2"
                           onClick={() =>
                             navigate(`/admin/schedule/${role}/${schedule._id}`)
                           }
                         >
                           View
                         </Button>
-                        {/* <Button variant="danger">Delete</Button> */}
+                        <Button variant="danger">Delete</Button>
                       </td>
                     </tr>
                   ))
@@ -406,16 +406,16 @@ function AdminScheduleScreen() {
                           })
                         : 'No Section'}
                     </td>
-                    <td className="text-center">
+                    <td className="d-flex justify-content-around">
                       <Button
-                        // className="me-5"
+                        className="me-2"
                         onClick={() =>
                           navigate(`/admin/schedule/${role}/${schedule._id}`)
                         }
                       >
                         View
                       </Button>
-                      {/* <Button variant="danger">Delete</Button> */}
+                      <Button variant="danger">Delete</Button>
                     </td>
                   </tr>
                 ))

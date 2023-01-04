@@ -118,7 +118,7 @@ function AdminSubjectScreen() {
           {/* <Button variant="danger">Delete All</Button> */}
         </div>
 
-        <Table bordered className="tableColor">
+        <Table bordered className="tableColor" responsive="sm">
           <thead style={{ backgroundColor: '#2a6fd6' }}>
             <tr className="text-center">
               <th>Type</th>
@@ -138,13 +138,14 @@ function AdminSubjectScreen() {
                       <td>{subject.subject_name}</td>
                       <td className="d-flex justify-content-around">
                         <Button
+                          className="me=2"
                           onClick={() =>
                             navigate(`/admin/subject/${subject._id}`)
                           }
                         >
                           View
                         </Button>
-                        {/* <Button variant="danger">Delete</Button> */}
+                        <Button variant="danger">Delete</Button>
                       </td>
                     </tr>
                   ))
@@ -163,13 +164,14 @@ function AdminSubjectScreen() {
                     <td>{subject.subject_name}</td>
                     <td className="d-flex justify-content-around">
                       <Button
+                        className="me-2"
                         onClick={() =>
                           navigate(`/admin/subject/${subject._id}`)
                         }
                       >
                         View
                       </Button>
-                      {/* <Button variant="danger">Delete</Button> */}
+                      <Button variant="danger">Delete</Button>
                     </td>
                   </tr>
                 ))

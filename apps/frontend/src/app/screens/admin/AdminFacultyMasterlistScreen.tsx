@@ -86,10 +86,14 @@ function AdminFacultyMasterlistScreen() {
                 <td>{faculty.last_name}</td>
                 <td>{faculty.first_name}</td>
                 <td>{faculty.middle_name}</td>
-                <td className="text-center">
-                  <LinkContainer to={`/admin/faculty/${faculty._id}`}>
-                    <Button>View faculty</Button>
+                <td className="d-flex justify-content-around">
+                  <LinkContainer
+                    to={`/admin/faculty/${faculty._id}`}
+                    className="me-2"
+                  >
+                    <Button>View</Button>
                   </LinkContainer>
+                  <Button variant="danger">Delete</Button>
                 </td>
               </tr>
             ))
