@@ -55,13 +55,14 @@ function AdminCurriculumScreen() {
                   <td>{curriculum.term}</td>
                   <td className="d-flex justify-content-around">
                     <Button
+                      className="me-2"
                       onClick={() =>
                         navigate(`/admin/curriculum/${curriculum._id}`)
                       }
                     >
-                      View Subject
+                      View
                     </Button>
-                    {/* <Button variant="danger">Delete</Button> */}
+                    <Button variant="danger">Delete</Button>
                   </td>
                 </tr>
               ))

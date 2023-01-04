@@ -96,12 +96,14 @@ function AdminStudentSectionsScreen() {
                     {section.teacher.first_name} {section.teacher.last_name}
                   </td>
                   <td>{section.school_year}</td>
-                  <td className="text-center">
+                  <td className="d-flex justify-content-around">
                     <Button
+                      className="me-2"
                       onClick={() => navigate(`/admin/section/${section._id}`)}
                     >
                       View
                     </Button>
+                    <Button variant="danger">Delete</Button>
                   </td>
                 </tr>
               ))

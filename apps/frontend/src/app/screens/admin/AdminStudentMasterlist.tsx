@@ -102,10 +102,14 @@ function AdminStudentMasterlist() {
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
                 <td>{student.student.strand}</td>
-                <td className="text-center">
-                  <LinkContainer to={`/admin/student/${student._id}`}>
-                    <Button>View Student</Button>
+                <td className="d-flex justify-content-around">
+                  <LinkContainer
+                    to={`/admin/student/${student._id}`}
+                    className="me-2"
+                  >
+                    <Button>View</Button>
                   </LinkContainer>
+                  <Button variant="danger">Delete</Button>
                 </td>
               </tr>
             ))

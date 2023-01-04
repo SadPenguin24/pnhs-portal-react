@@ -109,7 +109,10 @@ function AdminEnrolleesScreen() {
                           navigate(`/admin/enrollee/${strand}/${enrollee._id}`)
                         }
                       >
-                        View Enrollee
+                        View
+                      </Button>
+                      <Button variant="danger" className="mx-2">
+                        Delete
                       </Button>
                       <Form.Check
                         inline

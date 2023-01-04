@@ -63,13 +63,13 @@ function FacultyHandleSectionsScreen() {
                   {section.teacher.first_name} {section.teacher.last_name}
                 </td>
                 <td>{section.school_year}</td>
-                <td>
+                <td className="text-center">
                   <Button
                     onClick={() =>
                       navigate(`/faculty/shsgrade/section/${section._id}`)
                     }
                   >
-                    View
+                    View Section
                   </Button>
                 </td>
               </tr>
