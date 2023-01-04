@@ -55,7 +55,7 @@ function AdminHomeScreen() {
                 src="../assets/images/icons/admin/strand-enrollees-subject.png"
                 fluid
               />
-              <div>Strand/Enrollees/Subject</div>
+              <div>Strand/Enrollees</div>
             </Col>
           </LinkContainer>
           <LinkContainer to="/admin/schedule/student">
@@ -95,6 +95,18 @@ function AdminHomeScreen() {
             <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
               <Image src="../assets/images/icons/admin/shs-grade.png" fluid />
               <div>Create Profile</div>
+            </Col>
+          </LinkContainer>
+          <LinkContainer to="/admin/subject">
+            <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
+              <Image src="../assets/images/icons/admin/shs-grade.png" fluid />
+              <div>Subjects</div>
+            </Col>
+          </LinkContainer>
+          <LinkContainer to="/admin/curriculum">
+            <Col lg="3" md="4" xs="6" className="text-center mb-3 clickable">
+              <Image src="../assets/images/icons/admin/shs-grade.png" fluid />
+              <div>SHS Curriculum</div>
             </Col>
           </LinkContainer>
         </Row>

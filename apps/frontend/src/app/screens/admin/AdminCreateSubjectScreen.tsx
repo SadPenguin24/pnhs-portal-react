@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useCreateSubjectMutation } from '../../redux/api/subjectApi';
 
@@ -11,20 +11,11 @@ function AdminCreateSubjectScreen() {
   const [isSuccess, setIsSuccess] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  const { subjectStrand } = useParams();
-
-  const [strand, setStrand] = useState(() => {
-    if (subjectStrand === 'tvl-homeeconomics') {
-      return 'TVL-HOME ECONOMICS';
-    }
-    return subjectStrand && subjectStrand.toUpperCase();
-  });
-
   const navigate = useNavigate();
 
   const [createSubject] = useCreateSubjectMutation();
 
-  const createSubjectHandler = async ({ subject_name, type }: any) => {
+  const createSubjectHandler = async ({ subject_name, type, strand }: any) => {
     setIsSuccess(false);
     setIsLoading(true);
 
@@ -39,7 +30,7 @@ function AdminCreateSubjectScreen() {
     setIsLoading(false);
     setIsSuccess(true);
 
-    navigate(`/admin/subject/${subjectStrand}`);
+    navigate(`/admin/subject`);
   };
 
   let content;
@@ -82,12 +73,22 @@ function AdminCreateSubjectScreen() {
             Strand:
           </Form.Label>
           <Col md={10}>
-            <Form.Control
-              type="text"
-              defaultValue={strand}
-              readOnly
-              plaintext
-            />
+            <Form.Select {...register('strand')}>
+              {[
+                'ABM',
+                'GAS',
+                'HUMSS',
+                'SPORTS',
+                'STEM',
+                'TVL-COOKERY',
+                'TVL-HOME ECONOMICS',
+                'TVL-ICT',
+              ].map((strand: any) => (
+                <option value={strand} key={strand}>
+                  {strand}
+                </option>
+              ))}
+            </Form.Select>
           </Col>
         </Form.Group>
         <Button type="submit">Create Subject</Button>
@@ -98,10 +99,7 @@ function AdminCreateSubjectScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header
-        page="Strand/Enrollees/Subject"
-        redirect={`/admin/subject/${subjectStrand}`}
-      />
+      <Header page="Strand/Enrollees/Subject" redirect={`/admin/subject`} />
       <Container>{content}</Container>
     </div>
   );

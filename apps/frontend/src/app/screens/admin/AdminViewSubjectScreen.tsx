@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import {
   useGetSubjectQuery,
@@ -11,9 +11,7 @@ import { getSubject } from '../../redux/slice/subjectSlice';
 import { useAppDispatch } from '../../redux/store';
 
 function AdminViewSubjectScreen() {
-  const { pathStrand, id } = useParams();
-
-  const navigate = useNavigate();
+  const { id } = useParams();
 
   const [notEditing, setNotEditing] = useState(true);
 
@@ -46,11 +44,6 @@ function AdminViewSubjectScreen() {
 
       alert('Successfully update subject');
 
-      if (strand.split(' ').join('').toLowerCase() !== pathStrand) {
-        navigate(
-          `/admin/subject/${strand.split(' ').join('').toLowerCase()}/${id}`
-        );
-      }
       setNotEditing(true);
     } catch (error) {
       alert(error);
@@ -159,10 +152,7 @@ function AdminViewSubjectScreen() {
   return (
     <div className="mb-5">
       <style>{'body { background-color: #dcf7b0; }'}</style>
-      <Header
-        page="Strand/Enrollees/Subject"
-        redirect={`/admin/subject/${pathStrand}`}
-      />
+      <Header page="Subjects" redirect={`/admin/subject`} />
       <Container>{content}</Container>
     </div>
   );

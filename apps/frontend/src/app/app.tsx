@@ -46,6 +46,9 @@ import FacultyHandleSectionsScreen from './screens/faculty/FacultyHandleSections
 import FacultyEditStudentGrade from './screens/faculty/FacultyEditStudentGrade';
 import StudentEnrollmentSectionsScreen from './screens/student/StudentEnrollmentSectionsScreen';
 import StudentEnrollmentScreen from './screens/student/StudentEnrollmentScreen';
+import AdminCurriculumScreen from './screens/admin/AdminCurriculumScreen';
+import AdminCreateCurriculumScreen from './screens/admin/AdminCreateCurriculumScreen';
+import AdminViewCurriculumScreen from './screens/admin/AdminViewCurriculumScreen';
 
 //css is rough change when finalizing
 export function App() {
@@ -97,16 +100,13 @@ export function App() {
               path="/admin/enrollee/create"
               element={<AdminCreateEnrolleeScreen />}
             />
+            <Route path="/admin/subject/" element={<AdminSubjectScreen />} />
             <Route
-              path="/admin/subject/:strand"
-              element={<AdminSubjectScreen />}
-            />
-            <Route
-              path="/admin/subject/:pathStrand/:id"
+              path="/admin/subject/:id"
               element={<AdminViewSubjectScreen />}
             />
             <Route
-              path="/admin/subject/:subjectStrand/create"
+              path="/admin/subject/create"
               element={<AdminCreateSubjectScreen />}
             />
             <Route
@@ -141,6 +141,18 @@ export function App() {
             <Route
               path="/admin/createprofile"
               element={<AdminCreateProfileScreen />}
+            />
+            <Route
+              path="/admin/curriculum"
+              element={<AdminCurriculumScreen />}
+            />
+            <Route
+              path="/admin/curriculum/create"
+              element={<AdminCreateCurriculumScreen />}
+            />
+            <Route
+              path="/admin/curriculum/:id"
+              element={<AdminViewCurriculumScreen />}
             />
 
             {/* Student Screens */}
