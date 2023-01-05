@@ -4,22 +4,12 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
-import {
-  useCreateSectionMutation,
-  useGetSectionsQuery,
-} from '../../redux/api/sectionApi';
-import {
-  useGetSubjectQuery,
-  useGetSubjectsQuery,
-} from '../../redux/api/subjectApi';
+import { useCreateSectionMutation } from '../../redux/api/sectionApi';
+import { useGetSubjectQuery } from '../../redux/api/subjectApi';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 
 function AdminCreateSectionScreen() {
   const { register, handleSubmit } = useForm();
-
-  const { data: sections } = useGetSectionsQuery({});
-
-  const { data: students } = useGetRoleQuery('student');
 
   const { data: schedules } = useGetParsedSchedulesQuery({});
 
@@ -60,6 +50,7 @@ function AdminCreateSectionScreen() {
   };
 
   const createSectionHandler = async ({
+    section_name,
     school_year,
     strand,
     term,
@@ -70,13 +61,6 @@ function AdminCreateSectionScreen() {
       alert('Please select a faculty.');
       return;
     }
-    let filteredSections = sections.filter(
-      (section: any) =>
-        section.strand === strand && section.grade_level === grade_level
-    );
-    console.log(filteredSections);
-    let section_name =
-      grade_level + '-' + strand + '-' + (filteredSections.length + 1);
     console.log(
       role,
       section_name,
@@ -116,6 +100,19 @@ function AdminCreateSectionScreen() {
   } else if (isSuccess) {
     content = (
       <Form onSubmit={handleSubmit(createSectionHandler)}>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Section Name:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Control
+              required
+              type="text"
+              {...register('section_name')}
+              placeholder="Example 11-ABM-1"
+            />
+          </Col>
+        </Form.Group>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             School Year:
