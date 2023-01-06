@@ -15,6 +15,7 @@ function AdminViewCurriculumScreen() {
   const { register, handleSubmit } = useForm();
 
   const [subject_ids, setSubjectIds]: any = useState([]);
+  let [filterSubjects, setFilterSubjects]: any = useState([]);
   const [notEditing, setNotEditing] = useState(true);
 
   const { data: subjects } = useGetSubjectsQuery({});
@@ -34,6 +35,25 @@ function AdminViewCurriculumScreen() {
     } else {
       subject_ids.push(e.target.value);
     }
+  };
+
+  const changeStrand = (e: any) => {
+    if (curriculum.strand !== e.target.value) {
+      setSubjectIds([]);
+    } else {
+      curriculum.subject_ids.forEach((subject: any) => {
+        if (!subject_ids.includes(subject)) {
+          subject_ids.push(subject);
+        }
+      });
+    }
+
+    setFilterSubjects(
+      () =>
+        (filterSubjects = subjects.filter(
+          (subject: any) => subject.strand === e.target.value
+        ))
+    );
   };
 
   const [updateCurriculum] = useUpdateCurriculumMutation();
@@ -77,7 +97,7 @@ function AdminViewCurriculumScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(curriculum);
+    console.log(subject_ids);
     content = (
       <Form onSubmit={handleSubmit(updateCurriculumHandler)}>
         <Form.Group as={Row} className="mb-2">
@@ -111,7 +131,7 @@ function AdminViewCurriculumScreen() {
             {notEditing ? (
               <div>{curriculum.strand}</div>
             ) : (
-              <Form.Select {...register('strand')}>
+              <Form.Select {...register('strand')} onChange={changeStrand}>
                 <option value={curriculum.strand}>{curriculum.strand}</option>
                 {[
                   'ABM',
@@ -210,10 +230,10 @@ function AdminViewCurriculumScreen() {
                     </Col>
                   ))
                 ) : (
-                  <div>No Subject</div>
+                  <div>No Subjects</div>
                 )
-              ) : subjects && subjects.length > 0 ? (
-                subjects.map((subject: any) => (
+              ) : filterSubjects && filterSubjects.length > 0 ? (
+                filterSubjects.map((subject: any) => (
                   <Col lg="4" md="6" xs="12" className="mb-2" key={subject._id}>
                     <Form.Check
                       type="checkbox"
@@ -235,6 +255,11 @@ function AdminViewCurriculumScreen() {
           <Button
             onClick={() => {
               if (subjects) {
+                setFilterSubjects(() => {
+                  return subjects.filter(
+                    (subject: any) => subject.strand === curriculum.strand
+                  );
+                });
                 curriculum.subject_ids.forEach((subject: any) => {
                   if (!subject_ids.includes(subject)) {
                     subject_ids.push(subject);

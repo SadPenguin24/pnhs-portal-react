@@ -9,6 +9,8 @@ import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
 function AdminCreateCurriculumScreen() {
   const { register, handleSubmit } = useForm();
   const [subject_ids]: any = useState([]);
+  const [selectedStrand, setSelectedStrand]: any = useState('ABM');
+  let [filterSubjects]: any = useState([]);
 
   const navigate = useNavigate();
 
@@ -70,6 +72,11 @@ function AdminCreateCurriculumScreen() {
     );
   } else if (isSuccess) {
     console.log(subjects);
+
+    filterSubjects = subjects.filter(
+      (subject: any) => subject.strand === selectedStrand
+    );
+
     content = (
       <Form onSubmit={handleSubmit(createCurriculumHandler)}>
         <Form.Group as={Row} className="mb-2">
@@ -89,7 +96,10 @@ function AdminCreateCurriculumScreen() {
             Strand:
           </Form.Label>
           <Col md={10}>
-            <Form.Select {...register('strand')}>
+            <Form.Select
+              {...register('strand')}
+              onChange={(e) => setSelectedStrand(e.target.value)}
+            >
               {[
                 'ABM',
                 'GAS',
@@ -135,14 +145,14 @@ function AdminCreateCurriculumScreen() {
             </Form.Select>
           </Col>
         </Form.Group>
-        {/* <Form.Group as={Row} className="mb-2">
+        <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
             Subjects:
           </Form.Label>
           <Col md={10}>
             <Row>
-              {subjects && subjects.length > 0 ? (
-                subjects.map((subject: any) => {
+              {filterSubjects && filterSubjects.length > 0 ? (
+                filterSubjects.map((subject: any) => {
                   return (
                     <Col
                       lg="4"
@@ -168,7 +178,7 @@ function AdminCreateCurriculumScreen() {
               )}
             </Row>
           </Col>
-        </Form.Group> */}
+        </Form.Group>
         <Button type="submit">Save</Button>
       </Form>
     );
