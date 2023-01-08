@@ -3,7 +3,10 @@ import { Button, Container, Spinner, Table } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import '../../styles/adminHome.scss';
 import Header from '../../components/header/Header';
-import { useGetParsedSectionsQuery } from '../../redux/api/sectionApi';
+import {
+  useDeleteSectionMutation,
+  useGetParsedSectionsQuery,
+} from '../../redux/api/sectionApi';
 import { getSections } from '../../redux/slice/sectionSlice';
 import { useAppDispatch } from '../../redux/store';
 import {
@@ -19,6 +22,8 @@ function AdminStudentSectionsScreen() {
   const { data: misc } = useGetMiscQuery('63976fa2de273706ca849846');
 
   const [updateBool] = useUpdateBoolMutation();
+
+  const [deleteSection] = useDeleteSectionMutation();
 
   const {
     data: sections,
@@ -99,11 +104,30 @@ function AdminStudentSectionsScreen() {
                   <td className="d-flex justify-content-around">
                     <Button
                       className="me-2"
-                      onClick={() => navigate(`/admin/section/${section._id}`)}
+                      onClick={() =>
+                        navigate(`/admin/section/${section._id}?view`)
+                      }
                     >
                       View
                     </Button>
-                    <Button variant="danger">Delete</Button>
+                    <Button
+                      className="me-2"
+                      onClick={() =>
+                        navigate(`/admin/section/${section._id}?edit`)
+                      }
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        if (confirm('Are you sure?') === true) {
+                          deleteSection(section._id);
+                        }
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))

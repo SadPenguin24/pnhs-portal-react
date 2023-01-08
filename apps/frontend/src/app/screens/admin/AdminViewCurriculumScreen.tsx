@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import {
   useGetCurriculumQuery,
@@ -14,9 +14,20 @@ function AdminViewCurriculumScreen() {
 
   const { register, handleSubmit } = useForm();
 
+  const location = useLocation();
+
+  const separator = location.search ? location.search.split('?')[1] : '/';
+  console.log(separator);
+
+  const [notEditing, setNotEditing] = useState(() => {
+    if (separator === 'view') {
+      return true;
+    }
+    return false;
+  });
+
   const [subject_ids, setSubjectIds]: any = useState([]);
   let [filterSubjects, setFilterSubjects]: any = useState([]);
-  const [notEditing, setNotEditing] = useState(true);
 
   const { data: subjects } = useGetSubjectsQuery({});
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import {
   useGetSubjectQuery,
@@ -13,7 +13,17 @@ import { useAppDispatch } from '../../redux/store';
 function AdminViewSubjectScreen() {
   const { id } = useParams();
 
-  const [notEditing, setNotEditing] = useState(true);
+  const location = useLocation();
+
+  const separator = location.search ? location.search.split('?')[1] : '/';
+  console.log(separator);
+
+  const [notEditing, setNotEditing] = useState(() => {
+    if (separator === 'view') {
+      return true;
+    }
+    return false;
+  });
 
   const dispatch = useAppDispatch();
 

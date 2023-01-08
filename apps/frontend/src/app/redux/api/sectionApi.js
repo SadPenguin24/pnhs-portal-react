@@ -34,6 +34,13 @@ export const sectionApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Section', 'User'],
     }),
+    deleteSection: builder.mutation({
+      query: (id) => ({
+        url: `/delete/section/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Section'],
+    }),
   }),
 });
 
@@ -44,4 +51,5 @@ export const {
   useGetParsedSectionsQuery,
   useGetParsedSectionQuery,
   useUpdateSectionMutation,
+  useDeleteSectionMutation,
 } = sectionApi;

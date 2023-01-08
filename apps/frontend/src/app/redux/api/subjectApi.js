@@ -26,6 +26,13 @@ export const subjectApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Subject'],
     }),
+    deleteSubject: builder.mutation({
+      query: (id) => ({
+        url: `/delete/subject/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Subject', 'Schedule'],
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   useGetSubjectQuery,
   useCreateSubjectMutation,
   useUpdateSubjectMutation,
+  useDeleteSubjectMutation,
 } = subjectApi;

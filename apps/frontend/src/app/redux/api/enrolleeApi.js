@@ -26,6 +26,13 @@ export const enrolleeApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Enrollee'],
     }),
+    deleteEnrollee: builder.mutation({
+      query: (id) => ({
+        url: `/delete/enrollee/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Enrollee'],
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   useGetEnrolleeByIdQuery,
   useCreateEnrolleeMutation,
   useUpdateEnrolleeMutation,
+  useDeleteEnrolleeMutation,
 } = enrolleeApi;

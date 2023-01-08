@@ -44,13 +44,10 @@ function StudentScheduleScreen() {
               <strong>Class Program</strong>
             </h4>
             <h4>
-              <strong>
-                Grade {studentSection.grade_level} -{' '}
-                {studentSection.section_name}
-              </strong>
+              <strong>Grade {studentSection.section_name}</strong>
             </h4>
             <h4>
-              <strong>SY. {studentSection.school_year}</strong>
+              <strong>S.Y. {studentSection.school_year}</strong>
             </h4>
             <h4>
               <strong>
