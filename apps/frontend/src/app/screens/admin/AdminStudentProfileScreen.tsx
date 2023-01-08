@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
 import { PrintStudentRecordsGrade } from '../../components/print/Print';
@@ -16,7 +16,18 @@ function AdminStudentProfileScreen() {
 
   const { id } = useParams();
 
-  const [notEditing, setNotEditing] = useState(true);
+  const location = useLocation();
+
+  const separator = location.search ? location.search.split('?')[1] : '/';
+  console.log(separator);
+
+  const [notEditing, setNotEditing] = useState(() => {
+    if (separator === 'view') {
+      return true;
+    }
+    return false;
+  });
+
   let [objectStudent] = useState({});
   let [objectProfile] = useState({});
 

@@ -92,9 +92,15 @@ function AdminStudentMasterlist() {
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
                 <td>{student.student.strand}</td>
-                <td className="text-center">
-                  <LinkContainer to={`/admin/student/${student._id}`}>
-                    <Button>View Student</Button>
+                <td className="d-flex justify-content-around">
+                  <LinkContainer
+                    to={`/admin/student/${student._id}?view`}
+                    className="me-2"
+                  >
+                    <Button>View</Button>
+                  </LinkContainer>
+                  <LinkContainer to={`/admin/student/${student._id}?edit`}>
+                    <Button>Edit</Button>
                   </LinkContainer>
                 </td>
               </tr>
@@ -109,9 +115,15 @@ function AdminStudentMasterlist() {
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
                 <td>{student.student.strand}</td>
-                <td className="text-center">
-                  <LinkContainer to={`/admin/student/${student._id}`}>
-                    <Button>View Student</Button>
+                <td className="d-flex justify-content-around">
+                  <LinkContainer
+                    to={`/admin/student/${student._id}?view`}
+                    className="me-2"
+                  >
+                    <Button>View</Button>
+                  </LinkContainer>
+                  <LinkContainer to={`/admin/student/${student._id}?edit`}>
+                    <Button>Edit</Button>
                   </LinkContainer>
                 </td>
               </tr>

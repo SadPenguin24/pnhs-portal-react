@@ -63,9 +63,9 @@ function AdminScheduleScreen() {
     dispatch(getSchedules({ schedules }));
   }, [dispatch, schedules]);
 
-  const filterStudentSchedule = ({ sectionId, schoolYear, term }: any) => {
-    console.log(sectionId, schoolYear, term);
-    if (sectionId === 'All' && schoolYear === 'All' && term === 'All') {
+  const filterStudentSchedule = ({ sectionId }: any) => {
+    console.log(sectionId);
+    if (sectionId === 'All') {
       console.log('reset');
       setFilteredSection([]);
       setIsFiltering(false);
@@ -75,18 +75,6 @@ function AdminScheduleScreen() {
       console.log('Filter Sections');
       if (sectionId !== 'All') {
         filter = filter.filter((section: any) => section._id === sectionId);
-
-        console.log(filter, filteredSection);
-      }
-      if (schoolYear !== 'All') {
-        filter = filter.filter(
-          (section: any) => section.school_year === schoolYear
-        );
-
-        console.log(filter, filteredSection);
-      }
-      if (term !== 'All') {
-        filter = filter.filter((section: any) => section.term === +term);
 
         console.log(filter, filteredSection);
       }
@@ -160,36 +148,6 @@ function AdminScheduleScreen() {
                         {section.section_name}
                       </option>
                     ))}
-                </Form.Select>
-              </Col>
-              <Col>
-                <Form.Select
-                  style={{
-                    backgroundColor: '#ffe4a0',
-                    border: '#eaaa79 solid',
-                  }}
-                  {...register('schoolYear')}
-                >
-                  <option value="All">All School Year</option>
-                  {years.map((year: any) => (
-                    <option key={year}>{year - 1 + '-' + year}</option>
-                  ))}
-                </Form.Select>
-              </Col>
-              <Col>
-                <Form.Select
-                  style={{
-                    backgroundColor: '#ffe4a0',
-                    border: '#eaaa79 solid',
-                  }}
-                  {...register('term')}
-                >
-                  <option value="All">All Term</option>
-                  {['1', '2'].map((term: any) => (
-                    <option value={term} key={term}>
-                      {term}
-                    </option>
-                  ))}
                 </Form.Select>
               </Col>
               <Col>
