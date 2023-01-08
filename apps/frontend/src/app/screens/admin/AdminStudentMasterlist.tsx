@@ -3,9 +3,11 @@
 import React, { useEffect, useState } from 'react';
 import {
   Button,
+  Col,
   Container,
   Form,
   InputGroup,
+  Row,
   Spinner,
   Table,
 } from 'react-bootstrap';
@@ -39,15 +41,20 @@ function AdminStudentMasterlist() {
     dispatch(setStudents({ students }));
   }, [dispatch, students]);
 
-  const searchStudent = ({ lastName }: any) => {
+  const searchStudent = ({ lastName, strand }: any) => {
     setSearching(true);
     console.log(searching);
 
     const condition = new RegExp(lastName.trim(), 'i');
 
-    const result = students.filter((student: any) =>
-      condition.test(student.last_name)
-    );
+    const result = students.filter((student: any) => {
+      if (strand === 'All') {
+        return condition.test(student.last_name);
+      }
+      return (
+        condition.test(student.last_name) && strand === student.student.strand
+      );
+    });
     console.log(result);
     setSearchResults(result);
   };
@@ -102,14 +109,10 @@ function AdminStudentMasterlist() {
                 <td>{student.first_name}</td>
                 <td>{student.middle_name}</td>
                 <td>{student.student.strand}</td>
-                <td className="d-flex justify-content-around">
-                  <LinkContainer
-                    to={`/admin/student/${student._id}`}
-                    className="me-2"
-                  >
-                    <Button>View</Button>
+                <td className="text-center">
+                  <LinkContainer to={`/admin/student/${student._id}`}>
+                    <Button>View Student</Button>
                   </LinkContainer>
-                  <Button variant="danger">Delete</Button>
                 </td>
               </tr>
             ))
@@ -132,31 +135,50 @@ function AdminStudentMasterlist() {
       <Header page="Student Masterlist" redirect="/admin/home" />
       <Container>
         {/* Search Bar */}
-        <Form
-          onSubmit={handleSubmit(searchStudent)}
-          className="d-flex justify-content-end"
-        >
-          <InputGroup className="w-50 d-flex mb-3">
-            <Form.Control
-              type="text"
-              {...register('lastName')}
-              style={{
-                backgroundColor: '#ffe4a0',
-                border: '#eaaa79 solid',
-              }}
-              placeholder="Search Student's Last Name"
-            />
-            <Button
-              type="submit"
-              style={{
-                backgroundColor: '#ffe4a0',
-                border: '#eaaa79 solid',
-                borderLeft: 'none',
-              }}
-            >
-              <i className="fa-sharp fa-solid fa-magnifying-glass"></i>
-            </Button>
-          </InputGroup>
+        <Form onSubmit={handleSubmit(searchStudent)} className="mb-3">
+          <Row>
+            <Col>
+              <Form.Control
+                type="text"
+                {...register('lastName')}
+                style={{
+                  backgroundColor: '#ffe4a0',
+                  border: '#eaaa79 solid',
+                }}
+                placeholder="Last Name"
+              />
+            </Col>
+            <Col>
+              <Form.Select
+                {...register('strand')}
+                style={{
+                  backgroundColor: '#ffe4a0',
+                  border: '#eaaa79 solid',
+                }}
+              >
+                <option value="All">All Strand</option>
+                {[
+                  'ABM',
+                  'GAS',
+                  'HUMSS',
+                  'SPORTS',
+                  'STEM',
+                  'TVL-COOKERY',
+                  'TVL-HOME ECONOMICS',
+                  'TVL-ICT',
+                ].map((strand: any) => (
+                  <option value={strand} key={strand}>
+                    {strand}
+                  </option>
+                ))}
+              </Form.Select>
+            </Col>
+            <Col>
+              <Button type="submit" variant="secondary">
+                Load
+              </Button>
+            </Col>
+          </Row>
         </Form>
         {content}
       </Container>
