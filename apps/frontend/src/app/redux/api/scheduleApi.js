@@ -34,6 +34,13 @@ export const scheduleApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Schedule'],
     }),
+    deleteSchedule: builder.mutation({
+      query: (id) => ({
+        url: `/delete/schedule/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Schedule'],
+    }),
   }),
 });
 
@@ -44,4 +51,5 @@ export const {
   useCreateScheduleMutation,
   useGetParsedSchedulesQuery,
   useUpdateScheduleMutation,
+  useDeleteScheduleMutation,
 } = scheduleApi;

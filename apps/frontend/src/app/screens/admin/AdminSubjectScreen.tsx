@@ -12,7 +12,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import { useGetSubjectsQuery } from '../../redux/api/subjectApi';
+import {
+  useDeleteSubjectMutation,
+  useGetSubjectsQuery,
+} from '../../redux/api/subjectApi';
 import { getSubjects } from '../../redux/slice/subjectSlice';
 import { useAppDispatch } from '../../redux/store';
 
@@ -25,6 +28,8 @@ function AdminSubjectScreen() {
   const [isFiltering, setIsFiltering] = useState(false);
 
   const dispatch = useAppDispatch();
+
+  const [deleteSubject] = useDeleteSubjectMutation();
 
   const {
     data: subjects,
@@ -115,7 +120,6 @@ function AdminSubjectScreen() {
           >
             Add Subject
           </Button>
-          {/* <Button variant="danger">Delete All</Button> */}
         </div>
 
         <Table bordered className="tableColor" responsive="sm">
@@ -138,14 +142,31 @@ function AdminSubjectScreen() {
                       <td>{subject.subject_name}</td>
                       <td className="d-flex justify-content-around">
                         <Button
-                          className="me=2"
+                          className="me-2"
                           onClick={() =>
-                            navigate(`/admin/subject/${subject._id}`)
+                            navigate(`/admin/subject/${subject._id}?view`)
                           }
                         >
                           View
                         </Button>
-                        <Button variant="danger">Delete</Button>
+                        <Button
+                          className="me-2"
+                          onClick={() =>
+                            navigate(`/admin/subject/${subject._id}?edit`)
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            if (confirm('Are you sure?') === true) {
+                              deleteSubject(subject._id);
+                            }
+                          }}
+                        >
+                          Delete
+                        </Button>
                       </td>
                     </tr>
                   ))
@@ -166,12 +187,29 @@ function AdminSubjectScreen() {
                       <Button
                         className="me-2"
                         onClick={() =>
-                          navigate(`/admin/subject/${subject._id}`)
+                          navigate(`/admin/subject/${subject._id}?view`)
                         }
                       >
                         View
                       </Button>
-                      <Button variant="danger">Delete</Button>
+                      <Button
+                        className="me-2"
+                        onClick={() =>
+                          navigate(`/admin/subject/${subject._id}?edit`)
+                        }
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          if (confirm('Are you sure?') === true) {
+                            deleteSubject(subject._id);
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 ))

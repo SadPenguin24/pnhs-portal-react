@@ -23,6 +23,8 @@ function AdminCreateSectionScreen() {
 
   const [role] = useState('student');
   const [schedules_id]: any = useState([]);
+  const [selectedStrand, setSelectedStrand]: any = useState('ABM');
+  let [filterSchedules]: any = useState([]);
 
   const navigate = useNavigate();
 
@@ -98,6 +100,13 @@ function AdminCreateSectionScreen() {
       </div>
     );
   } else if (isSuccess) {
+    if (schedules) {
+      filterSchedules = schedules.filter(
+        (schedule: any) => schedule.subject.strand === selectedStrand
+      );
+    }
+    console.log(filterSchedules);
+
     content = (
       <Form onSubmit={handleSubmit(createSectionHandler)}>
         <Form.Group as={Row} className="mb-2">
@@ -109,7 +118,7 @@ function AdminCreateSectionScreen() {
               required
               type="text"
               {...register('section_name')}
-              placeholder="Example 11-ABM-1"
+              placeholder="Example 11-ABM-1 (Grade Level-Strand-Section Number)"
             />
           </Col>
         </Form.Group>
@@ -130,7 +139,10 @@ function AdminCreateSectionScreen() {
             Strand:
           </Form.Label>
           <Col md={10}>
-            <Form.Select {...register('strand')}>
+            <Form.Select
+              {...register('strand')}
+              onChange={(e) => setSelectedStrand(e.target.value)}
+            >
               {[
                 'ABM',
                 'GAS',
@@ -201,8 +213,8 @@ function AdminCreateSectionScreen() {
           </Form.Label>
           <Col md={10}>
             <Row>
-              {schedules && schedules.length > 0 ? (
-                schedules.map((schedule: any) => {
+              {filterSchedules && filterSchedules.length > 0 ? (
+                filterSchedules.map((schedule: any) => {
                   return (
                     <Col
                       lg="4"

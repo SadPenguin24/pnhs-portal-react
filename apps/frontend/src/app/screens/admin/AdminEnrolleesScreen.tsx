@@ -12,7 +12,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import { useGetEnrolleesQuery } from '../../redux/api/enrolleeApi';
+import {
+  useDeleteEnrolleeMutation,
+  useGetEnrolleesQuery,
+} from '../../redux/api/enrolleeApi';
 import { useConvertEtosMutation } from '../../redux/api/userApi';
 import { getEnrollees } from '../../redux/slice/enrolleeSlice';
 import { useAppDispatch } from '../../redux/store';
@@ -25,6 +28,8 @@ function AdminEnrolleesScreen() {
   const [acceptEnrollees]: any = useState([]);
 
   const dispatch = useAppDispatch();
+
+  const [deleteEnrollee] = useDeleteEnrolleeMutation();
 
   const {
     data: enrollees,
@@ -111,7 +116,15 @@ function AdminEnrolleesScreen() {
                       >
                         View
                       </Button>
-                      <Button variant="danger" className="mx-2">
+                      <Button
+                        variant="danger"
+                        className="mx-2"
+                        onClick={() => {
+                          if (confirm('Are you sure?') === true) {
+                            deleteEnrollee(enrollee._id);
+                          }
+                        }}
+                      >
                         Delete
                       </Button>
                       <Form.Check

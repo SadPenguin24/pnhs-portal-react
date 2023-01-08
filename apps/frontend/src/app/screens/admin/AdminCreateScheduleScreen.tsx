@@ -132,7 +132,7 @@ function AdminCreateScheduleScreen() {
               {subjects && subjects.length > 0 ? (
                 subjects.map((subject: any) => (
                   <option key={subject._id} value={subject._id}>
-                    {subject.subject_name}
+                    {subject.strand + ' - ' + subject.subject_name}
                   </option>
                 ))
               ) : (

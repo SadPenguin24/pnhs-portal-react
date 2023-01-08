@@ -10,7 +10,7 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { useParams } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
 import {
@@ -24,9 +24,22 @@ import { useAppDispatch } from '../../redux/store';
 function AdminViewSectionScreen() {
   const { id } = useParams();
 
-  const [notEditing, setNotEditing] = useState(true);
+  const location = useLocation();
+
+  const separator = location.search ? location.search.split('?')[1] : '/';
+  console.log(separator);
+
+  const [notEditing, setNotEditing] = useState(() => {
+    if (separator === 'view') {
+      return true;
+    }
+    return false;
+  });
+
   const [students_id, setStudentsId]: any = useState([]);
   const [schedules_id, setSchedulesId]: any = useState([]);
+  let [filterStudents]: any = useState([]);
+  let [filterSchedules]: any = useState([]);
 
   const dispatch = useAppDispatch();
 
@@ -97,6 +110,16 @@ function AdminViewSectionScreen() {
         students_id,
         schedules_id,
       });
+      await updateSection({
+        id,
+        section_name,
+        school_year,
+        term,
+        grade_level,
+        teacher_id,
+        students_id,
+        schedules_id,
+      });
 
       alert('Successfully update section');
 
@@ -117,7 +140,18 @@ function AdminViewSectionScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(students_id);
+    console.log(section);
+
+    if (schedules && students) {
+      filterStudents = students.filter(
+        (student: any) => student.student.strand === section.strand
+      );
+      filterSchedules = schedules.filter(
+        (schedule: any) => schedule.subject.strand === section.strand
+      );
+    }
+    console.log(filterSchedules);
+
     content = (
       <Form onSubmit={handleSubmit(updateHandler)}>
         <Form.Group as={Row} className="mb-2">
@@ -258,12 +292,18 @@ function AdminViewSectionScreen() {
                 ) : (
                   <div>No Students</div>
                 )
-              ) : students && students.length > 0 ? (
-                students.map((student: any) => (
+              ) : filterStudents && filterStudents.length > 0 ? (
+                filterStudents.map((student: any) => (
                   <Col lg="3" md="4" xs="6" className="mb-2" key={student._id}>
                     <Form.Check
                       type="checkbox"
-                      label={student.first_name + ' ' + student.last_name}
+                      label={
+                        student.student.strand +
+                        ' - ' +
+                        student.first_name +
+                        ' ' +
+                        student.last_name
+                      }
                       defaultChecked={students_id.includes(student._id) && true}
                       value={student._id}
                       onChange={addStudentHandler}
@@ -316,8 +356,8 @@ function AdminViewSectionScreen() {
                 ) : (
                   <div>No Schedule</div>
                 )
-              ) : schedules && schedules.length > 0 ? (
-                schedules.map((schedule: any) => {
+              ) : filterSchedules && filterSchedules.length > 0 ? (
+                filterSchedules.map((schedule: any) => {
                   return (
                     <Col
                       lg="4"
@@ -333,6 +373,8 @@ function AdminViewSectionScreen() {
                           schedules_id.includes(schedule._id) && true
                         }
                         label={
+                          schedule.subject.strand +
+                          ' - ' +
                           schedule.subject.subject_name +
                           ' (' +
                           schedule.days.map(

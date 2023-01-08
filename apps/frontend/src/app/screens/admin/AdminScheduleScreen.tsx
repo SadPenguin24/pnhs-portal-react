@@ -14,7 +14,10 @@ import { useForm } from 'react-hook-form';
 import { useNavigate, useParams } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import { useGetParsedSchedulesQuery } from '../../redux/api/scheduleApi';
+import {
+  useDeleteScheduleMutation,
+  useGetParsedSchedulesQuery,
+} from '../../redux/api/scheduleApi';
 import { useGetParsedSectionsQuery } from '../../redux/api/sectionApi';
 import { useGetRoleQuery } from '../../redux/api/userApi';
 import { getSchedules } from '../../redux/slice/scheduleSlice';
@@ -33,7 +36,7 @@ function AdminScheduleScreen() {
 
   const dispatch = useAppDispatch();
 
-  const { register, handleSubmit, reset } = useForm();
+  const { register, handleSubmit } = useForm();
 
   // School Years
   let years: any = [];
@@ -45,6 +48,8 @@ function AdminScheduleScreen() {
   const { data: sections } = useGetParsedSectionsQuery({});
 
   const { data: faculties } = useGetRoleQuery('faculty');
+
+  const [deleteSchedule] = useDeleteScheduleMutation();
 
   const {
     data: schedules,
@@ -121,7 +126,7 @@ function AdminScheduleScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(facultySchedules, filteredSection);
+    console.log(filteredSection);
     content = (
       <>
         {/* Select filter */}
@@ -145,36 +150,6 @@ function AdminScheduleScreen() {
                     ))}
                 </Form.Select>
               </Col>
-              {/* <Col>
-                <Form.Select
-                  style={{
-                    backgroundColor: '#ffe4a0',
-                    border: '#eaaa79 solid',
-                  }}
-                  {...register('schoolYear')}
-                >
-                  <option value="All">All School Year</option>
-                  {years.map((year: any) => (
-                    <option key={year}>{year - 1 + '-' + year}</option>
-                  ))}
-                </Form.Select>
-              </Col>
-              <Col>
-                <Form.Select
-                  style={{
-                    backgroundColor: '#ffe4a0',
-                    border: '#eaaa79 solid',
-                  }}
-                  {...register('term')}
-                >
-                  <option value="All">All Term</option>
-                  {['1', '2'].map((term: any) => (
-                    <option value={term} key={term}>
-                      {term}
-                    </option>
-                  ))}
-                </Form.Select>
-              </Col> */}
               <Col>
                 <Button variant="secondary" type="submit">
                   Load
@@ -267,7 +242,11 @@ function AdminScheduleScreen() {
                     section.schedules.length > 0 ? (
                       section.schedules.map((schedule: any) => (
                         <tr key={schedule._id}>
-                          <td>{schedule.subject.subject_name}</td>
+                          <td>
+                            {schedule.subject.strand +
+                              ' - ' +
+                              schedule.subject.subject_name}
+                          </td>
                           <td>
                             {schedule.days.map(
                               (day: any, index: any, array: any) => {
@@ -302,13 +281,32 @@ function AdminScheduleScreen() {
                               className="me-2"
                               onClick={() =>
                                 navigate(
-                                  `/admin/schedule/${role}/${schedule._id}`
+                                  `/admin/schedule/${role}/${schedule._id}?view`
                                 )
                               }
                             >
                               View
                             </Button>
-                            <Button variant="danger">Delete</Button>
+                            <Button
+                              className="me-2"
+                              onClick={() =>
+                                navigate(
+                                  `/admin/schedule/${role}/${schedule._id}?edit`
+                                )
+                              }
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              variant="danger"
+                              onClick={() => {
+                                if (confirm('Are you sure?') === true) {
+                                  deleteSchedule(schedule._id);
+                                }
+                              }}
+                            >
+                              Delete
+                            </Button>
                           </td>
                         </tr>
                       ))
@@ -327,7 +325,11 @@ function AdminScheduleScreen() {
                 facultySchedules && facultySchedules.length > 0 ? (
                   facultySchedules.map((schedule: any) => (
                     <tr key={schedule._id}>
-                      <td>{schedule.subject.subject_name}</td>
+                      <td>
+                        {schedule.subject.strand +
+                          ' - ' +
+                          schedule.subject.subject_name}
+                      </td>
                       <td>
                         {schedule.days.map(
                           (day: any, index: any, array: any) => {
@@ -361,12 +363,33 @@ function AdminScheduleScreen() {
                         <Button
                           className="me-2"
                           onClick={() =>
-                            navigate(`/admin/schedule/${role}/${schedule._id}`)
+                            navigate(
+                              `/admin/schedule/${role}/${schedule._id}?view`
+                            )
                           }
                         >
                           View
                         </Button>
-                        <Button variant="danger">Delete</Button>
+                        <Button
+                          className="me-2"
+                          onClick={() =>
+                            navigate(
+                              `/admin/schedule/${role}/${schedule._id}?edit`
+                            )
+                          }
+                        >
+                          Edit
+                        </Button>
+                        <Button
+                          variant="danger"
+                          onClick={() => {
+                            if (confirm('Are you sure?') === true) {
+                              deleteSchedule(schedule._id);
+                            }
+                          }}
+                        >
+                          Delete
+                        </Button>
                       </td>
                     </tr>
                   ))
@@ -378,7 +401,11 @@ function AdminScheduleScreen() {
               ) : (
                 schedules.map((schedule: any) => (
                   <tr key={schedule._id}>
-                    <td>{schedule.subject.subject_name}</td>
+                    <td>
+                      {schedule.subject.strand +
+                        ' - ' +
+                        schedule.subject.subject_name}
+                    </td>
                     <td>
                       {schedule.days.map((day: any, index: any, array: any) => {
                         array = array.length - 1;
@@ -410,12 +437,33 @@ function AdminScheduleScreen() {
                       <Button
                         className="me-2"
                         onClick={() =>
-                          navigate(`/admin/schedule/${role}/${schedule._id}`)
+                          navigate(
+                            `/admin/schedule/${role}/${schedule._id}?view`
+                          )
                         }
                       >
                         View
                       </Button>
-                      <Button variant="danger">Delete</Button>
+                      <Button
+                        className="me-2"
+                        onClick={() =>
+                          navigate(
+                            `/admin/schedule/${role}/${schedule._id}?edit`
+                          )
+                        }
+                      >
+                        Edit
+                      </Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          if (confirm('Are you sure?') === true) {
+                            deleteSchedule(schedule._id);
+                          }
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 ))

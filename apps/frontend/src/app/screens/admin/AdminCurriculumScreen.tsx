@@ -4,10 +4,16 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
 import '../../components/tables/tables.scss';
-import { useGetCurriculumsQuery } from '../../redux/api/curriculumApi';
+import {
+  useDeleteCurriculumMutation,
+  useGetCurriculumsQuery,
+} from '../../redux/api/curriculumApi';
 
 function AdminCurriculumScreen() {
   const navigate = useNavigate();
+
+  const [deleteCurriculum] = useDeleteCurriculumMutation();
+
   const {
     data: curriculums,
     isLoading,
@@ -57,12 +63,29 @@ function AdminCurriculumScreen() {
                     <Button
                       className="me-2"
                       onClick={() =>
-                        navigate(`/admin/curriculum/${curriculum._id}`)
+                        navigate(`/admin/curriculum/${curriculum._id}?view`)
                       }
                     >
                       View
                     </Button>
-                    <Button variant="danger">Delete</Button>
+                    <Button
+                      className="me-2"
+                      onClick={() =>
+                        navigate(`/admin/curriculum/${curriculum._id}?edit`)
+                      }
+                    >
+                      Edit
+                    </Button>
+                    <Button
+                      variant="danger"
+                      onClick={() => {
+                        if (confirm('Are you sure?') === true) {
+                          deleteCurriculum(curriculum._id);
+                        }
+                      }}
+                    >
+                      Delete
+                    </Button>
                   </td>
                 </tr>
               ))

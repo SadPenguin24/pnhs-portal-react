@@ -26,6 +26,13 @@ export const curriculumApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Curriculum'],
     }),
+    deleteCurriculum: builder.mutation({
+      query: (id) => ({
+        url: `/delete/curriculum/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Curriculum'],
+    }),
   }),
 });
 
@@ -34,4 +41,5 @@ export const {
   useGetCurriculumQuery,
   useCreateCurriculumMutation,
   useUpdateCurriculumMutation,
+  useDeleteCurriculumMutation,
 } = curriculumApi;
