@@ -49,6 +49,13 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Section', 'User'],
     }),
+    deleteReportCard: builder.mutation({
+      query: ({ studentId, currentSubject }) => ({
+        url: `/delete/reportcard/${studentId}/${currentSubject}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['Section', 'User'],
+    }),
   }),
 });
 
@@ -61,4 +68,5 @@ export const {
   useCreateUserMutation,
   useUpdateUserMutation,
   useUpdateGradeMutation,
+  useDeleteReportCardMutation,
 } = userApi;

@@ -16,6 +16,10 @@ function AdminEnrolleeScreen() {
   const navigate = useNavigate();
 
   const [notEditing, setNotEditing] = useState(true);
+  let [picture_2x2, setPicture]: any = useState();
+  let [birth_certificate, setBirthCertificate]: any = useState();
+  let [good_moral, setGoodMoral]: any = useState();
+  let [grade_10_card, setGrade10Card]: any = useState();
 
   const dispatch = useAppDispatch();
 
@@ -73,6 +77,32 @@ function AdminEnrolleeScreen() {
         },
       ];
 
+      console.log({
+        id,
+        first_name,
+        middle_name,
+        last_name,
+        email,
+        address,
+        phone_number,
+        lrn,
+        religion,
+        nationality,
+        age,
+        birth_date,
+        sex,
+        civil_status,
+        strand,
+        school_year,
+        current_grade,
+        current_term,
+        picture_2x2,
+        birth_certificate,
+        good_moral,
+        grade_10_card,
+        emergency_contacts,
+      });
+
       await updateEnrollee({
         id,
         first_name,
@@ -92,6 +122,10 @@ function AdminEnrolleeScreen() {
         school_year,
         current_grade,
         current_term,
+        picture_2x2,
+        birth_certificate,
+        good_moral,
+        grade_10_card,
         emergency_contacts,
       });
 
@@ -119,7 +153,19 @@ function AdminEnrolleeScreen() {
       </div>
     );
   } else if (isSuccess) {
-    console.log(enrollee);
+    if (picture_2x2 === undefined) {
+      picture_2x2 = enrollee.picture_2x2;
+    }
+    if (birth_certificate === undefined) {
+      birth_certificate = enrollee.birth_certificate;
+    }
+    if (good_moral === undefined) {
+      good_moral = enrollee.good_moral;
+    }
+    if (grade_10_card === undefined) {
+      grade_10_card = enrollee.grade_10_card;
+    }
+    console.log(picture_2x2, birth_certificate, good_moral, grade_10_card);
     content = (
       <Form onSubmit={handleSubmit(updateHandler)}>
         <h4 className="mb-2">Enrollee Profile</h4>
@@ -448,6 +494,65 @@ function AdminEnrolleeScreen() {
             )}
           </Col>
         </Form.Group>
+
+        <h4 className="mb-2">Requirements</h4>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Picture 2x2:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Check
+              className="mb-2"
+              type="checkbox"
+              disabled={notEditing}
+              defaultChecked={enrollee.picture_2x2}
+              onChange={() => setPicture(!picture_2x2)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Birth Certificate:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Check
+              className="mb-2"
+              type="checkbox"
+              disabled={notEditing}
+              defaultChecked={enrollee.birth_certificate}
+              onChange={() => setBirthCertificate(!birth_certificate)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Good Moral:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Check
+              className="mb-2"
+              type="checkbox"
+              disabled={notEditing}
+              defaultChecked={enrollee.good_moral}
+              onChange={() => setGoodMoral(!good_moral)}
+            />
+          </Col>
+        </Form.Group>
+        <Form.Group as={Row} className="mb-2">
+          <Form.Label column md={2}>
+            Grade 10 Report Card:
+          </Form.Label>
+          <Col md={10}>
+            <Form.Check
+              className="mb-2"
+              type="checkbox"
+              disabled={notEditing}
+              defaultChecked={enrollee.grade_10_card}
+              onChange={() => setGrade10Card(!grade_10_card)}
+            />
+          </Col>
+        </Form.Group>
+
         <h4 className="mb-2">Emergency Contact</h4>
         <Form.Group as={Row} className="mb-2">
           <Form.Label column md={2}>
@@ -494,57 +599,14 @@ function AdminEnrolleeScreen() {
             />
           </Col>
         </Form.Group>
-        {/* Images */}
-        {/* <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Birth Certificate:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={birth_certificate}
-              // onChange={(e) => setBirthCertificate(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Picture 2x2:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={picture_2x2}
-              // onChange={(e) => setPicture(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Grade 10 Card:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={grade_10_card}
-              // onChange={(e) => setGradeTenCard(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Good Moral:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={good_moral}
-              // onChange={(e) => setGoodMoral(e.target.value)}
-            />
-          </Col>
-        </Form.Group> */}
         {notEditing ? (
-          <Button onClick={() => setNotEditing(false)}>Edit</Button>
+          <Button
+            onClick={() => {
+              setNotEditing(false);
+            }}
+          >
+            Edit
+          </Button>
         ) : (
           <>
             <Button type="submit" className="me-3">

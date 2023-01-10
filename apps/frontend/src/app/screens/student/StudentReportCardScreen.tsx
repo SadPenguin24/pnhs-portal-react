@@ -19,63 +19,91 @@ function StudentReportCardScreen() {
     twelveFirst,
     twelveSecond;
   if (section) {
-    if (
-      currentUser.student.report_card.find(
-        ({ grade_level }: any) => grade_level === 11
-      )
-    ) {
-      eleven = <h3>Grade 11</h3>;
-      if (currentUser.student.report_card.find(({ term }: any) => term === 1)) {
-        const cardData = currentUser.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 1 && grade_level === 11
-        );
-        elevenFirst = (
-          <>
-            <h4>1ST SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
-          </>
-        );
+    if (currentUser.student.report_card.length > 0) {
+      if (
+        currentUser.student.report_card.find(
+          ({ grade_level }: any) => grade_level === 11
+        )
+      ) {
+        eleven = <h3>Grade 11</h3>;
+        if (
+          currentUser.student.report_card.find(({ term }: any) => term === 1)
+        ) {
+          const cardData = currentUser.student.report_card.filter(
+            ({ term, grade_level }: any) => term === 1 && grade_level === 11
+          );
+          elevenFirst = (
+            <>
+              <h4>1ST SEMESTER</h4>
+              <ReportCardTable
+                data={cardData}
+                headerColor="#19940e"
+                sem="1st"
+              />
+            </>
+          );
+        }
+        if (
+          currentUser.student.report_card.find(({ term }: any) => term === 2)
+        ) {
+          const cardData = currentUser.student.report_card.filter(
+            ({ term, grade_level }: any) => term === 2 && grade_level === 11
+          );
+          elevenSecond = (
+            <>
+              <h4>2nd SEMESTER</h4>
+              <ReportCardTable
+                data={cardData}
+                headerColor="#808580"
+                sem="2nd"
+              />
+            </>
+          );
+        }
       }
-      if (currentUser.student.report_card.find(({ term }: any) => term === 2)) {
-        const cardData = currentUser.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 2 && grade_level === 11
-        );
-        elevenSecond = (
-          <>
-            <h4>2nd SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
-          </>
-        );
+      if (
+        currentUser.student.report_card.find(
+          ({ grade_level }: any) => grade_level === 12
+        )
+      ) {
+        twelve = <h3>Grade 12</h3>;
+        if (
+          currentUser.student.report_card.find(({ term }: any) => term === 1)
+        ) {
+          const cardData = currentUser.student.report_card.filter(
+            ({ term, grade_level }: any) => term === 1 && grade_level === 12
+          );
+          twelveFirst = (
+            <>
+              <h4>1ST SEMESTER</h4>
+              <ReportCardTable
+                data={cardData}
+                headerColor="#19940e"
+                sem="1st"
+              />
+            </>
+          );
+        }
+        if (
+          currentUser.student.report_card.find(({ term }: any) => term === 2)
+        ) {
+          const cardData = currentUser.student.report_card.filter(
+            ({ term, grade_level }: any) => term === 2 && grade_level === 12
+          );
+          twelveSecond = (
+            <>
+              <h4>2nd SEMESTER</h4>
+              <ReportCardTable
+                data={cardData}
+                headerColor="#808580"
+                sem="2nd"
+              />
+            </>
+          );
+        }
       }
-    }
-    if (
-      currentUser.student.report_card.find(
-        ({ grade_level }: any) => grade_level === 12
-      )
-    ) {
-      twelve = <h3>Grade 12</h3>;
-      if (currentUser.student.report_card.find(({ term }: any) => term === 1)) {
-        const cardData = currentUser.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 1 && grade_level === 12
-        );
-        twelveFirst = (
-          <>
-            <h4>1ST SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#19940e" sem="1st" />
-          </>
-        );
-      }
-      if (currentUser.student.report_card.find(({ term }: any) => term === 2)) {
-        const cardData = currentUser.student.report_card.filter(
-          ({ term, grade_level }: any) => term === 2 && grade_level === 12
-        );
-        twelveSecond = (
-          <>
-            <h4>2nd SEMESTER</h4>
-            <ReportCardTable data={cardData} headerColor="#808580" sem="2nd" />
-          </>
-        );
-      }
+    } else {
+      content = <h4 style={{ color: 'red' }}>No Report Card</h4>;
     }
   } else {
     content = (

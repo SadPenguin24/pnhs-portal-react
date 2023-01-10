@@ -62,6 +62,11 @@ function AdminCreateEnrolleeScreen() {
     setIsSuccess(false);
     setIsLoading(true);
 
+    const birth_certificate = false,
+      picture_2x2 = false,
+      grade_10_card = false,
+      good_moral = false;
+
     if (password !== c_password) {
       alert('Password and Confirm Password should match.');
       setIsLoading(false);
@@ -84,6 +89,10 @@ function AdminCreateEnrolleeScreen() {
       email,
       address,
       phone_number,
+      birth_certificate,
+      picture_2x2,
+      grade_10_card,
+      good_moral,
       lrn,
       religion,
       nationality,
@@ -396,55 +405,6 @@ function AdminCreateEnrolleeScreen() {
             />
           </Col>
         </Form.Group>
-        {/* Images */}
-        {/* <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Birth Certificate:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={birth_certificate}
-              // onChange={(e) => setBirthCertificate(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Picture 2x2:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={picture_2x2}
-              // onChange={(e) => setPicture(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Grade 10 Card:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={grade_10_card}
-              // onChange={(e) => setGradeTenCard(e.target.value)}
-            />
-          </Col>
-        </Form.Group>
-        <Form.Group as={Row} className="mb-2">
-          <Form.Label column md={2}>
-            Good Moral:
-          </Form.Label>
-          <Col md={10}>
-            <Form.Control
-              type="file"
-              // value={good_moral}
-              // onChange={(e) => setGoodMoral(e.target.value)}
-            />
-          </Col>
-        </Form.Group> */}
         <Button type="submit">Enroll Now</Button>
       </Form>
     );

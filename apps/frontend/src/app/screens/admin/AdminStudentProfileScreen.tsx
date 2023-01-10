@@ -1,5 +1,13 @@
 import React, { useState, useRef } from 'react';
-import { Button, Col, Container, Form, Row, Spinner } from 'react-bootstrap';
+import {
+  Button,
+  Col,
+  Container,
+  Form,
+  Modal,
+  Row,
+  Spinner,
+} from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
@@ -27,9 +35,14 @@ function AdminStudentProfileScreen() {
     }
     return false;
   });
+  const [changingPass, setChangingPass] = useState(false);
 
   let [objectStudent] = useState({});
   let [objectProfile] = useState({});
+  let [picture_2x2, setPicture]: any = useState();
+  let [birth_certificate, setBirthCertificate]: any = useState();
+  let [good_moral, setGoodMoral]: any = useState();
+  let [grade_10_card, setGrade10Card]: any = useState();
 
   const { register, handleSubmit } = useForm();
 
@@ -42,6 +55,27 @@ function AdminStudentProfileScreen() {
   } = useGetUserByIdQuery(id);
 
   const [updateStudent] = useUpdateUserMutation();
+
+  const changePassHandler = async ({ password, c_password }: any) => {
+    if (password.trim() !== '' || c_password.trim() !== '') {
+      if (password !== c_password) {
+        alert('Password and Confirm Password should match.');
+        return;
+      }
+    } else {
+      alert('Enter a password');
+      return;
+    }
+
+    await updateStudent({
+      id,
+      password,
+    });
+
+    alert('Successfully change password');
+
+    setChangingPass(false);
+  };
 
   const updateHandler = async ({
     first_name,
@@ -66,12 +100,16 @@ function AdminStudentProfileScreen() {
         ...objectStudent,
         lrn: lrn,
         strand: strand,
+        birth_certificate,
+        good_moral,
+        grade_10_card,
       };
 
       const profile = {
         ...objectProfile,
         address: address,
         phone_number: phone_number,
+        picture_2x2,
         // birth_date: birth_date,
         // age: age,
         // sex: sex,
@@ -81,7 +119,7 @@ function AdminStudentProfileScreen() {
         // emergency_contacts: emergency_contacts,
       };
 
-      await updateStudent({
+      console.log({
         id,
         first_name,
         middle_name,
@@ -90,6 +128,16 @@ function AdminStudentProfileScreen() {
         profile,
         student,
       });
+
+      // await updateStudent({
+      //   id,
+      //   first_name,
+      //   middle_name,
+      //   last_name,
+      //   email,
+      //   profile,
+      //   student,
+      // });
 
       alert('Successfully update student');
       setNotEditing(true);
@@ -112,6 +160,18 @@ function AdminStudentProfileScreen() {
     console.log(student);
     objectStudent = student.student;
     objectProfile = student.profile;
+    if (picture_2x2 === undefined) {
+      picture_2x2 = student.profile.picture_2x2;
+    }
+    if (birth_certificate === undefined) {
+      birth_certificate = student.student.birth_certificate;
+    }
+    if (good_moral === undefined) {
+      good_moral = student.student.good_moral;
+    }
+    if (grade_10_card === undefined) {
+      grade_10_card = student.student.grade_10_card;
+    }
     content = (
       <>
         <Form onSubmit={handleSubmit(updateHandler)}>
@@ -241,7 +301,7 @@ function AdminStudentProfileScreen() {
                 />
               </Col>
             </Form.Group>
-            <Form.Group as={Row} className="mb-2">
+            <Form.Group as={Row} className="mb-3">
               <Form.Label column md={2}>
                 Strand:
               </Form.Label>
@@ -276,58 +336,75 @@ function AdminStudentProfileScreen() {
                 )}
               </Col>
             </Form.Group>
-            {/* Images */}
-            {/* <Form.Group as={Row} className="mb-2">
-            <Form.Label column md={2}>
-              Birth Certificate:
-            </Form.Label>
-            <Col md={10}>
-              <Form.Control
-                type="file"
-                // value={birth_certificate}
-                // onChange={(e) => setBirthCertificate(e.target.value)}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="mb-2">
-            <Form.Label column md={2}>
-              Picture 2x2:
-            </Form.Label>
-            <Col md={10}>
-              <Form.Control
-                type="file"
-                // value={picture_2x2}
-                // onChange={(e) => setPicture(e.target.value)}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="mb-2">
-            <Form.Label column md={2}>
-              Grade 10 Card:
-            </Form.Label>
-            <Col md={10}>
-              <Form.Control
-                type="file"
-                // value={grade_10_card}
-                // onChange={(e) => setGradeTenCard(e.target.value)}
-              />
-            </Col>
-          </Form.Group>
-          <Form.Group as={Row} className="mb-2">
-            <Form.Label column md={2}>
-              Good Moral:
-            </Form.Label>
-            <Col md={10}>
-              <Form.Control
-                type="file"
-                // value={good_moral}
-                // onChange={(e) => setGoodMoral(e.target.value)}
-              />
-            </Col>
-          </Form.Group> */}
+
+            <h4 className="mb-2">Requirements</h4>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column md={3}>
+                Picture 2x2:
+              </Form.Label>
+              <Col md={9}>
+                <Form.Check
+                  className="mb-2"
+                  type="checkbox"
+                  disabled={notEditing}
+                  defaultChecked={student.profile.picture_2x2}
+                  onChange={() => setPicture(!picture_2x2)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column md={3}>
+                Birth Certificate:
+              </Form.Label>
+              <Col md={9}>
+                <Form.Check
+                  className="mb-2"
+                  type="checkbox"
+                  disabled={notEditing}
+                  defaultChecked={student.student.birth_certificate}
+                  onChange={() => setBirthCertificate(!birth_certificate)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-2">
+              <Form.Label column md={3}>
+                Good Moral:
+              </Form.Label>
+              <Col md={9}>
+                <Form.Check
+                  className="mb-2"
+                  type="checkbox"
+                  disabled={notEditing}
+                  defaultChecked={student.student.good_moral}
+                  onChange={() => setGoodMoral(!good_moral)}
+                />
+              </Col>
+            </Form.Group>
+            <Form.Group as={Row} className="mb-3">
+              <Form.Label column md={3}>
+                Grade 10 Report Card:
+              </Form.Label>
+              <Col md={9}>
+                <Form.Check
+                  className="mb-2"
+                  type="checkbox"
+                  disabled={notEditing}
+                  defaultChecked={student.student.grade_10_card}
+                  onChange={() => setGrade10Card(!grade_10_card)}
+                />
+              </Col>
+            </Form.Group>
+
             <div className="text-center">
               {notEditing ? (
-                <Button onClick={() => setNotEditing(false)}>Edit</Button>
+                <>
+                  <Button onClick={() => setNotEditing(false)} className="me-2">
+                    Edit
+                  </Button>
+                  <Button onClick={() => setChangingPass(true)}>
+                    Change Password
+                  </Button>
+                </>
               ) : (
                 <div>
                   <Button type="submit" className="me-3">
@@ -341,6 +418,44 @@ function AdminStudentProfileScreen() {
             </div>
           </div>
         </Form>
+        {/* Modal Change Password */}
+        <Modal
+          show={changingPass}
+          onHide={() => setChangingPass(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Change Password</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleSubmit(changePassHandler)}>
+            <Modal.Body>
+              <Form.Group as={Row} className="mb-2">
+                <Form.Label column md={2}>
+                  Password:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control type="password" {...register('password')} />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column md={2}>
+                  Confirm Password:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control type="password" {...register('c_password')} />
+                </Col>
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={() => setChangingPass(false)}>
+                Close
+              </Button>
+              <Button variant="secondary" type="submit">
+                Save
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
       </>
     );
   } else if (isError) {

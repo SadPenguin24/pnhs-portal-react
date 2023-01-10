@@ -147,7 +147,8 @@ function AdminViewSectionScreen() {
         (student: any) => student.student.strand === section.strand
       );
       filterSchedules = schedules.filter(
-        (schedule: any) => schedule.subject.strand === section.strand
+        (schedule: any) =>
+          schedule.subject.strand === section.strand && !schedule.section_id
       );
     }
     console.log(filterSchedules);

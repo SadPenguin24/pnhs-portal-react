@@ -102,7 +102,8 @@ function AdminCreateSectionScreen() {
   } else if (isSuccess) {
     if (schedules) {
       filterSchedules = schedules.filter(
-        (schedule: any) => schedule.subject.strand === selectedStrand
+        (schedule: any) =>
+          schedule.subject.strand === selectedStrand && !schedule.section_id
       );
     }
     console.log(filterSchedules);

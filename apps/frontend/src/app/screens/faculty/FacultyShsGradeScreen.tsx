@@ -14,6 +14,7 @@ import Header from '../../components/header/Header';
 
 import '../../components/tables/tables.scss';
 import { useGetParsedSectionQuery } from '../../redux/api/sectionApi';
+import { useDeleteReportCardMutation } from '../../redux/api/userApi';
 
 function FacultyShsGradeScreen() {
   const { sectionId } = useParams();
@@ -23,6 +24,8 @@ function FacultyShsGradeScreen() {
   const { register, handleSubmit } = useForm();
 
   const [currentSubject, setCurrentSubject]: any = useState();
+
+  const [deleteReportCard] = useDeleteReportCardMutation();
 
   const {
     data: section,
@@ -95,36 +98,55 @@ function FacultyShsGradeScreen() {
           </thead>
           <tbody>
             {section.students.length > 0 ? (
-              section.students.map((student: any) => (
-                <tr>
-                  <td key={student._id}>{student._id}</td>
-                  <td>{student.first_name + ' ' + student.last_name}</td>
-                  {student.student.report_card.map((grade: any) => {
-                    if (grade.subject._id === currentSubject) {
-                      return (
-                        <>
-                          <td>{grade.first_half}</td>
-                          <td>{grade.second_half}</td>
-                          <td>{grade.final_grade}</td>
-                          <td>{grade.remarks}</td>
-                        </>
-                      );
-                    }
-                    return;
-                  })}
-                  <td className="text-center">
-                    <Button
-                      onClick={() =>
-                        navigate(
-                          `/faculty/shsgrade/section/${sectionId}/student/${student._id}/subject/${currentSubject}`
-                        )
+              section.students.map((student: any) => {
+                const studentId = student._id;
+                return (
+                  <tr key={student._id}>
+                    {student.student.report_card.map((grade: any) => {
+                      if (grade.subject._id === currentSubject) {
+                        return (
+                          <>
+                            <td>{student.student.lrn}</td>
+                            <td>
+                              {student.first_name + ' ' + student.last_name}
+                            </td>
+                            <td>{grade.first_half}</td>
+                            <td>{grade.second_half}</td>
+                            <td>{grade.final_grade}</td>
+                            <td>{grade.remarks}</td>
+                            <td className="d-flex justify-content-around">
+                              <Button
+                                onClick={() =>
+                                  navigate(
+                                    `/faculty/shsgrade/section/${sectionId}/student/${student._id}/subject/${currentSubject}`
+                                  )
+                                }
+                                className="me-2"
+                              >
+                                Edit Grade
+                              </Button>
+                              <Button
+                                variant="danger"
+                                onClick={() => {
+                                  if (confirm('Are you sure?') === true) {
+                                    deleteReportCard({
+                                      studentId,
+                                      currentSubject,
+                                    });
+                                  }
+                                }}
+                              >
+                                Delete
+                              </Button>
+                            </td>
+                          </>
+                        );
                       }
-                    >
-                      Edit Grade
-                    </Button>
-                  </td>
-                </tr>
-              ))
+                      return;
+                    })}
+                  </tr>
+                );
+              })
             ) : (
               <tr>
                 <td colSpan={7} className="text-center">
