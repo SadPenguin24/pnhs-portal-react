@@ -43,24 +43,6 @@ function FacultyProfileScreen() {
       <Header page="My Profile" redirect="/faculty/home" />
       <Container>
         <Form onSubmit={handleSubmit(updateHandler)}>
-          {notEditing ? (
-            <div
-              style={{ width: '100px', height: '100px', border: 'solid' }}
-              className="mb-5"
-            >
-              Picture
-            </div>
-          ) : (
-            <Form.Group as={Row} className="mb-2">
-              <Form.Label column lg="1" md="2">
-                Image:
-              </Form.Label>
-              <Col lg="11" md="10">
-                <Form.Control type="file" />
-              </Col>
-            </Form.Group>
-          )}
-
           <div>
             <Form.Group as={Row} className="mb-2">
               <Form.Label column lg={1} md={2}>

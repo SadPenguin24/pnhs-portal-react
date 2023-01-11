@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Col, Container, Form, Row } from 'react-bootstrap';
+import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
 import Header from '../../components/header/Header';
 import { useUpdateUserMutation } from '../../redux/api/userApi';
 
 function StudentProfileScreen() {
   const [notEditing, setNotEditing] = useState(true);
+  const [changingPass, setChangingPass] = useState(false);
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
   const objectStudent = currentUser.student;
   const objectProfile = currentUser.profile;
@@ -13,6 +14,29 @@ function StudentProfileScreen() {
   const { register, handleSubmit } = useForm();
 
   const [updateProfile] = useUpdateUserMutation();
+
+  const changePassHandler = async ({ password, c_password }: any) => {
+    if (password.trim() !== '' || c_password.trim() !== '') {
+      if (password !== c_password) {
+        alert('Password and Confirm Password should match.');
+        return;
+      }
+    } else {
+      alert('Enter a password');
+      return;
+    }
+
+    const id = currentUser._id;
+
+    await updateProfile({
+      id,
+      password,
+    });
+
+    alert('Successfully change password');
+
+    setChangingPass(false);
+  };
 
   const updateHandler = async ({
     first_name,
@@ -427,7 +451,14 @@ function StudentProfileScreen() {
           </Form.Group>
           <div className="text-center">
             {notEditing ? (
-              <Button onClick={() => setNotEditing(false)}>Edit</Button>
+              <>
+                <Button onClick={() => setNotEditing(false)} className="me-2">
+                  Edit
+                </Button>
+                <Button onClick={() => setChangingPass(true)}>
+                  Change Password
+                </Button>
+              </>
             ) : (
               <div>
                 <Button type="submit" className="me-3">
@@ -440,6 +471,45 @@ function StudentProfileScreen() {
             )}
           </div>
         </Form>
+
+        {/* Modal Change Password */}
+        <Modal
+          show={changingPass}
+          onHide={() => setChangingPass(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Change Password</Modal.Title>
+          </Modal.Header>
+          <Form onSubmit={handleSubmit(changePassHandler)}>
+            <Modal.Body>
+              <Form.Group as={Row} className="mb-2">
+                <Form.Label column md={2}>
+                  Password:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control type="password" {...register('password')} />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-3">
+                <Form.Label column md={2}>
+                  Confirm Password:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control type="password" {...register('c_password')} />
+                </Col>
+              </Form.Group>
+            </Modal.Body>
+            <Modal.Footer>
+              <Button variant="danger" onClick={() => setChangingPass(false)}>
+                Close
+              </Button>
+              <Button variant="secondary" type="submit">
+                Save
+              </Button>
+            </Modal.Footer>
+          </Form>
+        </Modal>
       </Container>
     </div>
   );

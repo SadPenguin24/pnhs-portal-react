@@ -213,13 +213,29 @@ function AdminStudentRecordsScreen() {
           <Col md="5">
             <div>Requirements</div>
             <Form>
-              <Form.Check type="checkbox" label="Personal Data Sheet" checked />
-              <Form.Check type="checkbox" label="Good Moral" checked />
-              <Form.Check type="checkbox" label="Birth Certificate" checked />
+              <Form.Check
+                type="checkbox"
+                label="Picture 2x2"
+                checked={selectedStudent && selectedStudent.profile.picture_2x2}
+              />
+              <Form.Check
+                type="checkbox"
+                label="Good Moral"
+                checked={selectedStudent && selectedStudent.student.good_moral}
+              />
+              <Form.Check
+                type="checkbox"
+                label="Birth Certificate"
+                checked={
+                  selectedStudent && selectedStudent.student.birth_certificate
+                }
+              />
               <Form.Check
                 type="checkbox"
                 label="Grade 10 Report Card"
-                checked
+                checked={
+                  selectedStudent && selectedStudent.student.grade_10_card
+                }
               />
             </Form>
           </Col>
