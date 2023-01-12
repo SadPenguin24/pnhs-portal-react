@@ -56,6 +56,14 @@ export const userApi = apiSlice.injectEndpoints({
       }),
       invalidatesTags: ['Section', 'User'],
     }),
+    confirmPassword: builder.mutation({
+      query: ({ id, ...body }) => ({
+        url: `/user/cpassword/${id}`,
+        method: 'PATCH',
+        body: body,
+      }),
+      invalidatesTags: ['User'],
+    }),
   }),
 });
 
@@ -69,4 +77,5 @@ export const {
   useUpdateUserMutation,
   useUpdateGradeMutation,
   useDeleteReportCardMutation,
+  useConfirmPasswordMutation,
 } = userApi;

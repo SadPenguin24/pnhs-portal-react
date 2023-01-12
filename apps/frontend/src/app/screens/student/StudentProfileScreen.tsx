@@ -1,10 +1,17 @@
+import { deleteCookie } from 'cookies-next';
 import React, { useState } from 'react';
 import { Button, Col, Container, Form, Modal, Row } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/header/Header';
-import { useUpdateUserMutation } from '../../redux/api/userApi';
+import {
+  useConfirmPasswordMutation,
+  useUpdateUserMutation,
+} from '../../redux/api/userApi';
 
 function StudentProfileScreen() {
+  const navigate = useNavigate();
+
   const [notEditing, setNotEditing] = useState(true);
   const [changingPass, setChangingPass] = useState(false);
   const [currentUser] = useState(JSON.parse(localStorage.getItem('userInfo')!));
@@ -15,8 +22,18 @@ function StudentProfileScreen() {
 
   const [updateProfile] = useUpdateUserMutation();
 
-  const changePassHandler = async ({ password, c_password }: any) => {
-    if (password.trim() !== '' || c_password.trim() !== '') {
+  const [confirmPassword] = useConfirmPasswordMutation();
+
+  const changePassHandler = async ({
+    old_password,
+    password,
+    c_password,
+  }: any) => {
+    if (
+      old_password.trim() !== '' ||
+      password.trim() !== '' ||
+      c_password.trim() !== ''
+    ) {
       if (password !== c_password) {
         alert('Password and Confirm Password should match.');
         return;
@@ -28,14 +45,31 @@ function StudentProfileScreen() {
 
     const id = currentUser._id;
 
-    await updateProfile({
+    const samePassword: any = await confirmPassword({
       id,
-      password,
+      password: old_password,
     });
+    console.log(samePassword.data);
 
-    alert('Successfully change password');
+    if (samePassword.data) {
+      await updateProfile({
+        id,
+        password,
+      });
 
-    setChangingPass(false);
+      alert('Successfully change password. Login with new password.');
+
+      setChangingPass(false);
+
+      deleteCookie('access_token');
+      deleteCookie('refresh_token');
+      localStorage.removeItem('userInfo');
+
+      navigate('/');
+    } else {
+      alert('Incorrect current password.');
+      return;
+    }
   };
 
   const updateHandler = async ({
@@ -485,18 +519,38 @@ function StudentProfileScreen() {
             <Modal.Body>
               <Form.Group as={Row} className="mb-2">
                 <Form.Label column md={2}>
-                  Password:
+                  Current Password:
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="password" {...register('password')} />
+                  <Form.Control
+                    required
+                    type="password"
+                    {...register('old_password')}
+                  />
+                </Col>
+              </Form.Group>
+              <Form.Group as={Row} className="mb-2">
+                <Form.Label column md={2}>
+                  New Password:
+                </Form.Label>
+                <Col md={10}>
+                  <Form.Control
+                    required
+                    type="password"
+                    {...register('password')}
+                  />
                 </Col>
               </Form.Group>
               <Form.Group as={Row} className="mb-3">
                 <Form.Label column md={2}>
-                  Confirm Password:
+                  Confirm New Password:
                 </Form.Label>
                 <Col md={10}>
-                  <Form.Control type="password" {...register('c_password')} />
+                  <Form.Control
+                    required
+                    type="password"
+                    {...register('c_password')}
+                  />
                 </Col>
               </Form.Group>
             </Modal.Body>

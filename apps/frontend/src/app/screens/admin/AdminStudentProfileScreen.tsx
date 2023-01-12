@@ -75,15 +75,9 @@ function AdminStudentProfileScreen() {
       password,
     });
 
-    alert('Successfully change password. Please login again.');
+    alert('Successfully change password.');
 
     setChangingPass(false);
-
-    deleteCookie('access_token');
-    deleteCookie('refresh_token');
-    localStorage.removeItem('userInfo');
-
-    navigate('/');
   };
 
   const updateHandler = async ({
