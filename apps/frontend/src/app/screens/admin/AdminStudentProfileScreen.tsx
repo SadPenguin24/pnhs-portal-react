@@ -1,3 +1,4 @@
+import { deleteCookie } from 'cookies-next';
 import React, { useState, useRef } from 'react';
 import {
   Button,
@@ -9,7 +10,7 @@ import {
   Spinner,
 } from 'react-bootstrap';
 import { useForm } from 'react-hook-form';
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import ReactToPrint from 'react-to-print';
 import Header from '../../components/header/Header';
 import { PrintStudentRecordsGrade } from '../../components/print/Print';
@@ -23,6 +24,8 @@ function AdminStudentProfileScreen() {
   const componentRef = useRef(null);
 
   const { id } = useParams();
+
+  const navigate = useNavigate();
 
   const location = useLocation();
 
@@ -72,9 +75,15 @@ function AdminStudentProfileScreen() {
       password,
     });
 
-    alert('Successfully change password');
+    alert('Successfully change password. Please login again.');
 
     setChangingPass(false);
+
+    deleteCookie('access_token');
+    deleteCookie('refresh_token');
+    localStorage.removeItem('userInfo');
+
+    navigate('/');
   };
 
   const updateHandler = async ({
@@ -129,15 +138,15 @@ function AdminStudentProfileScreen() {
         student,
       });
 
-      // await updateStudent({
-      //   id,
-      //   first_name,
-      //   middle_name,
-      //   last_name,
-      //   email,
-      //   profile,
-      //   student,
-      // });
+      await updateStudent({
+        id,
+        first_name,
+        middle_name,
+        last_name,
+        email,
+        profile,
+        student,
+      });
 
       alert('Successfully update student');
       setNotEditing(true);
