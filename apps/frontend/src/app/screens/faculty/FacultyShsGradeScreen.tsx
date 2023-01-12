@@ -36,7 +36,7 @@ function FacultyShsGradeScreen() {
   } = useGetParsedSectionQuery(sectionId);
 
   useEffect(() => {
-    if (section) {
+    if (section && section.schedules.length > 0) {
       setCurrentSubject(section.schedules[0].subject._id);
     }
   }, [section]);
@@ -70,11 +70,15 @@ function FacultyShsGradeScreen() {
                 style={{ height: '37.6px' }}
                 {...register('subject_id')}
               >
-                {section.schedules.map((schedule: any) => (
-                  <option key={schedule._id} value={schedule.subject._id}>
-                    {schedule.subject.subject_name}
-                  </option>
-                ))}
+                {section.schedules.length > 0 ? (
+                  section.schedules.map((schedule: any) => (
+                    <option key={schedule._id} value={schedule.subject._id}>
+                      {schedule.subject.subject_name}
+                    </option>
+                  ))
+                ) : (
+                  <option>No Subject</option>
+                )}
               </Form.Select>
             </Form.Group>
             <Col className="my-auto">
